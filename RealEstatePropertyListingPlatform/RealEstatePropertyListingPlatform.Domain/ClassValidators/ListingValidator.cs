@@ -1,12 +1,10 @@
-﻿using RealEstatePropertyListingPlatform.Domain.Records;
-
-namespace RealEstatePropertyListingPlatform.Domain.ClassValidators
+﻿namespace RealEstatePropertyListingPlatform.Domain.ClassValidators
 {
     public class ListingValidator
     {
         private const int MaxStringLength = 100;
 
-        public static string ValidateListing(string title, Money price, string description, List<string> photos)
+        public static string ValidateListing(string title, string price, string description, List<string> photos)
         {
 
             string currentError;
@@ -34,14 +32,24 @@ namespace RealEstatePropertyListingPlatform.Domain.ClassValidators
             return currentError!;
         }
 
-        public static string ValidateMoney(Money price)
+        public static string ValidateMoney(string price)
         {
-            if(price.Amount < 0)
+            if (string.IsNullOrWhiteSpace(price))
+            {
+                return $"Price cannot be empty";
+            }
+
+            if (!decimal.TryParse(price, out var money))
+            {
+                return $"Price must be a number";
+            }
+
+            if (money < 0)
             {
                 return $"Price cannot be negative";
             }
 
-            return price.Currency.Length != 3 ? $"Currency must be 3 characters" : null!;
+            return null!;
         }
 
         public static string ValidateString(string value, string propertyName)
