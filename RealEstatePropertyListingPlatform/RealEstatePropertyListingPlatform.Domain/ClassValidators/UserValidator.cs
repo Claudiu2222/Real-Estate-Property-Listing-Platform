@@ -37,7 +37,7 @@ namespace RealEstatePropertyListingPlatform.Domain.ClassValidators
             return currentError!;
         }
 
-        private static string ValidateString(string value, string propertyName)
+        public static string ValidateString(string value, string propertyName)
         {
             if (string.IsNullOrWhiteSpace(value))
             {

@@ -63,5 +63,38 @@ namespace RealEstatePropertyListingPlatform.Domain.Entities
 
             Properties.Add(property);
         }
+        
+        public Result<User> UpdateEmail(string email)
+        {
+            var error = UserValidator.ValidateString(email, nameof(email));
+            if (!string.IsNullOrWhiteSpace(error)) return Result<User>.Failure(error);
+            Email = email;
+            return Result<User>.Success(this);
+        }
+        
+        public Result<User> UpdatePassword(string password) // encrypt password
+        {
+            var error = UserValidator.ValidateString(password, nameof(password));
+            if (!string.IsNullOrWhiteSpace(error)) return Result<User>.Failure(error);
+            Password = password;
+            return Result<User>.Success(this);
+        }
+        
+        public Result<User> UpdateLastName(string lastName)
+        {
+            var error = UserValidator.ValidateString(lastName, nameof(lastName));
+            if (!string.IsNullOrWhiteSpace(error)) return Result<User>.Failure(error);
+            LastName = lastName;
+            return Result<User>.Success(this);
+        }
+
+        public Result<User> UpdateFirstName(string firstName)
+        {
+            var error = UserValidator.ValidateString(firstName, nameof(firstName));
+            if (!string.IsNullOrWhiteSpace(error)) return Result<User>.Failure(error);
+            FirstName = firstName;
+            return Result<User>.Success(this);
+
+        }
     }
 }
