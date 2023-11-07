@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\repos\\Real-Estate-Property-Listing-Platform\\RealEstatePropertyListingPlatform\\RealEstatePropertyListingPlatform.Application\\RealEstatePropertyListingPlatform.Application.csproj",
-      "projectName": "RealEstatePropertyListingPlatform.Application",
-      "projectPath": "D:\\repos\\Real-Estate-Property-Listing-Platform\\RealEstatePropertyListingPlatform\\RealEstatePropertyListingPlatform.Application\\RealEstatePropertyListingPlatform.Application.csproj",
+      "projectUniqueName": "D:\\repos\\Real-Estate-Property-Listing-Platform\\RealEstatePropertyListingPlatform\\RealEstatePropertyListingPlatform.Infrastructure\\RealEstatePropertyListingPlatform.Infrastructure.csproj",
+      "projectName": "RealEstatePropertyListingPlatform.Infrastructure",
+      "projectPath": "D:\\repos\\Real-Estate-Property-Listing-Platform\\RealEstatePropertyListingPlatform\\RealEstatePropertyListingPlatform.Infrastructure\\RealEstatePropertyListingPlatform.Infrastructure.csproj",
       "packagesPath": "C:\\Users\\Claudiu\\.nuget\\packages\\",
-      "outputPath": "D:\\repos\\Real-Estate-Property-Listing-Platform\\RealEstatePropertyListingPlatform\\RealEstatePropertyListingPlatform.Application\\obj\\",
+      "outputPath": "D:\\repos\\Real-Estate-Property-Listing-Platform\\RealEstatePropertyListingPlatform\\RealEstatePropertyListingPlatform.Infrastructure\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
