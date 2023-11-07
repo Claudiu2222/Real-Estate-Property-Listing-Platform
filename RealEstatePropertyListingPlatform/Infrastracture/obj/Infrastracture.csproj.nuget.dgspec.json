@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\sorod\\Desktop\\FACULTATE\\an3_sem1\\.NET\\_project\\Real-Estate-Property-Listing-Platform\\RealEstatePropertyListingPlatform\\RealEstatePropertyListingPlatform.Application\\RealEstatePropertyListingPlatform.Application.csproj": {}
+    "C:\\Users\\sorod\\Desktop\\FACULTATE\\an3_sem1\\.NET\\_project\\Real-Estate-Property-Listing-Platform\\RealEstatePropertyListingPlatform\\Infrastracture\\Infrastracture.csproj": {}
   },
   "projects": {
-    "C:\\Users\\sorod\\Desktop\\FACULTATE\\an3_sem1\\.NET\\_project\\Real-Estate-Property-Listing-Platform\\RealEstatePropertyListingPlatform\\RealEstatePropertyListingPlatform.Application\\RealEstatePropertyListingPlatform.Application.csproj": {
+    "C:\\Users\\sorod\\Desktop\\FACULTATE\\an3_sem1\\.NET\\_project\\Real-Estate-Property-Listing-Platform\\RealEstatePropertyListingPlatform\\Infrastracture\\Infrastracture.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\sorod\\Desktop\\FACULTATE\\an3_sem1\\.NET\\_project\\Real-Estate-Property-Listing-Platform\\RealEstatePropertyListingPlatform\\RealEstatePropertyListingPlatform.Application\\RealEstatePropertyListingPlatform.Application.csproj",
-        "projectName": "RealEstatePropertyListingPlatform.Application",
-        "projectPath": "C:\\Users\\sorod\\Desktop\\FACULTATE\\an3_sem1\\.NET\\_project\\Real-Estate-Property-Listing-Platform\\RealEstatePropertyListingPlatform\\RealEstatePropertyListingPlatform.Application\\RealEstatePropertyListingPlatform.Application.csproj",
+        "projectUniqueName": "C:\\Users\\sorod\\Desktop\\FACULTATE\\an3_sem1\\.NET\\_project\\Real-Estate-Property-Listing-Platform\\RealEstatePropertyListingPlatform\\Infrastracture\\Infrastracture.csproj",
+        "projectName": "Infrastracture",
+        "projectPath": "C:\\Users\\sorod\\Desktop\\FACULTATE\\an3_sem1\\.NET\\_project\\Real-Estate-Property-Listing-Platform\\RealEstatePropertyListingPlatform\\Infrastracture\\Infrastracture.csproj",
         "packagesPath": "C:\\Users\\sorod\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\sorod\\Desktop\\FACULTATE\\an3_sem1\\.NET\\_project\\Real-Estate-Property-Listing-Platform\\RealEstatePropertyListingPlatform\\RealEstatePropertyListingPlatform.Application\\obj\\",
+        "outputPath": "C:\\Users\\sorod\\Desktop\\FACULTATE\\an3_sem1\\.NET\\_project\\Real-Estate-Property-Listing-Platform\\RealEstatePropertyListingPlatform\\Infrastracture\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\sorod\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -43,6 +43,28 @@
       "frameworks": {
         "net7.0": {
           "targetAlias": "net7.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[7.0.13, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[7.0.13, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[7.0.13, )"
+            },
+            "Npgsql.EntityFrameworkCore.PostgreSQL": {
+              "target": "Package",
+              "version": "[7.0.11, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
