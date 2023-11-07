@@ -1,41 +1,25 @@
 {
   "format": 1,
   "restore": {
-<<<<<<< HEAD:RealEstatePropertyListingPlatform/RealEstatePropertyListingPlatform.Domain/obj/RealEstatePropertyListingPlatform.Domain.csproj.nuget.dgspec.json
-    "D:\\repos\\Real-Estate-Property-Listing-Platform\\RealEstatePropertyListingPlatform\\RealEstatePropertyListingPlatform.Domain\\RealEstatePropertyListingPlatform.Domain.csproj": {}
+    "/Users/silviangulica/Documents/Universitate/Semester_5/Real-Estate-Property-Listing-Platform/RealEstatePropertyListingPlatform/RealEstatePropertyListingPlatform.Domain/RealEstatePropertyListingPlatform.Domain.csproj": {}
   },
   "projects": {
-    "D:\\repos\\Real-Estate-Property-Listing-Platform\\RealEstatePropertyListingPlatform\\RealEstatePropertyListingPlatform.Domain\\RealEstatePropertyListingPlatform.Domain.csproj": {
+    "/Users/silviangulica/Documents/Universitate/Semester_5/Real-Estate-Property-Listing-Platform/RealEstatePropertyListingPlatform/RealEstatePropertyListingPlatform.Domain/RealEstatePropertyListingPlatform.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\repos\\Real-Estate-Property-Listing-Platform\\RealEstatePropertyListingPlatform\\RealEstatePropertyListingPlatform.Domain\\RealEstatePropertyListingPlatform.Domain.csproj",
+        "projectUniqueName": "/Users/silviangulica/Documents/Universitate/Semester_5/Real-Estate-Property-Listing-Platform/RealEstatePropertyListingPlatform/RealEstatePropertyListingPlatform.Domain/RealEstatePropertyListingPlatform.Domain.csproj",
         "projectName": "RealEstatePropertyListingPlatform.Domain",
-        "projectPath": "D:\\repos\\Real-Estate-Property-Listing-Platform\\RealEstatePropertyListingPlatform\\RealEstatePropertyListingPlatform.Domain\\RealEstatePropertyListingPlatform.Domain.csproj",
-        "packagesPath": "C:\\Users\\Claudiu\\.nuget\\packages\\",
-        "outputPath": "D:\\repos\\Real-Estate-Property-Listing-Platform\\RealEstatePropertyListingPlatform\\RealEstatePropertyListingPlatform.Domain\\obj\\",
-=======
-    "C:\\Users\\Andrei\\OneDrive\\Documente\\GitHub\\Real-Estate-Property-Listing-Platform\\RealEstatePropertyListingPlatform.Domain\\RealEstatePropertyListingPlatform.Domain.csproj": {}
-  },
-  "projects": {
-    "C:\\Users\\Andrei\\OneDrive\\Documente\\GitHub\\Real-Estate-Property-Listing-Platform\\RealEstatePropertyListingPlatform.Domain\\RealEstatePropertyListingPlatform.Domain.csproj": {
-      "version": "1.0.0",
-      "restore": {
-        "projectUniqueName": "C:\\Users\\Andrei\\OneDrive\\Documente\\GitHub\\Real-Estate-Property-Listing-Platform\\RealEstatePropertyListingPlatform.Domain\\RealEstatePropertyListingPlatform.Domain.csproj",
-        "projectName": "RealEstatePropertyListingPlatform.Domain",
-        "projectPath": "C:\\Users\\Andrei\\OneDrive\\Documente\\GitHub\\Real-Estate-Property-Listing-Platform\\RealEstatePropertyListingPlatform.Domain\\RealEstatePropertyListingPlatform.Domain.csproj",
-        "packagesPath": "C:\\Users\\Andrei\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Andrei\\OneDrive\\Documente\\GitHub\\Real-Estate-Property-Listing-Platform\\RealEstatePropertyListingPlatform.Domain\\obj\\",
->>>>>>> ea43fb8f33ca733b76cb7503a3179b96ada04742:RealEstatePropertyListingPlatform.Domain/obj/RealEstatePropertyListingPlatform.Domain.csproj.nuget.dgspec.json
+        "projectPath": "/Users/silviangulica/Documents/Universitate/Semester_5/Real-Estate-Property-Listing-Platform/RealEstatePropertyListingPlatform/RealEstatePropertyListingPlatform.Domain/RealEstatePropertyListingPlatform.Domain.csproj",
+        "packagesPath": "/Users/silviangulica/.nuget/packages/",
+        "outputPath": "/Users/silviangulica/Documents/Universitate/Semester_5/Real-Estate-Property-Listing-Platform/RealEstatePropertyListingPlatform/RealEstatePropertyListingPlatform.Domain/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Andrei\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/silviangulica/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -69,7 +53,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.401/RuntimeIdentifierGraph.json"
         }
       }
     }

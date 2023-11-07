@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using RealEstatePropertyListingPlatform.Domain.Records;
+﻿using RealEstatePropertyListingPlatform.Domain.Records;
 
 namespace RealEstatePropertyListingPlatform.Domain.ClassValidators
 {
     public class ListingValidator
     {
-        private static readonly int MaxStringLength = 100;
+        private const int MaxStringLength = 100;
 
-        public static string ValidateListing(string title, Money price, string description, List<string> photos,
-                       DateTime dateCreated)
+        public static string ValidateListing(string title, Money price, string description, List<string> photos)
         {
 
             string currentError;
@@ -35,70 +29,40 @@ namespace RealEstatePropertyListingPlatform.Domain.ClassValidators
             {
                 return currentError;
             }
-
-            if ((currentError = ValidateDateCreated(dateCreated)) != null)
-            {
-                return currentError;
-            }
-
+            
 
             return currentError!;
         }
 
-        private static string ValidateMoney(Money price)
+        public static string ValidateMoney(Money price)
         {
             if(price.Amount < 0)
             {
                 return $"Price cannot be negative";
             }
 
-            if(price.Currency.Length != 3)
-            {
-                return $"Currency must be 3 characters";
-            }
-            return null!;
+            return price.Currency.Length != 3 ? $"Currency must be 3 characters" : null!;
         }
 
-        private static string ValidateString(string value, string propertyName)
+        public static string ValidateString(string value, string propertyName)
         {
             if (string.IsNullOrWhiteSpace(value))
             {
                 return $"{propertyName} cannot be empty";
             }
 
-            if (value.Length > MaxStringLength)
-            {
-                return $"{propertyName} cannot be longer than {MaxStringLength} characters";
-            }
-
-            return null!;
+            return value.Length > MaxStringLength ? $"{propertyName} cannot be longer than {MaxStringLength} characters" : null!;
         }
 
-        private static string ValidatePhotos(List<string> photos)
+        public static string ValidatePhotos(List<string> photos)
         {
-            if (photos.Count == 0)
+            if (photos is { Count: < 1 })
             {
                 return $"Photos cannot be empty";
             }
 
-            return null!;
+            return photos.Any(string.IsNullOrWhiteSpace) ? $"Photo cannot be empty" : null!;
         }
-
-        private static string ValidateDateCreated(DateTime dateCreated)
-        {
-
-            if(dateCreated > DateTime.Now)
-            {
-                return $"Date Created cannot be in the future";
-            }
-
-            if(dateCreated < DateTime.Now)
-            {
-                return $"Date Created cannot be in the past";
-            }
-
-            return null!;
-        }
-
+        
     }
 }
