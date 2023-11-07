@@ -17,6 +17,10 @@ namespace RealEstatePropertyListingPlatform.Domain.ClassValidators
         {
 
             string currentError;
+            if ((currentError = ValidatePropertyType(propertyType)) != null)
+            {
+                return currentError;
+            }
             if ((currentError = ValidateString(streetName, nameof(streetName))) != null)
             {
                 return currentError;
@@ -64,7 +68,7 @@ namespace RealEstatePropertyListingPlatform.Domain.ClassValidators
             return currentError!;
         }
 
-        private static string ValidateSquareFeet(int squareFeet)
+        public static string ValidateSquareFeet(int squareFeet)
         {
             if (squareFeet < 1)
             {
@@ -74,7 +78,7 @@ namespace RealEstatePropertyListingPlatform.Domain.ClassValidators
             return null!;
         }
 
-        private static string ValidateRooms(int numberOfRooms, PropertyType propertyType)
+        public static string ValidateRooms(int numberOfRooms, PropertyType propertyType)
         {
             if (propertyType == PropertyType.Land)
             {
@@ -92,7 +96,7 @@ namespace RealEstatePropertyListingPlatform.Domain.ClassValidators
             return null!;
         }
 
-        private static string ValidateBathrooms(int numberOfBathrooms, PropertyType propertyType)
+        public static string ValidateBathrooms(int numberOfBathrooms, PropertyType propertyType)
         {
             if (propertyType == PropertyType.Land || propertyType == PropertyType.Garage)
             {
@@ -108,17 +112,17 @@ namespace RealEstatePropertyListingPlatform.Domain.ClassValidators
             }
 
             return null!;
-        }   
-        private static string ValidateString(string streetName, string propertyName)
+        }
+        public static string ValidateString(string value, string propertyName)
         {
-            if (string.IsNullOrWhiteSpace(streetName))
+            if (string.IsNullOrWhiteSpace(value))
                 return $"{propertyName} cannot be empty";
-            if (streetName.Length > MaxStringLength)
+            if (value.Length > MaxStringLength)
                 return $"{propertyName} cannot be more than {MaxStringLength} characters";
             return null!;
         }
 
-        private static string validateFloor(int floor, int numberOfFloors, PropertyType propertyType)
+        public static string validateFloor(int floor, int numberOfFloors, PropertyType propertyType)
         {
             if (propertyType == PropertyType.Land || propertyType == PropertyType.Farm || propertyType == PropertyType.Garage)
             {
@@ -161,6 +165,18 @@ namespace RealEstatePropertyListingPlatform.Domain.ClassValidators
 
             return null!;
 
-        }  
+        }
+
+        public static string ValidatePropertyType(PropertyType propertyType)
+        {
+            if (!Enum.IsDefined(typeof(PropertyType), propertyType))
+            {
+                return $"Property type {propertyType} is not valid";
+            }
+
+            return null!;
+        }   
+        
+
     }
 }

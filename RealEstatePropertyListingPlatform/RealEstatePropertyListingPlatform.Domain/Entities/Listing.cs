@@ -9,7 +9,7 @@ using RealEstatePropertyListingPlatform.Domain.Records;
 
 namespace RealEstatePropertyListingPlatform.Domain.Entities
 {
-    public class Listing
+    public class Listing : AuditableEntity
     {
         public Guid ListingId { get; private set; }
         public Guid ListingCreatorId { get; private set; }
@@ -24,7 +24,7 @@ namespace RealEstatePropertyListingPlatform.Domain.Entities
 
 
 
-        private Listing(){ }
+        private Listing() { }
 
         public static Result<Listing> Create(Guid listingCreatorId, Guid propertyId, string title, Money price, string description, List<string> photos, DateTime dateCreated, bool negotiable)
         {
@@ -45,10 +45,13 @@ namespace RealEstatePropertyListingPlatform.Domain.Entities
                 Description = description,
                 Photos = photos,
                 DateCreated = dateCreated,
+                DateUpdated = dateCreated,
                 Negotiable = negotiable
             };
 
             return Result<Listing>.Success(listing);
         }
+
+
     }
 }
