@@ -7,14 +7,27 @@
   "targets": {
     ".NETCoreApp,Version=v7.0": {
       "RealEstatePropertyListingPlatform.Application/1.0.0": {
+        "dependencies": {
+          "RealEstatePropertyListingPlatform.Domain": "1.0.0"
+        },
         "runtime": {
           "RealEstatePropertyListingPlatform.Application.dll": {}
+        }
+      },
+      "RealEstatePropertyListingPlatform.Domain/1.0.0": {
+        "runtime": {
+          "RealEstatePropertyListingPlatform.Domain.dll": {}
         }
       }
     }
   },
   "libraries": {
     "RealEstatePropertyListingPlatform.Application/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "RealEstatePropertyListingPlatform.Domain/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
