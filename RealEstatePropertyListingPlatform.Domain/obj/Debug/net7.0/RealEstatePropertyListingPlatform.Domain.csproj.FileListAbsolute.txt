@@ -9,3 +9,14 @@ D:\repos\Real-Estate-Property-Listing-Platform\RealEstatePropertyListingPlatform
 D:\repos\Real-Estate-Property-Listing-Platform\RealEstatePropertyListingPlatform.Domain\obj\Debug\net7.0\refint\RealEstatePropertyListingPlatform.Domain.dll
 D:\repos\Real-Estate-Property-Listing-Platform\RealEstatePropertyListingPlatform.Domain\obj\Debug\net7.0\RealEstatePropertyListingPlatform.Domain.pdb
 D:\repos\Real-Estate-Property-Listing-Platform\RealEstatePropertyListingPlatform.Domain\obj\Debug\net7.0\ref\RealEstatePropertyListingPlatform.Domain.dll
+C:\Users\Andrei\OneDrive\Documente\GitHub\Real-Estate-Property-Listing-Platform\RealEstatePropertyListingPlatform.Domain\bin\Debug\net7.0\RealEstatePropertyListingPlatform.Domain.deps.json
+C:\Users\Andrei\OneDrive\Documente\GitHub\Real-Estate-Property-Listing-Platform\RealEstatePropertyListingPlatform.Domain\bin\Debug\net7.0\RealEstatePropertyListingPlatform.Domain.dll
+C:\Users\Andrei\OneDrive\Documente\GitHub\Real-Estate-Property-Listing-Platform\RealEstatePropertyListingPlatform.Domain\bin\Debug\net7.0\RealEstatePropertyListingPlatform.Domain.pdb
+C:\Users\Andrei\OneDrive\Documente\GitHub\Real-Estate-Property-Listing-Platform\RealEstatePropertyListingPlatform.Domain\obj\Debug\net7.0\RealEstatePropertyListingPlatform.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Andrei\OneDrive\Documente\GitHub\Real-Estate-Property-Listing-Platform\RealEstatePropertyListingPlatform.Domain\obj\Debug\net7.0\RealEstatePropertyListingPlatform.Domain.AssemblyInfoInputs.cache
+C:\Users\Andrei\OneDrive\Documente\GitHub\Real-Estate-Property-Listing-Platform\RealEstatePropertyListingPlatform.Domain\obj\Debug\net7.0\RealEstatePropertyListingPlatform.Domain.AssemblyInfo.cs
+C:\Users\Andrei\OneDrive\Documente\GitHub\Real-Estate-Property-Listing-Platform\RealEstatePropertyListingPlatform.Domain\obj\Debug\net7.0\RealEstatePropertyListingPlatform.Domain.csproj.CoreCompileInputs.cache
+C:\Users\Andrei\OneDrive\Documente\GitHub\Real-Estate-Property-Listing-Platform\RealEstatePropertyListingPlatform.Domain\obj\Debug\net7.0\RealEstatePropertyListingPlatform.Domain.dll
+C:\Users\Andrei\OneDrive\Documente\GitHub\Real-Estate-Property-Listing-Platform\RealEstatePropertyListingPlatform.Domain\obj\Debug\net7.0\refint\RealEstatePropertyListingPlatform.Domain.dll
+C:\Users\Andrei\OneDrive\Documente\GitHub\Real-Estate-Property-Listing-Platform\RealEstatePropertyListingPlatform.Domain\obj\Debug\net7.0\RealEstatePropertyListingPlatform.Domain.pdb
+C:\Users\Andrei\OneDrive\Documente\GitHub\Real-Estate-Property-Listing-Platform\RealEstatePropertyListingPlatform.Domain\obj\Debug\net7.0\ref\RealEstatePropertyListingPlatform.Domain.dll
