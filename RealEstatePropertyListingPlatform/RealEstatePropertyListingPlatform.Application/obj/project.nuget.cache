@@ -1,8 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "X95hjPAfG5Lb04lGiswTDjuB4wxtXqdMwN8qWCxxLsnOlb0v5Eo3whoJnR6kbLhFkaphgBF+s6Df21sqHz969w==",
+  "dgSpecHash": "DHL74stJxAYWmvmF4Qd6BfoMTWw2febYu+IVafk+uWrGwMBvae4hE9CgvyZAtpL0MLcIDGfj8+0OrxItFLzktg==",
   "success": true,
-  "projectFilePath": "/Users/silviangulica/Documents/Universitate/Semester_5/Real-Estate-Property-Listing-Platform/RealEstatePropertyListingPlatform/RealEstatePropertyListingPlatform.Application/RealEstatePropertyListingPlatform.Application.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "D:\\repos\\Real-Estate-Property-Listing-Platform\\RealEstatePropertyListingPlatform\\RealEstatePropertyListingPlatform.Application\\RealEstatePropertyListingPlatform.Application.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Claudiu\\.nuget\\packages\\fluentvalidation\\11.8.0\\fluentvalidation.11.8.0.nupkg.sha512",
+    "C:\\Users\\Claudiu\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\11.8.0\\fluentvalidation.dependencyinjectionextensions.11.8.0.nupkg.sha512",
+    "C:\\Users\\Claudiu\\.nuget\\packages\\mediatr\\12.1.1\\mediatr.12.1.1.nupkg.sha512",
+    "C:\\Users\\Claudiu\\.nuget\\packages\\mediatr.contracts\\2.0.1\\mediatr.contracts.2.0.1.nupkg.sha512",
+    "C:\\Users\\Claudiu\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\6.0.0\\microsoft.extensions.dependencyinjection.abstractions.6.0.0.nupkg.sha512"
+  ],
   "logs": []
 }

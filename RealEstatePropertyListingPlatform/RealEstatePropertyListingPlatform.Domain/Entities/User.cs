@@ -1,5 +1,4 @@
-﻿using System.IO.Compression;
-using RealEstatePropertyListingPlatform.Domain.ClassValidators;
+﻿using RealEstatePropertyListingPlatform.Domain.ClassValidators;
 using RealEstatePropertyListingPlatform.Domain.Common;
 
 namespace RealEstatePropertyListingPlatform.Domain.Entities
@@ -7,10 +6,12 @@ namespace RealEstatePropertyListingPlatform.Domain.Entities
     public class User : AuditableEntity
     {
         public Guid UserId { get; private set; }
-        public string? Email { get; private set; }
+        public string? Email { get; private set; } // should be unique
         public string? Password { get; private set; }
         public string? LastName { get; private set; }
         public string? FirstName { get; private set; }
+
+        public string? PhoneNumber { get; private set; }
 
         public List<Listing>? Listings { get; private set; }
 
@@ -18,10 +19,10 @@ namespace RealEstatePropertyListingPlatform.Domain.Entities
         
         private User() {}
 
-        public static Result<User> Create(string email, string password, string lastName, string firstName)
+        public static Result<User> Create(string email, string password, string lastName, string firstName, string phoneNumber)
         {
 
-            var error = UserValidator.ValidateUser(email, password, lastName, firstName);
+            var error = UserValidator.ValidateUser(email, password, lastName, firstName, phoneNumber);
 
             if (!string.IsNullOrWhiteSpace(error))
             {
@@ -34,7 +35,8 @@ namespace RealEstatePropertyListingPlatform.Domain.Entities
                 Email = email,
                 Password = password,
                 LastName = lastName,
-                FirstName = firstName
+                FirstName = firstName,
+                PhoneNumber = phoneNumber
             };
 
             return Result<User>.Success(user);
@@ -95,6 +97,31 @@ namespace RealEstatePropertyListingPlatform.Domain.Entities
             FirstName = firstName;
             return Result<User>.Success(this);
 
+        }
+
+        public Result<User> UpdatePhoneNumber(string phoneNumber)
+        {
+            var error = UserValidator.ValidatePhoneNumber(phoneNumber);
+            if (!string.IsNullOrWhiteSpace(error)) return Result<User>.Failure(error);
+            PhoneNumber = phoneNumber;
+            return Result<User>.Success(this);
+        }
+
+        public void Update(string requestEmail, string requestPassword, string requestFirstName, string requestLastName, string requestPhoneNumber)
+        {
+            List<Result<User>> results = new List<Result<User>>();
+            results.Add(UpdateEmail(requestEmail));
+            results.Add(UpdatePassword(requestPassword));
+            results.Add(UpdateFirstName(requestFirstName));
+            results.Add(UpdateLastName(requestLastName));
+            results.Add(UpdatePhoneNumber(requestPhoneNumber));
+            foreach (var result in results)
+            {
+                if (!result.IsSuccess)
+                {
+                    throw new Exception(result.Error);
+                }
+            }
         }
     }
 }

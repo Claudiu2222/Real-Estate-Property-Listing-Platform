@@ -1,10 +1,5 @@
 ﻿using RealEstatePropertyListingPlatform.Application.Persistence;
-using RealEstatePropertyListingPlatform.Domain.Common;
 using RealEstatePropertyListingPlatform.Domain.Entities;
-
-using System.Linq;
-
-using System.Threading.Tasks;
 
 namespace RealEstatePropertyListingPlatform.Infrastructure.Repositories
 {
