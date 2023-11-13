@@ -23,7 +23,8 @@ namespace RealEstatePropertyListingPlatform.Application.Features.Users.Queries.G
                     UserId = x.UserId,
                     Email = x.Email,
                     FirstName = x.FirstName,
-                    LastName = x.LastName
+                    LastName = x.LastName,
+                    PhoneNumber = x.PhoneNumber
                 }).ToList();
             }
             return response;

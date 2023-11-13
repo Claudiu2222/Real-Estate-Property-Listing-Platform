@@ -9,8 +9,8 @@ namespace RealEstatePropertyListingPlatform.Domain.ClassValidators
     public class UserValidator
     {
         private static readonly int MaxStringLength = 100;
-
-        public static string ValidateUser(string email, string password, string LastName, string FirstName)
+        private static readonly int MinPasswordLength = 8;
+        public static string ValidateUser(string email, string password, string lastName, string firstName, string phoneNumber)
         {
 
             string currentError;
@@ -18,18 +18,23 @@ namespace RealEstatePropertyListingPlatform.Domain.ClassValidators
             {
                 return currentError;
             }
-
-            if ((currentError = ValidateString(password, nameof(password))) != null)
+            if ((currentError = ValidateString(lastName, nameof(lastName))) != null)
             {
                 return currentError;
             }
 
-            if ((currentError = ValidateString(LastName, nameof(LastName))) != null)
+            if ((currentError = ValidateString(firstName, nameof(firstName))) != null)
             {
                 return currentError;
             }
 
-            if ((currentError = ValidateString(FirstName, nameof(FirstName))) != null)
+            if ((currentError = ValidatePassword(password)) != null)
+            {
+                return currentError;
+            }
+
+
+            if ((currentError = ValidatePhoneNumber(phoneNumber)) != null)
             {
                 return currentError;
             }
@@ -50,6 +55,37 @@ namespace RealEstatePropertyListingPlatform.Domain.ClassValidators
             }
 
             return null!;
+        }
+
+        public static string ValidatePassword(string password)
+        {
+            if (string.IsNullOrWhiteSpace(password))
+            {
+                return "Password cannot be empty";
+            }
+
+            if (password.Length < MinPasswordLength)
+            {
+                return $"Password must be at least {MinPasswordLength} characters";
+            }
+
+            return null!;
+        }
+
+        public static string? ValidatePhoneNumber(string phoneNumber)
+        {
+            if (string.IsNullOrWhiteSpace(phoneNumber))
+            {
+                return null;
+            }
+
+            if (phoneNumber.Length != 10)
+            {
+                return "Phone number must be 10 digits";
+            }
+
+
+            return null;
         }
     }
 }

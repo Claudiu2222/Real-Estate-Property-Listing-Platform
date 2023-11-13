@@ -7,9 +7,12 @@ namespace RealEstatePropertyListingPlatform.API.Controllers
     [ApiController]
     public class ApiControllerBase : ControllerBase
     {
+
         private ISender mediator = null;
         protected ISender Mediator => mediator 
             ??= HttpContext.RequestServices
             .GetService(typeof(ISender)) as ISender;
     }
 }
+
+

@@ -1,6 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using RealEstatePropertyListingPlatform.Domain.ClassValidators;
 using RealEstatePropertyListingPlatform.Domain.Common;
+using RealEstatePropertyListingPlatform.Domain.Records;
+
 namespace RealEstatePropertyListingPlatform.Domain.Entities
 {
     public class Listing : AuditableEntity
@@ -10,7 +12,7 @@ namespace RealEstatePropertyListingPlatform.Domain.Entities
         public Guid PropertyId { get; private set; }
         public string? Title { get; private set; }
         [NotMapped]
-        public string Price { get; private set; }
+        public PriceInfo Price { get; private set; }
         public string? Description { get; private set; }
         public List<string>? Photos { get; private set; }
         public DateTime DateCreated { get; private set; }
@@ -22,7 +24,7 @@ namespace RealEstatePropertyListingPlatform.Domain.Entities
         private Listing() { }
 
         public static Result<Listing> Create(Guid listingCreatorId, Guid propertyId, string
-            title, string price, string description, List<string> photos, bool negotiable)
+            title, PriceInfo price, string description, List<string> photos, bool negotiable)
         {
             var error = ListingValidator.ValidateListing(title, price, description, photos);
 
@@ -49,7 +51,7 @@ namespace RealEstatePropertyListingPlatform.Domain.Entities
             return Result<Listing>.Success(listing);
         }
 
-        public Result<Listing> UpdatePrice(string price)
+        public Result<Listing> UpdatePrice(PriceInfo price)
         {
             var error = ListingValidator.ValidateMoney(price);
             if (!string.IsNullOrWhiteSpace(error)) return Result<Listing>.Failure(error);

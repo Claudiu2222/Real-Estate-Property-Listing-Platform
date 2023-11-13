@@ -8,5 +8,7 @@ namespace RealEstatePropertyListingPlatform.Application.Features.Users.Commands.
         public string Password { get; set; } = default!;
         public string LastName { get; set; } = default!;
         public string FirstName { get; set; } = default!;   
+
+        public string PhoneNumber { get; set; } = default!;
     }
 }

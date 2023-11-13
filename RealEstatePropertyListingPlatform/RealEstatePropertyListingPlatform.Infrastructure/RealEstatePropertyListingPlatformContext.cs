@@ -21,12 +21,21 @@ namespace RealEstatePropertyListingPlatform.Infrastructure
         public DbSet<User> Users { get; set; }
         public DbSet<Property> Properties { get; set; }
         public DbSet<Listing> Listings { get; set; }
-        
 
-/*        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Database=RealEstatePropertyListingPlatform;UserId=postgres;Password=1234;");
-        }*/
+            modelBuilder.Entity<Listing>()
+                .OwnsOne(listing => listing.Price, price =>
+                {
+                    price.Property(p => p.Value).HasColumnName("PriceValue");
+                    price.Property(p => p.Currency).HasColumnName("PriceCurrency");
+                });
+        }
+
+        /*        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+                {
+                    optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Database=RealEstatePropertyListingPlatform;UserId=postgres;Password=1234;");
+                }*/
 
 
 

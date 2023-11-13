@@ -61,5 +61,6 @@ namespace RealEstatePropertyListingPlatform.Infrastructure.Repositories
             var result = await context.Set<T>().ToListAsync();
             return Result<IReadOnlyList<T>>.Success(result);
         }
+
     }
 }

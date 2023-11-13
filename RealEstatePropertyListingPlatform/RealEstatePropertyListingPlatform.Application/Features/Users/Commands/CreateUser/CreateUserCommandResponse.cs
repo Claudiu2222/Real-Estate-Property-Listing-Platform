@@ -8,6 +8,6 @@ namespace RealEstatePropertyListingPlatform.Application.Features.Users.Commands.
         {
         }
 
-        public CreateUserDto User { get; set; }
+        public UserDto User { get; set; }
     }
 }

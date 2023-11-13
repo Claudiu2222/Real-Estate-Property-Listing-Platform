@@ -22,7 +22,8 @@ namespace RealEstatePropertyListingPlatform.Application.Features.Users.Queries.G
                     UserId = result.Value.UserId,
                     Email = result.Value.Email,
                     FirstName = result.Value.FirstName,
-                    LastName = result.Value.LastName
+                    LastName = result.Value.LastName,
+                    PhoneNumber = result.Value.PhoneNumber
                 };
             }
             return new UserDto();

@@ -27,7 +27,7 @@ namespace RealEstatePropertyListingPlatform.Application.Features.Users.Commands.
                 };
             }
 
-            var user = User.Create(request.Email, request.Password, request.FirstName, request.LastName);
+            var user = User.Create(request.Email, request.Password, request.FirstName, request.LastName, request.PhoneNumber);
             if (!user.IsSuccess)
             {
                 return new CreateUserCommandResponse
@@ -42,12 +42,13 @@ namespace RealEstatePropertyListingPlatform.Application.Features.Users.Commands.
             return new CreateUserCommandResponse
             {
                 Success = true,
-                User = new CreateUserDto
+                User = new UserDto
                 {
                     UserId = user.Value.UserId,
                     Email = user.Value.Email,
                     LastName = user.Value.LastName,
-                    FirstName = user.Value.FirstName
+                    FirstName = user.Value.FirstName,
+                    PhoneNumber = user.Value.PhoneNumber
                 }
             };
         }

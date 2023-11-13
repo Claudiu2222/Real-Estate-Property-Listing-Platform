@@ -13,7 +13,7 @@ using RealEstatePropertyListingPlatform.Infrastructure;
 namespace RealEstatePropertyListingPlatform.Infrastructure.Migrations
 {
     [DbContext(typeof(RealEstatePropertyListingPlatformContext))]
-    [Migration("20231112011654_InitialCreate")]
+    [Migration("20231113232142_Initial-Create")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -165,6 +165,9 @@ namespace RealEstatePropertyListingPlatform.Infrastructure.Migrations
                     b.Property<string>("Password")
                         .HasColumnType("text");
 
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("text");
+
                     b.HasKey("UserId");
 
                     b.ToTable("Users");
@@ -175,6 +178,31 @@ namespace RealEstatePropertyListingPlatform.Infrastructure.Migrations
                     b.HasOne("RealEstatePropertyListingPlatform.Domain.Entities.User", null)
                         .WithMany("Listings")
                         .HasForeignKey("UserId");
+
+                    b.OwnsOne("RealEstatePropertyListingPlatform.Domain.Records.PriceInfo", "Price", b1 =>
+                        {
+                            b1.Property<Guid>("ListingId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<string>("Currency")
+                                .IsRequired()
+                                .HasColumnType("text")
+                                .HasColumnName("PriceCurrency");
+
+                            b1.Property<decimal>("Value")
+                                .HasColumnType("numeric")
+                                .HasColumnName("PriceValue");
+
+                            b1.HasKey("ListingId");
+
+                            b1.ToTable("Listings");
+
+                            b1.WithOwner()
+                                .HasForeignKey("ListingId");
+                        });
+
+                    b.Navigation("Price")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("RealEstatePropertyListingPlatform.Domain.Entities.Property", b =>
