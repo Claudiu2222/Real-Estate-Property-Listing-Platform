@@ -1,33 +1,39 @@
 {
   "format": 1,
   "restore": {
-    "/Users/silviangulica/Documents/Universitate/Semester_5/Real-Estate-Property-Listing-Platform/RealEstatePropertyListingPlatform/RealEstatePropertyListingPlatform.Infrastructure/RealEstatePropertyListingPlatform.Infrastructure.csproj": {}
+    "C:\\Users\\gabri\\Desktop\\Real-Estate-Property-Listing-Platform\\RealEstatePropertyListingPlatform\\RealEstatePropertyListingPlatform.Infrastructure\\RealEstatePropertyListingPlatform.Infrastructure.csproj": {}
   },
   "projects": {
-    "/Users/silviangulica/Documents/Universitate/Semester_5/Real-Estate-Property-Listing-Platform/RealEstatePropertyListingPlatform/RealEstatePropertyListingPlatform.Application/RealEstatePropertyListingPlatform.Application.csproj": {
+    "C:\\Users\\gabri\\Desktop\\Real-Estate-Property-Listing-Platform\\RealEstatePropertyListingPlatform\\RealEstatePropertyListingPlatform.Application\\RealEstatePropertyListingPlatform.Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/silviangulica/Documents/Universitate/Semester_5/Real-Estate-Property-Listing-Platform/RealEstatePropertyListingPlatform/RealEstatePropertyListingPlatform.Application/RealEstatePropertyListingPlatform.Application.csproj",
+        "projectUniqueName": "C:\\Users\\gabri\\Desktop\\Real-Estate-Property-Listing-Platform\\RealEstatePropertyListingPlatform\\RealEstatePropertyListingPlatform.Application\\RealEstatePropertyListingPlatform.Application.csproj",
         "projectName": "RealEstatePropertyListingPlatform.Application",
-        "projectPath": "/Users/silviangulica/Documents/Universitate/Semester_5/Real-Estate-Property-Listing-Platform/RealEstatePropertyListingPlatform/RealEstatePropertyListingPlatform.Application/RealEstatePropertyListingPlatform.Application.csproj",
-        "packagesPath": "/Users/silviangulica/.nuget/packages/",
-        "outputPath": "/Users/silviangulica/Documents/Universitate/Semester_5/Real-Estate-Property-Listing-Platform/RealEstatePropertyListingPlatform/RealEstatePropertyListingPlatform.Application/obj/",
+        "projectPath": "C:\\Users\\gabri\\Desktop\\Real-Estate-Property-Listing-Platform\\RealEstatePropertyListingPlatform\\RealEstatePropertyListingPlatform.Application\\RealEstatePropertyListingPlatform.Application.csproj",
+        "packagesPath": "C:\\Users\\gabri\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\gabri\\Desktop\\Real-Estate-Property-Listing-Platform\\RealEstatePropertyListingPlatform\\RealEstatePropertyListingPlatform.Application\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "/Users/silviangulica/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\gabri\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "/Users/silviangulica/Documents/Universitate/Semester_5/Real-Estate-Property-Listing-Platform/RealEstatePropertyListingPlatform/RealEstatePropertyListingPlatform.Domain/RealEstatePropertyListingPlatform.Domain.csproj": {
-                "projectPath": "/Users/silviangulica/Documents/Universitate/Semester_5/Real-Estate-Property-Listing-Platform/RealEstatePropertyListingPlatform/RealEstatePropertyListingPlatform.Domain/RealEstatePropertyListingPlatform.Domain.csproj"
+              "C:\\Users\\gabri\\Desktop\\Real-Estate-Property-Listing-Platform\\RealEstatePropertyListingPlatform\\RealEstatePropertyListingPlatform.Domain\\RealEstatePropertyListingPlatform.Domain.csproj": {
+                "projectPath": "C:\\Users\\gabri\\Desktop\\Real-Estate-Property-Listing-Platform\\RealEstatePropertyListingPlatform\\RealEstatePropertyListingPlatform.Domain\\RealEstatePropertyListingPlatform.Domain.csproj"
               }
             }
           }
@@ -41,6 +47,20 @@
       "frameworks": {
         "net7.0": {
           "targetAlias": "net7.0",
+          "dependencies": {
+            "FluentValidation": {
+              "target": "Package",
+              "version": "[11.8.0, )"
+            },
+            "FluentValidation.DependencyInjectionExtensions": {
+              "target": "Package",
+              "version": "[11.8.0, )"
+            },
+            "MediatR": {
+              "target": "Package",
+              "version": "[12.1.1, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -57,26 +77,32 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.401/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "/Users/silviangulica/Documents/Universitate/Semester_5/Real-Estate-Property-Listing-Platform/RealEstatePropertyListingPlatform/RealEstatePropertyListingPlatform.Domain/RealEstatePropertyListingPlatform.Domain.csproj": {
+    "C:\\Users\\gabri\\Desktop\\Real-Estate-Property-Listing-Platform\\RealEstatePropertyListingPlatform\\RealEstatePropertyListingPlatform.Domain\\RealEstatePropertyListingPlatform.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/silviangulica/Documents/Universitate/Semester_5/Real-Estate-Property-Listing-Platform/RealEstatePropertyListingPlatform/RealEstatePropertyListingPlatform.Domain/RealEstatePropertyListingPlatform.Domain.csproj",
+        "projectUniqueName": "C:\\Users\\gabri\\Desktop\\Real-Estate-Property-Listing-Platform\\RealEstatePropertyListingPlatform\\RealEstatePropertyListingPlatform.Domain\\RealEstatePropertyListingPlatform.Domain.csproj",
         "projectName": "RealEstatePropertyListingPlatform.Domain",
-        "projectPath": "/Users/silviangulica/Documents/Universitate/Semester_5/Real-Estate-Property-Listing-Platform/RealEstatePropertyListingPlatform/RealEstatePropertyListingPlatform.Domain/RealEstatePropertyListingPlatform.Domain.csproj",
-        "packagesPath": "/Users/silviangulica/.nuget/packages/",
-        "outputPath": "/Users/silviangulica/Documents/Universitate/Semester_5/Real-Estate-Property-Listing-Platform/RealEstatePropertyListingPlatform/RealEstatePropertyListingPlatform.Domain/obj/",
+        "projectPath": "C:\\Users\\gabri\\Desktop\\Real-Estate-Property-Listing-Platform\\RealEstatePropertyListingPlatform\\RealEstatePropertyListingPlatform.Domain\\RealEstatePropertyListingPlatform.Domain.csproj",
+        "packagesPath": "C:\\Users\\gabri\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\gabri\\Desktop\\Real-Estate-Property-Listing-Platform\\RealEstatePropertyListingPlatform\\RealEstatePropertyListingPlatform.Domain\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "/Users/silviangulica/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\gabri\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -110,37 +136,43 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.401/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "/Users/silviangulica/Documents/Universitate/Semester_5/Real-Estate-Property-Listing-Platform/RealEstatePropertyListingPlatform/RealEstatePropertyListingPlatform.Infrastructure/RealEstatePropertyListingPlatform.Infrastructure.csproj": {
+    "C:\\Users\\gabri\\Desktop\\Real-Estate-Property-Listing-Platform\\RealEstatePropertyListingPlatform\\RealEstatePropertyListingPlatform.Infrastructure\\RealEstatePropertyListingPlatform.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/silviangulica/Documents/Universitate/Semester_5/Real-Estate-Property-Listing-Platform/RealEstatePropertyListingPlatform/RealEstatePropertyListingPlatform.Infrastructure/RealEstatePropertyListingPlatform.Infrastructure.csproj",
+        "projectUniqueName": "C:\\Users\\gabri\\Desktop\\Real-Estate-Property-Listing-Platform\\RealEstatePropertyListingPlatform\\RealEstatePropertyListingPlatform.Infrastructure\\RealEstatePropertyListingPlatform.Infrastructure.csproj",
         "projectName": "RealEstatePropertyListingPlatform.Infrastructure",
-        "projectPath": "/Users/silviangulica/Documents/Universitate/Semester_5/Real-Estate-Property-Listing-Platform/RealEstatePropertyListingPlatform/RealEstatePropertyListingPlatform.Infrastructure/RealEstatePropertyListingPlatform.Infrastructure.csproj",
-        "packagesPath": "/Users/silviangulica/.nuget/packages/",
-        "outputPath": "/Users/silviangulica/Documents/Universitate/Semester_5/Real-Estate-Property-Listing-Platform/RealEstatePropertyListingPlatform/RealEstatePropertyListingPlatform.Infrastructure/obj/",
+        "projectPath": "C:\\Users\\gabri\\Desktop\\Real-Estate-Property-Listing-Platform\\RealEstatePropertyListingPlatform\\RealEstatePropertyListingPlatform.Infrastructure\\RealEstatePropertyListingPlatform.Infrastructure.csproj",
+        "packagesPath": "C:\\Users\\gabri\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\gabri\\Desktop\\Real-Estate-Property-Listing-Platform\\RealEstatePropertyListingPlatform\\RealEstatePropertyListingPlatform.Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "/Users/silviangulica/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\gabri\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "/Users/silviangulica/Documents/Universitate/Semester_5/Real-Estate-Property-Listing-Platform/RealEstatePropertyListingPlatform/RealEstatePropertyListingPlatform.Application/RealEstatePropertyListingPlatform.Application.csproj": {
-                "projectPath": "/Users/silviangulica/Documents/Universitate/Semester_5/Real-Estate-Property-Listing-Platform/RealEstatePropertyListingPlatform/RealEstatePropertyListingPlatform.Application/RealEstatePropertyListingPlatform.Application.csproj"
+              "C:\\Users\\gabri\\Desktop\\Real-Estate-Property-Listing-Platform\\RealEstatePropertyListingPlatform\\RealEstatePropertyListingPlatform.Application\\RealEstatePropertyListingPlatform.Application.csproj": {
+                "projectPath": "C:\\Users\\gabri\\Desktop\\Real-Estate-Property-Listing-Platform\\RealEstatePropertyListingPlatform\\RealEstatePropertyListingPlatform.Application\\RealEstatePropertyListingPlatform.Application.csproj"
               },
-              "/Users/silviangulica/Documents/Universitate/Semester_5/Real-Estate-Property-Listing-Platform/RealEstatePropertyListingPlatform/RealEstatePropertyListingPlatform.Domain/RealEstatePropertyListingPlatform.Domain.csproj": {
-                "projectPath": "/Users/silviangulica/Documents/Universitate/Semester_5/Real-Estate-Property-Listing-Platform/RealEstatePropertyListingPlatform/RealEstatePropertyListingPlatform.Domain/RealEstatePropertyListingPlatform.Domain.csproj"
+              "C:\\Users\\gabri\\Desktop\\Real-Estate-Property-Listing-Platform\\RealEstatePropertyListingPlatform\\RealEstatePropertyListingPlatform.Domain\\RealEstatePropertyListingPlatform.Domain.csproj": {
+                "projectPath": "C:\\Users\\gabri\\Desktop\\Real-Estate-Property-Listing-Platform\\RealEstatePropertyListingPlatform\\RealEstatePropertyListingPlatform.Domain\\RealEstatePropertyListingPlatform.Domain.csproj"
               }
             }
           }
@@ -196,7 +228,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.401/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
         }
       }
     }

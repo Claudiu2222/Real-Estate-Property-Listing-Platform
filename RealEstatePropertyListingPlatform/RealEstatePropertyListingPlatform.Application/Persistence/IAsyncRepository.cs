@@ -1,9 +1,4 @@
 ﻿using RealEstatePropertyListingPlatform.Domain.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RealEstatePropertyListingPlatform.Application.Persistence
 {
@@ -14,5 +9,6 @@ namespace RealEstatePropertyListingPlatform.Application.Persistence
         Task<Result<T>> AddAsync(T entity);
         Task<Result<T>> DeleteAsync(Guid id);
         Task<Result<IReadOnlyList<T>>> GetPagedReponseAsync(int page, int size);
+        Task<Result<IReadOnlyList<T>>> GetAllAsync();
     }
 }

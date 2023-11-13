@@ -7,12 +7,25 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Contracts\" />
-    <Folder Include="Featues\Categories\Commands\" />
+    <Compile Remove="Featues\**" />
+    <EmbeddedResource Remove="Featues\**" />
+    <None Remove="Featues\**" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\RealEstatePropertyListingPlatform.Domain\RealEstatePropertyListingPlatform.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Contracts\" />
+    <Folder Include="Features\Listings\" />
+    <Folder Include="Features\Properties\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="11.8.0" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.8.0" />
+    <PackageReference Include="MediatR" Version="12.1.1" />
   </ItemGroup>
 
 </Project>

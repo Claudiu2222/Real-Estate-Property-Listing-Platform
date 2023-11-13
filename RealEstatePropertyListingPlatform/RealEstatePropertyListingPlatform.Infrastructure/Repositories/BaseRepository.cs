@@ -2,10 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using RealEstatePropertyListingPlatform.Application.Persistence;
 using RealEstatePropertyListingPlatform.Domain.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace RealEstatePropertyListingPlatform.Infrastructure.Repositories
 {
@@ -58,6 +54,12 @@ namespace RealEstatePropertyListingPlatform.Infrastructure.Repositories
             context.Entry(entity).State = EntityState.Modified;
             await context.SaveChangesAsync();
             return Result<T>.Success(entity);
+        }
+
+        public virtual async Task<Result<IReadOnlyList<T>>> GetAllAsync()
+        {
+            var result = await context.Set<T>().ToListAsync();
+            return Result<IReadOnlyList<T>>.Success(result);
         }
     }
 }

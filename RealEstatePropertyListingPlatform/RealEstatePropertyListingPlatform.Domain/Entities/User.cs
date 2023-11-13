@@ -1,5 +1,4 @@
-﻿using System.IO.Compression;
-using RealEstatePropertyListingPlatform.Domain.ClassValidators;
+﻿using RealEstatePropertyListingPlatform.Domain.ClassValidators;
 using RealEstatePropertyListingPlatform.Domain.Common;
 
 namespace RealEstatePropertyListingPlatform.Domain.Entities

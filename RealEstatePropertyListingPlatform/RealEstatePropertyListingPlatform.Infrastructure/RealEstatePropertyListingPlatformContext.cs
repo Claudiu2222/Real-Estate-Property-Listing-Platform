@@ -23,10 +23,10 @@ namespace RealEstatePropertyListingPlatform.Infrastructure
         public DbSet<Listing> Listings { get; set; }
         
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+/*        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Database=DICK;UserId=postgres;Password=123456;");
-        }
+            optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Database=RealEstatePropertyListingPlatform;UserId=postgres;Password=1234;");
+        }*/
 
 
 
