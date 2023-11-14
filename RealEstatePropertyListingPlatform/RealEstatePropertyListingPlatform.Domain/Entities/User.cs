@@ -6,6 +6,8 @@ namespace RealEstatePropertyListingPlatform.Domain.Entities
     public class User : AuditableEntity
     {
         public Guid UserId { get; private set; }
+
+        
         public string? Email { get; private set; } // should be unique
         public string? Password { get; private set; }
         public string? LastName { get; private set; }

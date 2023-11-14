@@ -167,6 +167,12 @@ namespace RealEstatePropertyListingPlatform.Infrastructure.Migrations
 
                     b.HasKey("UserId");
 
+                    b.HasIndex("Email")
+                        .IsUnique();
+
+                    b.HasIndex("PhoneNumber")
+                        .IsUnique();
+
                     b.ToTable("Users");
                 });
 

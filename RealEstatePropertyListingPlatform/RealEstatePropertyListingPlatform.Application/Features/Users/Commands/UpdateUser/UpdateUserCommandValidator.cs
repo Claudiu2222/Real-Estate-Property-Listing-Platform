@@ -1,10 +1,4 @@
 ﻿using FluentValidation;
-using RealEstatePropertyListingPlatform.Application.Features.Users.Commands.CreateUser;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RealEstatePropertyListingPlatform.Application.Features.Users.Commands.UpdateUser
 {
@@ -15,32 +9,32 @@ namespace RealEstatePropertyListingPlatform.Application.Features.Users.Commands.
         public UpdateUserCommandValidator()
         {
             RuleFor(p => p.Email)
-                .NotEmpty().WithMessage("Email is required.")
+                .NotEmpty().WithMessage("{PropertyName} is required.")
                 .NotNull()
                 .EmailAddress().WithMessage("A valid email address is required.");
 
             RuleFor(p => p.Password)
-                .NotEmpty().WithMessage("Password is required.")
+                .NotEmpty().WithMessage("{PropertyName} is required.")
                 .NotNull()
-                .MinimumLength(MinPasswordLength).WithMessage($"Password must be at least {MinPasswordLength} characters long.")
-                .Matches("[A-Z]").WithMessage("Password must contain at least one uppercase letter.")
-                .Matches("[a-z]").WithMessage("Password must contain at least one lowercase letter.")
-                .Matches("[0-9]").WithMessage("Password must contain at least one digit.")
-                .Matches("[^a-zA-Z0-9]").WithMessage("Password must contain at least one special character.");
+                .MinimumLength(MinPasswordLength).WithMessage("{PropertyName} must be at least {MinPasswordLength} characters long.")
+                .Matches("[A-Z]").WithMessage("{PropertyName} must contain at least one uppercase letter.")
+                .Matches("[a-z]").WithMessage("{PropertyName} must contain at least one lowercase letter.")
+                .Matches("[0-9]").WithMessage("{PropertyName} must contain at least one digit.")
+                .Matches("[^a-zA-Z0-9]").WithMessage("{PropertyName} must contain at least one special character.");
 
             RuleFor(p => p.LastName)
-                .NotEmpty().WithMessage("LastName is required.")
+                .NotEmpty().WithMessage("{PropertyName} is required.")
                 .NotNull()
-                .MaximumLength(MaxStringLength).WithMessage($"LastName cannot exceed {MaxStringLength} characters.");
+                .MaximumLength(MaxStringLength).WithMessage("{PropertyName} cannot exceed {MaxStringLength} characters.");
 
             RuleFor(p => p.FirstName)
-                .NotEmpty().WithMessage("FirstName is required.")
+                .NotEmpty().WithMessage("{PropertyName} is required.")
                 .NotNull()
-                .MaximumLength(MaxStringLength).WithMessage($"FirstName cannot exceed {MaxStringLength} characters.");
+                .MaximumLength(MaxStringLength).WithMessage("{PropertyName} cannot exceed {MaxStringLength} characters.");
             RuleFor(p => p.PhoneNumber)
-                .NotEmpty().WithMessage("PhoneNumber is required.")
+                .NotEmpty().WithMessage("{PropertyName} is required.")
                 .NotNull()
-                .MinimumLength(10).MaximumLength(10).WithMessage("PhoneNumber must be 10 digits long.");
+                .MinimumLength(10).MaximumLength(10).WithMessage("{PropertyName} must be 10 digits long.");
         }
     }
 }

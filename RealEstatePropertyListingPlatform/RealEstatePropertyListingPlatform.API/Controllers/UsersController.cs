@@ -4,6 +4,8 @@ using RealEstatePropertyListingPlatform.Application.Features.Users.Commands.Dele
 using RealEstatePropertyListingPlatform.Application.Features.Users.Commands.UpdateUser;
 using RealEstatePropertyListingPlatform.Application.Features.Users.Queries.GetAll;
 using RealEstatePropertyListingPlatform.Application.Features.Users.Queries.GetById;
+using RealEstatePropertyListingPlatform.Application.Features.Users.Queries.GetCountUsers;
+using RealEstatePropertyListingPlatform.Application.Features.Users.Queries.GetPagedUsers;
 
 namespace RealEstatePropertyListingPlatform.API.Controllers
 {
@@ -18,6 +20,7 @@ namespace RealEstatePropertyListingPlatform.API.Controllers
             {
                 return BadRequest(result);
             }
+            
             return Ok(result);
         }
 
@@ -55,7 +58,7 @@ namespace RealEstatePropertyListingPlatform.API.Controllers
         {
             if (id != command.UserId)
             {
-                return BadRequest();
+                return BadRequest($"Cannot update an user with a different id from yours");
             }
             var result = await Mediator.Send(command);
             if (!result.Success)
@@ -64,6 +67,33 @@ namespace RealEstatePropertyListingPlatform.API.Controllers
             }
             return Ok(result);
         }
+
+        [HttpGet("paginated")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetPaginated([FromQuery] int page, [FromQuery] int size) 
+        {
+
+            if (page < 1 || size < 1)
+            {
+                return BadRequest();
+            }
+
+            var result = await Mediator.Send(new GetPagedUsersQuery(page, size));
+            return Ok(result);
+        }
+
+        [HttpGet("count")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetCount()
+        {
+            var result = await Mediator.Send(new GetCountUsersQuery());
+            return Ok(result);
+        }
+       
+
+
+
+
 
     }
 }

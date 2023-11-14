@@ -37,7 +37,20 @@ namespace RealEstatePropertyListingPlatform.Application.Features.Users.Commands.
                 };
             }
 
-            await repository.AddAsync(user.Value);
+            try
+            {
+                await repository.AddAsync(user.Value);
+            }
+            catch (Exception ex)
+            {
+                return new CreateUserCommandResponse
+                {
+                    Success = false,
+                    ValidationErrors = new List<string> { ex.Message }
+                };
+            }
+
+
 
             return new CreateUserCommandResponse
             {
@@ -50,6 +63,7 @@ namespace RealEstatePropertyListingPlatform.Application.Features.Users.Commands.
                     FirstName = user.Value.FirstName,
                     PhoneNumber = user.Value.PhoneNumber
                 }
+
             };
         }
     }

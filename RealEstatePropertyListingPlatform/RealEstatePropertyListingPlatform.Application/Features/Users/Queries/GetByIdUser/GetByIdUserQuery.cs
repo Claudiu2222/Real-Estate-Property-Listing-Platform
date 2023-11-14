@@ -4,5 +4,6 @@ namespace RealEstatePropertyListingPlatform.Application.Features.Users.Queries.G
 {
     public record GetByIdUserQuery(Guid Id) : IRequest<UserDto>
     {
+
     }
 }

@@ -15,9 +15,8 @@ namespace RealEstatePropertyListingPlatform.Infrastructure.Repositories
         }
         public virtual async Task<Result<T>> AddAsync(T entity)
         {
-            await context.Set<T>().AddAsync(entity);
+            await context.Set<T>().AddAsync(entity); 
             await context.SaveChangesAsync();
-
             return Result<T>.Success(entity);
         }
 
@@ -45,7 +44,11 @@ namespace RealEstatePropertyListingPlatform.Infrastructure.Repositories
 
         public virtual async Task<Result<IReadOnlyList<T>>> GetPagedReponseAsync(int page, int size)
         {
-            var result = await context.Set<T>().Skip(page).Take(size).AsNoTracking().ToListAsync();
+            var result = await context.Set<T>().Skip((page-1)*size).Take(size).AsNoTracking().ToListAsync();
+        /*          if (result == null)
+            {
+                return Result<IReadOnlyList<T>>.Failure($"Failed to retrieve entities at page {page} with size {size}");
+            }*/
             return Result<IReadOnlyList<T>>.Success(result);
         }
 
@@ -62,5 +65,10 @@ namespace RealEstatePropertyListingPlatform.Infrastructure.Repositories
             return Result<IReadOnlyList<T>>.Success(result);
         }
 
+        public virtual async Task<Result<int[]>> GetCountAsync()
+        {
+            var result = await context.Set<T>().CountAsync();
+            return Result<int[]>.Success(new int[]{result});
+        }
     }
 }

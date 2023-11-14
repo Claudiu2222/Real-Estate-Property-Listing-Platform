@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MediatR;
+﻿using MediatR;
 using RealEstatePropertyListingPlatform.Application.Persistence;
 
 namespace RealEstatePropertyListingPlatform.Application.Features.Users.Commands.UpdateUser
@@ -41,10 +36,20 @@ namespace RealEstatePropertyListingPlatform.Application.Features.Users.Commands.
                     ValidationErrors = new List<string> { user.Error }
                 };
             }
-
             user.Value.Update(request.Email, request.Password, request.FirstName, request.LastName, request.PhoneNumber);
 
-            await repository.UpdateAsync(user.Value);
+            try
+            {
+                await repository.UpdateAsync(user.Value);
+            }
+            catch (Exception ex)
+            {
+                return new UpdateUserCommandResponse
+                {
+                    Success = false,
+                    ValidationErrors = new List<string> { ex.Message }
+                };
+            }
 
             return new UpdateUserCommandResponse
             {

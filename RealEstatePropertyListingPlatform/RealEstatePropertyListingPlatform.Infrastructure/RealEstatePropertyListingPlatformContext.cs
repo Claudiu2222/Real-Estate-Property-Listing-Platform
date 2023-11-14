@@ -30,6 +30,8 @@ namespace RealEstatePropertyListingPlatform.Infrastructure
                     price.Property(p => p.Value).HasColumnName("PriceValue");
                     price.Property(p => p.Currency).HasColumnName("PriceCurrency");
                 });
+            modelBuilder.Entity<User>().HasIndex(u => u.Email).IsUnique();
+            modelBuilder.Entity<User>().HasIndex(u => u.PhoneNumber).IsUnique();
         }
 
         /*        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
