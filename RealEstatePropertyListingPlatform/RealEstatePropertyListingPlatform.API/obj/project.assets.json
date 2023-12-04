@@ -1637,24 +1637,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Claudiu\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\sorod\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\repos\\Real-Estate-Property-Listing-Platform\\RealEstatePropertyListingPlatform\\RealEstatePropertyListingPlatform.API\\RealEstatePropertyListingPlatform.API.csproj",
+      "projectUniqueName": "C:\\Users\\sorod\\Desktop\\_project.Net\\Real-Estate-Property-Listing-Platform\\RealEstatePropertyListingPlatform\\RealEstatePropertyListingPlatform.API\\RealEstatePropertyListingPlatform.API.csproj",
       "projectName": "RealEstatePropertyListingPlatform.API",
-      "projectPath": "D:\\repos\\Real-Estate-Property-Listing-Platform\\RealEstatePropertyListingPlatform\\RealEstatePropertyListingPlatform.API\\RealEstatePropertyListingPlatform.API.csproj",
-      "packagesPath": "C:\\Users\\Claudiu\\.nuget\\packages\\",
-      "outputPath": "D:\\repos\\Real-Estate-Property-Listing-Platform\\RealEstatePropertyListingPlatform\\RealEstatePropertyListingPlatform.API\\obj\\",
+      "projectPath": "C:\\Users\\sorod\\Desktop\\_project.Net\\Real-Estate-Property-Listing-Platform\\RealEstatePropertyListingPlatform\\RealEstatePropertyListingPlatform.API\\RealEstatePropertyListingPlatform.API.csproj",
+      "packagesPath": "C:\\Users\\sorod\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\sorod\\Desktop\\_project.Net\\Real-Estate-Property-Listing-Platform\\RealEstatePropertyListingPlatform\\RealEstatePropertyListingPlatform.API\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\Claudiu\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Users\\sorod\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -1668,11 +1663,11 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "D:\\repos\\Real-Estate-Property-Listing-Platform\\RealEstatePropertyListingPlatform\\RealEstatePropertyListingPlatform.Application\\RealEstatePropertyListingPlatform.Application.csproj": {
-              "projectPath": "D:\\repos\\Real-Estate-Property-Listing-Platform\\RealEstatePropertyListingPlatform\\RealEstatePropertyListingPlatform.Application\\RealEstatePropertyListingPlatform.Application.csproj"
+            "C:\\Users\\sorod\\Desktop\\_project.Net\\Real-Estate-Property-Listing-Platform\\RealEstatePropertyListingPlatform\\RealEstatePropertyListingPlatform.Application\\RealEstatePropertyListingPlatform.Application.csproj": {
+              "projectPath": "C:\\Users\\sorod\\Desktop\\_project.Net\\Real-Estate-Property-Listing-Platform\\RealEstatePropertyListingPlatform\\RealEstatePropertyListingPlatform.Application\\RealEstatePropertyListingPlatform.Application.csproj"
             },
-            "D:\\repos\\Real-Estate-Property-Listing-Platform\\RealEstatePropertyListingPlatform\\RealEstatePropertyListingPlatform.Infrastructure\\RealEstatePropertyListingPlatform.Infrastructure.csproj": {
-              "projectPath": "D:\\repos\\Real-Estate-Property-Listing-Platform\\RealEstatePropertyListingPlatform\\RealEstatePropertyListingPlatform.Infrastructure\\RealEstatePropertyListingPlatform.Infrastructure.csproj"
+            "C:\\Users\\sorod\\Desktop\\_project.Net\\Real-Estate-Property-Listing-Platform\\RealEstatePropertyListingPlatform\\RealEstatePropertyListingPlatform.Infrastructure\\RealEstatePropertyListingPlatform.Infrastructure.csproj": {
+              "projectPath": "C:\\Users\\sorod\\Desktop\\_project.Net\\Real-Estate-Property-Listing-Platform\\RealEstatePropertyListingPlatform\\RealEstatePropertyListingPlatform.Infrastructure\\RealEstatePropertyListingPlatform.Infrastructure.csproj"
             }
           }
         }
