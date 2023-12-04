@@ -68,62 +68,13 @@ namespace RealEstatePropertyListingPlatform.Domain.Entities
             Properties.Add(property);
         }
         
-        public Result<User> UpdateEmail(string email)
-        {
-            var error = UserValidator.ValidateString(email, nameof(email));
-            if (!string.IsNullOrWhiteSpace(error)) return Result<User>.Failure(error);
-            Email = email;
-            return Result<User>.Success(this);
-        }
-        
-        public Result<User> UpdatePassword(string password) // encrypt password
-        {
-            var error = UserValidator.ValidateString(password, nameof(password));
-            if (!string.IsNullOrWhiteSpace(error)) return Result<User>.Failure(error);
-            Password = password;
-            return Result<User>.Success(this);
-        }
-        
-        public Result<User> UpdateLastName(string lastName)
-        {
-            var error = UserValidator.ValidateString(lastName, nameof(lastName));
-            if (!string.IsNullOrWhiteSpace(error)) return Result<User>.Failure(error);
-            LastName = lastName;
-            return Result<User>.Success(this);
-        }
-
-        public Result<User> UpdateFirstName(string firstName)
-        {
-            var error = UserValidator.ValidateString(firstName, nameof(firstName));
-            if (!string.IsNullOrWhiteSpace(error)) return Result<User>.Failure(error);
-            FirstName = firstName;
-            return Result<User>.Success(this);
-
-        }
-
-        public Result<User> UpdatePhoneNumber(string phoneNumber)
-        {
-            var error = UserValidator.ValidatePhoneNumber(phoneNumber);
-            if (!string.IsNullOrWhiteSpace(error)) return Result<User>.Failure(error);
-            PhoneNumber = phoneNumber;
-            return Result<User>.Success(this);
-        }
-
         public void Update(string requestEmail, string requestPassword, string requestFirstName, string requestLastName, string requestPhoneNumber)
         {
-            List<Result<User>> results = new List<Result<User>>();
-            results.Add(UpdateEmail(requestEmail));
-            results.Add(UpdatePassword(requestPassword));
-            results.Add(UpdateFirstName(requestFirstName));
-            results.Add(UpdateLastName(requestLastName));
-            results.Add(UpdatePhoneNumber(requestPhoneNumber));
-            foreach (var result in results)
-            {
-                if (!result.IsSuccess)
-                {
-                    throw new Exception(result.Error);
-                }
-            }
+            Email = requestEmail;
+            Password = requestPassword;
+            FirstName = requestFirstName;
+            LastName = requestLastName;
+            PhoneNumber = requestPhoneNumber;
         }
     }
 }
