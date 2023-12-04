@@ -21,14 +21,14 @@ namespace RealEstatePropertyListingPlatform.Domain.Entities
         public int SquareFeet { get; private set; }
         private Property() { }
 
-        public static Result<Property> CreateBase(Guid ownerId, string streetName, string city, string region, string postalCode,
+        public static Result<Property> Create(Guid ownerId, string streetName, string city, string region, string postalCode,
             string country, PropertyType propertyType, int numberOfRooms, int numberOfBathrooms, int floor, int numberOfFloors, int squareFeet)
         {
 
             string error = PropertyValidator.ValidateProperty(streetName, city, region, postalCode, country,
                                propertyType, numberOfRooms, numberOfBathrooms, floor, numberOfFloors, squareFeet);
 
-            if (string.IsNullOrWhiteSpace(error))
+            if (!string.IsNullOrWhiteSpace(error))
             {
                 return Result<Property>.Failure(error);
             }
