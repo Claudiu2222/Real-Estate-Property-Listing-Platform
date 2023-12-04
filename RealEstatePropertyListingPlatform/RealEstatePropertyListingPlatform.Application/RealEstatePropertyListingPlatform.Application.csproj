@@ -19,7 +19,6 @@
   <ItemGroup>
     <Folder Include="Contracts\" />
     <Folder Include="Features\Listings\" />
-    <Folder Include="Features\Properties\" />
   </ItemGroup>
 
   <ItemGroup>
