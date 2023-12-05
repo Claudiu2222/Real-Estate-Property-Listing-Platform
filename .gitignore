@@ -475,3 +475,14 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+RealEstatePropertyListingPlatform/RealEstatePropertyListingPlatform.API/bin/
+RealEstatePropertyListingPlatform/RealEstatePropertyListingPlatform.API/obj/
+RealEstatePropertyListingPlatform/RealEstatePropertyListingPlatform.Application/bin/
+RealEstatePropertyListingPlatform/RealEstatePropertyListingPlatform.Application/obj/
+RealEstatePropertyListingPlatform/RealEstatePropertyListingPlatform.Domain/bin/
+RealEstatePropertyListingPlatform/RealEstatePropertyListingPlatform.Domain/obj/
+RealEstatePropertyListingPlatform/RealEstatePropertyListingPlatform.Infrastructure/bin/
+RealEstatePropertyListingPlatform/RealEstatePropertyListingPlatform.Infrastructure/obj/
+
+
