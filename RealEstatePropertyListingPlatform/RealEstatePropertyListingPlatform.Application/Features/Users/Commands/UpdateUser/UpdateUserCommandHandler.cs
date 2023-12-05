@@ -15,7 +15,8 @@ namespace RealEstatePropertyListingPlatform.Application.Features.Users.Commands.
         public async Task<UpdateUserCommandResponse> Handle(UpdateUserCommand request,
             CancellationToken cancellationToken)
         {
-            var validator = new UpdateUserCommandValidator();
+            var validator = new UpdateUserCommandValidator(repository);
+
             var validationResult = await validator.ValidateAsync(request, cancellationToken);
             if (!validationResult.IsValid)
             { 
@@ -38,18 +39,10 @@ namespace RealEstatePropertyListingPlatform.Application.Features.Users.Commands.
             }
             user.Value.Update(request.Email, request.Password, request.FirstName, request.LastName, request.PhoneNumber);
 
-            try
-            {
-                await repository.UpdateAsync(user.Value);
-            }
-            catch (Exception ex)
-            {
-                return new UpdateUserCommandResponse
-                {
-                    Success = false,
-                    ValidationErrors = new List<string> { ex.Message }
-                };
-            }
+
+            await repository.UpdateAsync(user.Value);
+
+
 
             return new UpdateUserCommandResponse
             {
