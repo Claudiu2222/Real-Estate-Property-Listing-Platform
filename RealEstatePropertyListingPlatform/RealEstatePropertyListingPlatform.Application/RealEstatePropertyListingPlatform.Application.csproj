@@ -13,7 +13,6 @@
     <ProjectReference Include="..\RealEstatePropertyListingPlatform.Domain\RealEstatePropertyListingPlatform.Domain.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Contracts\" />
     <Folder Include="Features\Listings\" />
   </ItemGroup>
   <ItemGroup>

@@ -13,7 +13,7 @@ using RealEstatePropertyListingPlatform.Infrastructure;
 namespace RealEstatePropertyListingPlatform.Infrastructure.Migrations
 {
     [DbContext(typeof(RealEstatePropertyListingPlatformContext))]
-    [Migration("20231204122820_InitialCreate")]
+    [Migration("20231205213058_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -21,7 +21,7 @@ namespace RealEstatePropertyListingPlatform.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.13")
+                .HasAnnotation("ProductVersion", "8.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
