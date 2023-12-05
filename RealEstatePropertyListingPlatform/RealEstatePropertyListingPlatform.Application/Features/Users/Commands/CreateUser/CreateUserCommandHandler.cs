@@ -15,7 +15,7 @@ namespace RealEstatePropertyListingPlatform.Application.Features.Users.Commands.
 
         public async Task<CreateUserCommandResponse> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
-            var validator = new CreateUserCommandValidator();
+            var validator = new CreateUserCommandValidator(repository);
             var validationResult = await validator.ValidateAsync(request, cancellationToken);
 
             if (!validationResult.IsValid)
@@ -37,19 +37,8 @@ namespace RealEstatePropertyListingPlatform.Application.Features.Users.Commands.
                 };
             }
 
-            try
-            {
-                await repository.AddAsync(user.Value);
-            }
-            catch (Exception ex)
-            {
-                return new CreateUserCommandResponse
-                {
-                    Success = false,
-                    ValidationErrors = new List<string> { ex.Message }
-                };
-            }
 
+            await repository.AddAsync(user.Value);
 
 
             return new CreateUserCommandResponse

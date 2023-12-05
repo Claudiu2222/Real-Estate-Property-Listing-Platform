@@ -1,10 +1,11 @@
 ﻿using MediatR;
 using RealEstatePropertyListingPlatform.Domain.Enums;
 
-namespace RealEstatePropertyListingPlatform.Application.Features.Properties.Commands.CreateProperty
+namespace RealEstatePropertyListingPlatform.Application.Features.Properties.Commands.UpdateProperty
 {
-    public class CreatePropertyCommand : IRequest<CreatePropertyCommandResponse>
+    public class UpdatePropertyCommand : IRequest<UpdatePropertyCommandResponse>
     {
+        public Guid PropertyId { get; set; }
         public Guid OwnerId { get; set; }
         public string StreetName { get; set; } = default!;
         public string City { get; set; } = default!;

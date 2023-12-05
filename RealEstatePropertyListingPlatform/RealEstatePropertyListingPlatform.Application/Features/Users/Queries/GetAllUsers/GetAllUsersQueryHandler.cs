@@ -18,6 +18,7 @@ namespace RealEstatePropertyListingPlatform.Application.Features.Users.Queries.G
             var result = await repository.GetAllAsync();
             if (result.IsSuccess)
             {
+                response.Success = true;
                 response.Users = result.Value.Select(x => new UserDto
                 {
                     UserId = x.UserId,
@@ -26,8 +27,22 @@ namespace RealEstatePropertyListingPlatform.Application.Features.Users.Queries.G
                     LastName = x.LastName,
                     PhoneNumber = x.PhoneNumber
                 }).ToList();
+                response.WasFound = response.Users.Count != 0;
+
+                if (!response.WasFound)
+                {
+                    response.Message = "No users found";
+                }
+
+                return response;
+
             }
+
+
+            response.ValidationErrors = new List<string> { result.Error };
+
             return response;
+       
         }
     }
 }
