@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using RealEstatePropertyListingPlatform.Application.Persistence;
+using RealEstatePropertyListingPlatform.Application.Contracts.Interfaces;
 
 namespace RealEstatePropertyListingPlatform.Application.Features.Properties.Commands.CreateProperty
 {
@@ -7,10 +7,10 @@ namespace RealEstatePropertyListingPlatform.Application.Features.Properties.Comm
     {
         private static readonly int MaxStringLength = 100;
 
-        private readonly IUserRepository userRepository;
-        public CreatePropertyCommandValidator(IUserRepository userRepository)
+        private readonly ICurrentUserService currentUserService;
+        public CreatePropertyCommandValidator(ICurrentUserService currentUserService)
         {
-            this.userRepository = userRepository;
+            this.currentUserService = currentUserService;
 
             RuleFor(p => p.StreetName)
                 .NotEmpty().WithMessage("{PropertyName} is required.")
@@ -61,20 +61,21 @@ namespace RealEstatePropertyListingPlatform.Application.Features.Properties.Comm
             RuleFor(p => p.OwnerId)
             .NotEmpty().WithMessage("{PropertyName} is required.")
             .NotNull()
-            .MustAsync(BeAValidUser).WithMessage("{PropertyName} must be a valid user (the OwnerId should already exist).");
+            .Must(BeAValidUser).WithMessage("{PropertyName} must be a valid user (the OwnerId should already exist).");
 
 
         }
 
-        private async Task<bool> BeAValidUser(Guid OwnerId, CancellationToken cancellationToken)
+        private bool BeAValidUser(Guid OwnerId)
         {
-            var resultUser = await userRepository.FindByIdAsync(OwnerId);
-            
-            if (!resultUser.IsSuccess)
+            var currentUserIdClaim = currentUserService.UserId;
+
+            if (Guid.TryParse(currentUserIdClaim, out Guid currentUserId))
             {
-                return false;
+                return OwnerId == currentUserId;
             }
-            return true;
+
+            return false;
 
         }
 

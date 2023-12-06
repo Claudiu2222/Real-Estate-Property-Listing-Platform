@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using RealEstatePropertyListingPlatform.Application.Contracts.Interfaces;
 using RealEstatePropertyListingPlatform.Application.Persistence;
 
 namespace RealEstatePropertyListingPlatform.Application.Features.Properties.Commands.UpdateProperty
@@ -7,19 +8,19 @@ namespace RealEstatePropertyListingPlatform.Application.Features.Properties.Comm
     {
         
         private readonly IPropertyRepository propertyRepository;
-        private readonly IUserRepository userRepository;
+        private readonly ICurrentUserService currentUserService;
 
-        public UpdatePropertyCommandHandler( IPropertyRepository propertyRepository, IUserRepository userRepository)
+        public UpdatePropertyCommandHandler( IPropertyRepository propertyRepository, ICurrentUserService currentUserService)
         {
             
             this.propertyRepository = propertyRepository;
-            this.userRepository = userRepository;
+            this.currentUserService = currentUserService;
         }
 
         public async Task<UpdatePropertyCommandResponse> Handle(UpdatePropertyCommand request, CancellationToken cancellationToken)
         {
 
-            var validator = new UpdatePropertyCommandValidator(userRepository, propertyRepository);
+            var validator = new UpdatePropertyCommandValidator(currentUserService, propertyRepository);
 
             var validationResult = await validator.ValidateAsync(request, cancellationToken);
 

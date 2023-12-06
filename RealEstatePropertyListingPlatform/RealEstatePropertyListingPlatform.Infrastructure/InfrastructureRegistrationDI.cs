@@ -25,6 +25,8 @@ namespace RealEstatePropertyListingPlatform.Infrastructure
                 IUserRepository, UserRepository>();
             services.AddScoped<
                 IPropertyRepository, PropertyRepository>();
+            services.AddScoped<
+                IListingRepository, ListingRepository>();
             return services;
 
         }

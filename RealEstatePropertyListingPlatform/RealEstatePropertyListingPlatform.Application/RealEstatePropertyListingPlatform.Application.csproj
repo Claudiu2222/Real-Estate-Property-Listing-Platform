@@ -13,11 +13,11 @@
     <ProjectReference Include="..\RealEstatePropertyListingPlatform.Domain\RealEstatePropertyListingPlatform.Domain.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Features\Listings\" />
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="FluentValidation" Version="11.8.0" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.8.0" />
     <PackageReference Include="MediatR" Version="12.1.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Features\Listings\Commands\UpdateListing\" />
   </ItemGroup>
 </Project>

@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using RealEstatePropertyListingPlatform.Domain.ClassValidators;
+﻿using RealEstatePropertyListingPlatform.Domain.ClassValidators;
 using RealEstatePropertyListingPlatform.Domain.Common;
 using RealEstatePropertyListingPlatform.Domain.Records;
 
@@ -11,7 +10,6 @@ namespace RealEstatePropertyListingPlatform.Domain.Entities
         public Guid ListingCreatorId { get; private set; }
         public Guid PropertyId { get; private set; }
         public string? Title { get; private set; }
-        [NotMapped]
         public PriceInfo Price { get; private set; }
         public string? Description { get; private set; }
         public List<string>? Photos { get; private set; }
@@ -28,7 +26,7 @@ namespace RealEstatePropertyListingPlatform.Domain.Entities
         {
             var error = ListingValidator.ValidateListing(title, price, description, photos);
 
-            if (string.IsNullOrWhiteSpace(error))
+            if (!string.IsNullOrWhiteSpace(error))
             {
                 return Result<Listing>.Failure(error);
             }

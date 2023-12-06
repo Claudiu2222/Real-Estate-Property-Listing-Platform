@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using RealEstatePropertyListingPlatform.Application.Contracts.Interfaces;
 using RealEstatePropertyListingPlatform.Application.Persistence;
 using RealEstatePropertyListingPlatform.Domain.ClassValidators;
 
@@ -6,22 +7,21 @@ namespace RealEstatePropertyListingPlatform.Application.Features.Properties.Comm
 {
     public class UpdatePropertyCommandValidator : AbstractValidator<UpdatePropertyCommand>
     {
-        private readonly IUserRepository userRepository;
+        private readonly ICurrentUserService currentUserService;
         private readonly IPropertyRepository propertyRepository;
 
-        public UpdatePropertyCommandValidator(IUserRepository userRepository, IPropertyRepository propertyRepository) {
-            this.userRepository = userRepository;
+        public UpdatePropertyCommandValidator(ICurrentUserService currentUserService, IPropertyRepository propertyRepository) {
+            this.currentUserService = currentUserService;
             this.propertyRepository = propertyRepository;
 
             RuleFor(p => p.OwnerId)
                 .NotEmpty().WithMessage("{PropertyName} is required.")
-                .NotNull().WithMessage("{PropertyName} is required.")
-                .MustAsync(OwnerExists).WithMessage("Owner does not exist.");
+                .Must(BeAValidUser).WithMessage("{PropertyName} must be the same as the current user.");    
 
-
+/*
             RuleFor(p => p)
                 .MustAsync(BeAValidOwner).WithMessage("You are not the owner of this property.");
-
+*/
 
             RuleFor(p => p)
                 .Must(command => ValidateProperty(command) == null)
@@ -31,7 +31,20 @@ namespace RealEstatePropertyListingPlatform.Application.Features.Properties.Comm
 
         }
 
-        private async Task<bool> OwnerExists(Guid ownerId, CancellationToken cancellationToken)
+        private bool BeAValidUser(Guid OwnerId)
+        {
+            var currentUserIdClaim = currentUserService.UserId;
+
+            if (Guid.TryParse(currentUserIdClaim, out Guid currentUserId))
+            {
+                return OwnerId == currentUserId;
+            }
+
+            return false;
+
+        }
+
+        /*private async Task<bool> OwnerExists(Guid ownerId, CancellationToken cancellationToken)
         {
             var resultUser = await userRepository.FindByIdAsync(ownerId);
 
@@ -40,9 +53,9 @@ namespace RealEstatePropertyListingPlatform.Application.Features.Properties.Comm
                 return false;
             }
             return true;
-        }
+        }*/
 
-        private async Task<bool> BeAValidOwner(UpdatePropertyCommand command, CancellationToken cancellationToken)
+        /*private async Task<bool> BeAValidOwner(UpdatePropertyCommand command, CancellationToken cancellationToken)
         {
             var resultProperty = await propertyRepository.FindByIdAsync(command.PropertyId);
             
@@ -59,7 +72,7 @@ namespace RealEstatePropertyListingPlatform.Application.Features.Properties.Comm
             
             return false;
 
-        }
+        }*/
 
         private string ValidateProperty(UpdatePropertyCommand command)
         {

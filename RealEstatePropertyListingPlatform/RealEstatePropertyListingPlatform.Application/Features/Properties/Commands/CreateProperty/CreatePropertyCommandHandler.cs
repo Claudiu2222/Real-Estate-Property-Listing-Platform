@@ -1,22 +1,24 @@
 ﻿using MediatR;
+using RealEstatePropertyListingPlatform.Application.Contracts.Interfaces;
 using RealEstatePropertyListingPlatform.Application.Persistence;
 using RealEstatePropertyListingPlatform.Domain.Entities;
+
 
 namespace RealEstatePropertyListingPlatform.Application.Features.Properties.Commands.CreateProperty
 {
     public class CreatePropertyCommandHandler : IRequestHandler<CreatePropertyCommand, CreatePropertyCommandResponse>
     {
         private readonly IPropertyRepository propertyRepository;
-        private readonly IUserRepository userRepository;
-        public CreatePropertyCommandHandler(IPropertyRepository propertyRepository, IUserRepository userRepository)
+        private readonly ICurrentUserService currentUserService;
+        public CreatePropertyCommandHandler(IPropertyRepository propertyRepository, ICurrentUserService currentUserService)
         {
             this.propertyRepository = propertyRepository;
-            this.userRepository = userRepository;
+            this.currentUserService = currentUserService;
         }
 
         public async Task<CreatePropertyCommandResponse> Handle(CreatePropertyCommand request, CancellationToken cancellationToken)
         {
-            var validatorProperty = new CreatePropertyCommandValidator(this.userRepository);
+            var validatorProperty = new CreatePropertyCommandValidator(this.currentUserService);
 
             var validationResult = await validatorProperty.ValidateAsync(request);
 
@@ -42,18 +44,7 @@ namespace RealEstatePropertyListingPlatform.Application.Features.Properties.Comm
                 };
             }
 
-            try
-            {
-                await propertyRepository.AddAsync(property.Value);
-            }
-            catch (Exception ex)
-            {
-                return new CreatePropertyCommandResponse
-                {
-                    Success = false,
-                    ValidationErrors = new List<string>() { ex.Message }
-                };
-            }
+            await propertyRepository.AddAsync(property.Value);
 
 
             // the property was succesfully added

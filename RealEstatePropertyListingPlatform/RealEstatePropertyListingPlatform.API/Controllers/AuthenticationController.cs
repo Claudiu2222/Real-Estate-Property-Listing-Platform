@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using RealEstatePropertyListingPlatform.Application.Contracts.Identity;
 using RealEstatePropertyListingPlatform.Application.Models.Identity;
 using RealEstatePropertyListingPlatform.Identity.Models;
