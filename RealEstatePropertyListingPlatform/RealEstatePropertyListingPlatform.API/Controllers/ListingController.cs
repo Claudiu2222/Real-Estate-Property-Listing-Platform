@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using RealEstatePropertyListingPlatform.API.Controllers;
 using RealEstatePropertyListingPlatform.Application.Features.Listings.Commands.CreateListing;
 using RealEstatePropertyListingPlatform.Application.Features.Listings.Commands.DeleteListing;
+using RealEstatePropertyListingPlatform.Application.Features.Listings.Commands.UpdateListing;
+using RealEstatePropertyListingPlatform.Application.Features.Listings.Queries.GetAllListings;
+using RealEstatePropertyListingPlatform.Application.Features.Listings.Queries.GetByIdListing;
 
 namespace RealEstateListingListingPlatform.API.Controllers
 {
@@ -24,7 +27,7 @@ namespace RealEstateListingListingPlatform.API.Controllers
             return Ok(result);
         }
 
-        /*[Authorize(Roles = "User")]
+        [Authorize(Roles = "User")]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -66,7 +69,7 @@ namespace RealEstateListingListingPlatform.API.Controllers
             return Ok(result);
 
         }
-
+       
 
 
         [Authorize(Roles = "User")]
@@ -87,7 +90,7 @@ namespace RealEstateListingListingPlatform.API.Controllers
                 return BadRequest(result);
             }
             return Ok(result);
-        }*/
+        }
         
 
         [Authorize(Roles = "User")]

@@ -91,5 +91,15 @@ namespace RealEstatePropertyListingPlatform.Domain.Entities
             DateUpdated = DateTime.UtcNow;
             return Result<Listing>.Success(this);
         }
+
+        public void Update(string title, PriceInfo price, string description, List<string> photos, bool negotiable)
+        {
+            Title = title;
+            Price = price;
+            Description = description;
+            Photos = photos;
+            Negotiable = negotiable;
+            DateUpdated = DateTime.UtcNow;
+        }
     }
 }
