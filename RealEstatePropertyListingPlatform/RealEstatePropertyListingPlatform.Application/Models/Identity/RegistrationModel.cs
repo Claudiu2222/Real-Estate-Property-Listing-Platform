@@ -10,6 +10,9 @@ namespace RealEstatePropertyListingPlatform.Application.Models.Identity
         [Required(ErrorMessage = "Name is required")]
         public string? Name { get; set; }
 
+        [Required(ErrorMessage = "Phone Number is required")]
+        public string? PhoneNumber { get; set; }
+
         [EmailAddress]
         [Required(ErrorMessage = "Email is required")]
         public string? Email { get; set; }

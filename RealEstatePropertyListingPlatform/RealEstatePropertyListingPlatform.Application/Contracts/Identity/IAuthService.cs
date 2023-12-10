@@ -6,5 +6,7 @@ namespace RealEstatePropertyListingPlatform.Application.Contracts.Identity
     {
         Task<(int, string)> Registeration(RegistrationModel model, string role);
         Task<(int, string)> Login(LoginModel model);
+        Task<(int, List<UserModel>)> GetAll();
+        Task<(int, string)> Delete(string id);
     }
 }

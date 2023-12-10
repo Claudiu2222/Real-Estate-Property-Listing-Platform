@@ -1,127 +1,85 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using RealEstatePropertyListingPlatform.Application.Features.Users.Commands.CreateUser;
-using RealEstatePropertyListingPlatform.Application.Features.Users.Commands.DeleteUser;
-using RealEstatePropertyListingPlatform.Application.Features.Users.Commands.UpdateUser;
-using RealEstatePropertyListingPlatform.Application.Features.Users.Queries.GetAll;
-using RealEstatePropertyListingPlatform.Application.Features.Users.Queries.GetById;
-using RealEstatePropertyListingPlatform.Application.Features.Users.Queries.GetCountUsers;
-using RealEstatePropertyListingPlatform.Application.Features.Users.Queries.GetPagedUsers;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using RealEstatePropertyListingPlatform.Application.Contracts.Identity;
+using RealEstatePropertyListingPlatform.Application.Models.Identity;
+using RealEstatePropertyListingPlatform.Identity.Models;
 
 namespace RealEstatePropertyListingPlatform.API.Controllers
 {
     public class UsersController : ApiControllerBase
     {
-        [HttpPost]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        private readonly IAuthService _authService;
+        private readonly ILogger<UsersController> _logger;
 
-        public async Task<IActionResult> Create(CreateUserCommand command)
+        public UsersController(IAuthService authService, ILogger<UsersController> logger)
         {
-            var result = await Mediator.Send(command);
-            if (!result.Success)
-            {
-                return BadRequest(result);
-            }
-            
-            return Ok(result);
+            _authService = authService;
+            _logger = logger;
         }
 
+
+
+        [Authorize(Roles = "Admin")]
         [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetAll()
         {
-            var result = await Mediator.Send(new GetAllUsersQuery());
-            if (result.Success)
+            try
             {
-                if (!result.WasFound)
+                if (!ModelState.IsValid)
                 {
-                    return NotFound(result);
+                    return BadRequest("Invalid payload");
                 }
 
-                return Ok(result);
+                var (status, users) = await _authService.GetAll();
 
+                if (status == 0)
+                {
+                    return BadRequest();
+                }
+
+                return Ok(users);
             }
-            else
+            catch (Exception ex)
             {
-                return BadRequest(result);
+                _logger.LogError(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
 
-        [HttpGet("{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetById(Guid id)
+
+
+        //[Authorize(Roles = "Admin")]
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<IActionResult> Delete(string id)
         {
-            var result = await Mediator.Send(new GetByIdUserQuery(id));
-            if (!result.Success)
+            try
             {
-                return NotFound(result);
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest("Invalid payload");
+                }
+
+                var (status, message) = await _authService.Delete(id);
+
+                if (status == 0)
+                {
+                    return BadRequest(message);
+                }
+                else if (status == 404)
+                {
+                    return NotFound(message);
+                }
+
+                return NoContent();
             }
-
-            return Ok(result);
-        }
-
-        [HttpDelete("{id}")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-
-        public async Task<IActionResult> Delete(Guid id)
-        {
-            var result = await Mediator.Send(new DeleteUserCommand(id));
-            if (!result.Success)
+            catch (Exception ex)
             {
-                return BadRequest(result);
+                _logger.LogError(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
-            return NoContent();
         }
-
-        [HttpPut("{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Update(Guid id, UpdateUserCommand command)
-        {
-            if (id != command.UserId)
-            {
-                return BadRequest($"Cannot update an user with a different id from yours");
-            }
-            var result = await Mediator.Send(command);
-            if (!result.Success)
-            {
-                return BadRequest(result);
-            }
-            return Ok(result);
-        }
-
-        [HttpGet("paginated")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-
-        public async Task<IActionResult> GetPaginated([FromQuery] int page, [FromQuery] int size) 
-        {
-
-            if (page < 1 || size < 1)
-            {
-                return BadRequest();
-            }
-
-            var result = await Mediator.Send(new GetPagedUsersQuery(page, size));
-            return Ok(result);
-        }
-
-        [HttpGet("count")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetCount()
-        {
-            var result = await Mediator.Send(new GetCountUsersQuery());
-            return Ok(result);
-        }
-       
-
-
-
-
 
     }
 }
