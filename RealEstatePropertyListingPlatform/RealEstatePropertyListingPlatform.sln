@@ -28,7 +28,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RealEstatePropertyListingPl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RealEstatePropertyListingPlatform.Identity", "RealEstatePropertyListingPlatform.Identity\RealEstatePropertyListingPlatform.Identity.csproj", "{0571D612-5760-437E-8EBE-5C8831E3F0A4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RealEstateListingPlatform.App", "RealEstateListingPlatform.App\RealEstateListingPlatform.App.csproj", "{461BCC67-E3D9-40B3-BC72-13E5E56F8643}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RealEstateListingPlatform.App", "RealEstateListingPlatform.App\RealEstateListingPlatform.App.csproj", "{461BCC67-E3D9-40B3-BC72-13E5E56F8643}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,4 +1,5 @@
-﻿using RealEstateListingPlatform.App.Contracts;
+﻿using Microsoft.Extensions.Options;
+using RealEstateListingPlatform.App.Contracts;
 using RealEstateListingPlatform.App.ViewModels;
 using System.Net.Http.Json;
 
@@ -10,7 +11,9 @@ namespace RealEstateListingPlatform.App.Services
 
         public async Task Login(LoginViewModel loginRequest)
         {
+
             var response = await httpClient.PostAsJsonAsync("api/v1/authentication/login", loginRequest);
+            
             if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
             {
                 throw new Exception(await response.Content.ReadAsStringAsync());

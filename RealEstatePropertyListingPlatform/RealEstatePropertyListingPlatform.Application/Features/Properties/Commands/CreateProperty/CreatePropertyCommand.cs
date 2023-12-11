@@ -5,7 +5,6 @@ namespace RealEstatePropertyListingPlatform.Application.Features.Properties.Comm
 {
     public class CreatePropertyCommand : IRequest<CreatePropertyCommandResponse>
     {
-        public Guid OwnerId { get; set; }
         public string StreetName { get; set; } = default!;
         public string City { get; set; } = default!;
         public string Region { get; set; } = default!;

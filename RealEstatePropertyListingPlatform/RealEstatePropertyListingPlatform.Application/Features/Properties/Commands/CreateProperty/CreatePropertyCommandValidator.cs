@@ -7,10 +7,10 @@ namespace RealEstatePropertyListingPlatform.Application.Features.Properties.Comm
     {
         private static readonly int MaxStringLength = 100;
 
-        private readonly ICurrentUserService currentUserService;
-        public CreatePropertyCommandValidator(ICurrentUserService currentUserService)
+        //private readonly ICurrentUserService currentUserService;
+        public CreatePropertyCommandValidator()
         {
-            this.currentUserService = currentUserService;
+            //this.currentUserService = currentUserService;
 
             RuleFor(p => p.StreetName)
                 .NotEmpty().WithMessage("{PropertyName} is required.")
@@ -58,15 +58,15 @@ namespace RealEstatePropertyListingPlatform.Application.Features.Properties.Comm
                 .GreaterThan(0).WithMessage("{PropertyName} must be greater than 0.");
 
             //check that the ownerId exists in the database
-            RuleFor(p => p.OwnerId)
+/*            RuleFor(p => p.OwnerId)
             .NotEmpty().WithMessage("{PropertyName} is required.")
             .NotNull()
             .Must(BeAValidUser).WithMessage("{PropertyName} must be a valid user (the OwnerId should already exist).");
-
+*/
 
         }
 
-        private bool BeAValidUser(Guid OwnerId)
+/*        private bool BeAValidUser(Guid OwnerId)
         {
             var currentUserIdClaim = currentUserService.UserId;
 
@@ -77,7 +77,7 @@ namespace RealEstatePropertyListingPlatform.Application.Features.Properties.Comm
 
             return false;
 
-        }
+        }*/
 
     }
 }

@@ -18,7 +18,8 @@ namespace RealEstatePropertyListingPlatform.Application.Features.Properties.Comm
 
         public async Task<CreatePropertyCommandResponse> Handle(CreatePropertyCommand request, CancellationToken cancellationToken)
         {
-            var validatorProperty = new CreatePropertyCommandValidator(this.currentUserService);
+            //var validatorProperty = new CreatePropertyCommandValidator(this.currentUserService);
+            var validatorProperty = new CreatePropertyCommandValidator();
 
             var validationResult = await validatorProperty.ValidateAsync(request);
 
@@ -31,7 +32,22 @@ namespace RealEstatePropertyListingPlatform.Application.Features.Properties.Comm
                 };
             }
 
-            var property = Property.Create(request.OwnerId, request.StreetName, request.City, request.Region, request.PostalCode,
+            Guid ownerId;
+            try
+            { 
+               ownerId = Guid.Parse(currentUserService.UserId);
+            }
+            catch (Exception)
+            {
+                return new CreatePropertyCommandResponse
+                {
+                    Success = false,
+                    ValidationErrors = new List<string>() { "The user id is not valid." }
+                };
+            }
+
+
+            var property = Property.Create(ownerId, request.StreetName, request.City, request.Region, request.PostalCode,
                                            request.Country, request.PropertyType, request.NumberOfRooms, request.NumberOfBathrooms,
                                            request.Floor, request.NumberOfFloors, request.SquareFeet);
 
