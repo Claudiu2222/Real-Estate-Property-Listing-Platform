@@ -8,5 +8,7 @@ namespace RealEstatePropertyListingPlatform.Application.Contracts.Identity
         Task<(int, string)> Login(LoginModel model);
         Task<(int, List<UserModel>)> GetAll();
         Task<(int, string)> Delete(string id);
+        Task<(int, string)> Logout();
+
     }
 }
