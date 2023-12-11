@@ -27,7 +27,7 @@ namespace RealEstateListingListingPlatform.API.Controllers
             return Ok(result);
         }
 
-        [Authorize(Roles = "User")]
+        //nu ar trebui sa fii logat pentru a vedea anunturile
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

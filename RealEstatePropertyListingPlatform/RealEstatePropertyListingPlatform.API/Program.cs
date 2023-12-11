@@ -8,6 +8,17 @@ using RealEstatePropertyListingPlatform.API.Utility;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("Open", builder =>
+    {
+        builder.AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader();
+    });
+});
+
 builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
 // Add services to the container.
 builder.Services.AddInfrastructureToDI(
@@ -69,7 +80,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseCors("Open");
 app.UseAuthorization();
 
 app.MapControllers();

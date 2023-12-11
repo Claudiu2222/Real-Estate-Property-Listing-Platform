@@ -17,13 +17,19 @@ namespace RealEstatePropertyListingPlatform.Identity.Services
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly ICurrentUserService currentUserService;
         private readonly IConfiguration configuration;
-        public AuthService(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, ICurrentUserService currentUserService , IConfiguration configuration)
+        private readonly SignInManager<ApplicationUser> signInManager;
+
+        public AuthService(UserManager<ApplicationUser> userManager,
+            RoleManager<IdentityRole> roleManager,
+            ICurrentUserService currentUserService ,
+            IConfiguration configuration,
+            SignInManager<ApplicationUser> signInManager)
         {
             this.userManager = userManager;
             this.roleManager = roleManager;
             this.currentUserService = currentUserService;
             this.configuration = configuration;
-
+            this.signInManager = signInManager;
         }
         public async Task<(int, string)> Registeration(RegistrationModel model, string role)
         {
@@ -143,6 +149,12 @@ namespace RealEstatePropertyListingPlatform.Identity.Services
 
             return (0, "User couldn't be deleted");
 
+        }
+
+        public async Task<(int, string)> Logout()
+        {
+            await signInManager.SignOutAsync();
+            return (1, "User logged out successfully!");
         }
 
 

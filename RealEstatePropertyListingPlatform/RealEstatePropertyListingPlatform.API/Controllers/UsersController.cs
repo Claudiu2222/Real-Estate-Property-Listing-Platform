@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RealEstatePropertyListingPlatform.Application.Contracts.Identity;
-using RealEstatePropertyListingPlatform.Application.Models.Identity;
-using RealEstatePropertyListingPlatform.Identity.Models;
 
 namespace RealEstatePropertyListingPlatform.API.Controllers
 {
@@ -49,7 +46,7 @@ namespace RealEstatePropertyListingPlatform.API.Controllers
 
 
 
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         [HttpDelete]
         [Route("{id}")]
         public async Task<IActionResult> Delete(string id)

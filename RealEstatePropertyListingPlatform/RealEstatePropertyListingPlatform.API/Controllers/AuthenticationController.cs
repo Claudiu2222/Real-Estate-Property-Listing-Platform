@@ -6,13 +6,16 @@ using RealEstatePropertyListingPlatform.Identity.Models;
 
 namespace RealEstatePropertyListingPlatform.API.Controllers
 {
-
-    public class AuthenticationController : ApiControllerBase
+    [Route("api/v1/[controller]")]
+    [ApiController]
+    public class AuthenticationController : ControllerBase
     {
         private readonly IAuthService _authService;
         private readonly ILogger<AuthenticationController> _logger;
 
-        public AuthenticationController(IAuthService authService, ILogger<AuthenticationController> logger)
+        public AuthenticationController(IAuthService authService,
+            ILogger<AuthenticationController> logger
+            )
         {
             _authService = authService;
             _logger = logger;
@@ -104,6 +107,15 @@ namespace RealEstatePropertyListingPlatform.API.Controllers
                 _logger.LogError(ex.Message);
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
+        }
+
+        [HttpPost]
+        [Authorize(Roles = $"{UserRole.Admin}, {UserRole.User}")]
+        [Route("logout")]
+        public async Task<IActionResult> Logout()
+        {
+            await _authService. Logout();
+            return Ok();
         }
 
     }
