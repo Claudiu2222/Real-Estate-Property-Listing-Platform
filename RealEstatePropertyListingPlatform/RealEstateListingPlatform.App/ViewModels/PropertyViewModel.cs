@@ -24,22 +24,23 @@ namespace RealEstateListingPlatform.App.ViewModels
         public PropertyType PropertyType { get; set; }
 
         [Required(ErrorMessage = "Number of Rooms is required")]
-        [Range(1, int.MaxValue) ]
+        [Range(1, 20)]
         public int NumberOfRooms { get; set; }
 
         [Required(ErrorMessage = "Number of Bathrooms is required")]
+        [Range(1, 20)]
         public int NumberOfBathrooms { get; set; }
 
         [Required(ErrorMessage = "Floor is required")]
-        [Range(1, int.MaxValue) ]
+        [Range(1, 100) ]
         public int Floor { get; set; }
 
         [Required(ErrorMessage = "Number of Floors is required")]
-        [Range(1, int.MaxValue) ]
+        [Range(1, 100) ]
         public int NumberOfFloors { get; set; }
 
         [Required(ErrorMessage = "Square Feet is required")]
-        [Range(1, int.MaxValue)]
+        [Range(1, 10_000)]
         public int SquareFeet { get; set; }
 
     }

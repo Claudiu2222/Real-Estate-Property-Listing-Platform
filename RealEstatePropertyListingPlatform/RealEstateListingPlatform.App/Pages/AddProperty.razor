@@ -1,6 +1,8 @@
 ﻿@page "/addproperty"
 @using RealEstateListingPlatform.App.Contracts
 @using RealEstateListingPlatform.App.ViewModels
+@using RealEstatePropertyListingPlatform.Domain.Enums
+
 
 <h3>New category</h3>
 
@@ -54,17 +56,15 @@
 
         <div class="col-sm-5">
             <InputSelect id="propertyType" class="form-control" @bind-Value="@PropertyViewModel.PropertyType">
-                <option value="0"> House </option>
-                <option value="1"> Apartment </option>
-                <option value="2"> Condo </option>
-                <option value="3"> Townhouse </option>
-                <option value="4"> Land </option>
-                <option value="5"> Garage </option>
-                <option value="6"> Office </option>
-                <option value="7"> Villa </option>
-                <option value="8"> Farm </option>
+
+                @foreach (var propertyType in Enum.GetValues(typeof(PropertyType)))
+                {
+                    <option value="@propertyType">@propertyType</option>
+                })
+                <option value="10">Other</option>
+
             </InputSelect>
-            <span class="dropdown-label">abc abc abc</span>
+
 
             <ValidationMessage For="@(() => PropertyViewModel.PropertyType)" />
         </div>
