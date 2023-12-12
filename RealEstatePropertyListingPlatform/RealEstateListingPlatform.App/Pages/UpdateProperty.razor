@@ -1,0 +1,163 @@
+﻿@page "/editproperty/{PropertyId}"
+@using RealEstateListingPlatform.App.Contracts
+@using RealEstateListingPlatform.App.ViewModels
+@using RealEstatePropertyListingPlatform.Domain.Enums
+<h3>UpdateProperty</h3>
+
+
+<EditForm Model="@PropertyViewModelUser" OnValidSubmit="@HandleValidSubmit">
+
+    <DataAnnotationsValidator />
+
+    <div class="row mb-3 ms-2">
+        <label for="streetname" class="col-sm-3 form-label">Street name:</label>
+        <div class="col-sm-5">
+            <InputText id="streetname" class="form-control" @bind-Value="@PropertyViewModelUser.StreetName" placeholder="@PropertyViewModelUser.StreetName"></InputText>
+            <ValidationMessage For="@(() => PropertyViewModelUser.StreetName)" />
+        </div>
+    </div>
+
+
+    <div class="row mb-3 ms-2">
+        <label for="city" class="col-sm-3 form-label">City name:</label>
+        <div class="col-sm-5">
+            <InputText id="city" class="form-control" @bind-Value="@PropertyViewModelUser.City" placeholder="@PropertyViewModelUser.City"></InputText>
+            <ValidationMessage For="@(() => PropertyViewModelUser.City)" />
+        </div>
+    </div>
+    <div class="row mb-3 ms-2">
+
+        <label for="region" class="col-sm-3 form-label">Region name:</label>
+        <div class="col-sm-5">
+            <InputText id="region" class="form-control" @bind-Value="@PropertyViewModelUser.Region" placeholder="@PropertyViewModelUser.Region"></InputText>
+            <ValidationMessage For="@(() => PropertyViewModelUser.Region)" />
+        </div>
+    </div>
+
+    <div class="row mb-3 ms-2">
+        <label for="postalcode" class="col-sm-3 form-label">Postal code:</label>
+        <div class="col-sm-5">
+            <InputText id="postalcode" class="form-control" @bind-Value="@PropertyViewModelUser.PostalCode" placeholder="@PropertyViewModelUser.PostalCode"></InputText>
+            <ValidationMessage For="@(() => PropertyViewModelUser.PostalCode)" />
+        </div>
+    </div>
+
+    <div class="row mb-3 ms-2">
+        <label for="country" class="col-sm-3 form-label">Country :</label>
+        <div class="col-sm-5">
+            <InputText id="country" class="form-control" @bind-Value="@PropertyViewModelUser.Country" placeholder="@PropertyViewModelUser.Country"></InputText>
+            <ValidationMessage For="@(() => PropertyViewModelUser.Country)" />
+        </div>
+    </div>
+
+    <div class="row mb-3 ms-2">
+        <label for="propertyType" class="col-sm-3 form-label"> Property Type :</label>
+
+        <div class="col-sm-5">
+            <InputSelect id="propertyType" class="form-control" @bind-Value="@PropertyViewModelUser.PropertyType">
+
+                @foreach (var propertyType in Enum.GetValues(typeof(PropertyType)))
+                {
+                    <option value="@propertyType">@propertyType</option>
+                }
+            </InputSelect>
+
+
+            <ValidationMessage For="@(() => PropertyViewModelUser.PropertyType)" />
+        </div>
+    </div>
+
+    <div class="row mb-3 ms-2">
+        <label for="nrRooms" class="col-sm-3 form-label">Number of rooms :</label>
+        <div class="col-sm-5">
+            <InputNumber id="nrRooms" class="form-control" @bind-Value="@PropertyViewModelUser.NumberOfRooms" placeholder="@PropertyViewModelUser.NumberOfRooms" />
+            
+            <ValidationMessage For="@(() => PropertyViewModelUser.NumberOfRooms)" />
+        </div>
+    </div>
+
+    <div class="row mb-3 ms-2">
+        <label for="nrBathrooms" class="col-sm-3 form-label">Number of Bathrooms :</label>
+        <div class="col-sm-5">
+            <InputNumber id="nrBathrooms" class="form-control" @bind-Value="@PropertyViewModelUser.NumberOfBathrooms" placeholder="@PropertyViewModelUser.NumberOfBathrooms"></InputNumber>
+            <ValidationMessage For="@(() => PropertyViewModelUser.NumberOfBathrooms)" />
+        </div>
+    </div>
+
+    <div class="row mb-3 ms-2">
+        <label for="floor" class="col-sm-3 form-label">Number of floor :</label>
+        <div class="col-sm-5">
+            <InputNumber id="floor" class="form-control" @bind-Value="@PropertyViewModelUser.Floor" placeholder="@PropertyViewModelUser.Floor"></InputNumber>
+            <ValidationMessage For="@(() => PropertyViewModelUser.Floor)" />
+        </div>
+    </div>
+
+    <div class="row mb-3 ms-2">
+        <label for="nrfloors" class="col-sm-3 form-label">Number of total floors :</label>
+        <div class="col-sm-5">
+            <InputNumber id="nrfloors" class="form-control" @bind-Value="@PropertyViewModelUser.NumberOfFloors" placeholder="@PropertyViewModelUser.NumberOfFloors"></InputNumber>
+            <ValidationMessage For="@(() => PropertyViewModelUser.NumberOfFloors)" />
+        </div>
+    </div>
+
+    <div class="row mb-3 ms-2">
+        <label for="squarefeet" class="col-sm-3 form-label">Number of squarefeet :</label>
+        <div class="col-sm-5">
+            <InputNumber id="squarefeet" class="form-control" @bind-Value="@PropertyViewModelUser.SquareFeet" placeholder="@PropertyViewModelUser.SquareFeet"></InputNumber>
+            <ValidationMessage For="@(() => PropertyViewModelUser.SquareFeet)" />
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save category</button>
+    <button class="btn btn-primary" @onclick="Cancel">Cancel</button>
+</EditForm>
+
+
+@code {
+    [Parameter]
+    public string PropertyId { get; set; }
+
+    [Inject]
+    public IPropertyDataService PropertyDataService { get; set; }
+
+    [Inject]
+    public NavigationManager NavigationManager { get; set; }
+
+    public PropertyViewModelByUser PropertyViewModelUser { get; set; } = new PropertyViewModelByUser();
+
+    public PropertyViewModel PropertyViewModel { get; set; } = new PropertyViewModel();
+
+    public string Message { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Guid guid = Guid.Parse(PropertyId);
+        PropertyViewModelUser = await PropertyDataService.GetPropertyByIdAsync(guid);
+    }
+}
+
+@functions {
+    private async Task HandleValidSubmit()
+    {
+        var result = await PropertyDataService.UpdatePropertyAsync(PropertyViewModelUser, PropertyViewModelUser.PropertyId);
+        if (result.IsSuccess)
+        {
+            Message = "Property created successfully";
+            NavigationManager.NavigateTo("/");
+        }
+        else
+        {
+            Message = result.Message;
+            if (!string.IsNullOrWhiteSpace(result.ValidationErrors))
+            {
+                Message += result.ValidationErrors;
+            }
+        }
+    }
+
+    private void Cancel()
+    {
+        NavigationManager.NavigateTo("/");
+    }
+
+}

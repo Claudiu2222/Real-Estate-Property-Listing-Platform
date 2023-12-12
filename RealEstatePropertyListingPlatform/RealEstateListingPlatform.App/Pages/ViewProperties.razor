@@ -14,9 +14,9 @@
             <thead>
                 <tr>
                     <th>Nr. crt</th>
+                    <th>Property type</th>
                     <th>Address</th>
                     <th>City</th>
-                    <th>Number of rooms</th>
                     <th>Square feet</th>
                     <th>Buttons</th>
                 </tr>
@@ -26,9 +26,9 @@
                 {
                     <tr>
                         <td>@count</td>
+                        <td>@property.PropertyType</td>
                         <td>@property.StreetName</td>
                         <td>@property.City</td>
-                        <td>@property.NumberOfRooms</td>
                         <td>@property.SquareFeet</td>
                         <td>
                             <button @onclick="()=>AddListing(property)" class="button-add-listing">

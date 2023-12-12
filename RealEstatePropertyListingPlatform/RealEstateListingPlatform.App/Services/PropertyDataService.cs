@@ -44,6 +44,36 @@ namespace RealEstateListingPlatform.App.Services
             return response!;
         }
 
+        public async Task<ApiResponse<PropertyViewModelByUser>> UpdatePropertyAsync(PropertyViewModelByUser categoryViewModel, Guid id)
+        {
+        
+            httpClient.DefaultRequestHeaders.Authorization
+                = new AuthenticationHeaderValue("Bearer", await tokenService.GetTokenAsync());
+
+            var result = await httpClient.PutAsJsonAsync($"{RequestUri}/{id}", categoryViewModel);
+            result.EnsureSuccessStatusCode();
+            var response = await result.Content.ReadFromJsonAsync<ApiResponse<PropertyViewModelByUser>>();
+            response!.IsSuccess = result.IsSuccessStatusCode;
+            return response!;
+        }
+
+        public async Task<PropertyViewModelByUser> GetPropertyByIdAsync(Guid id)
+        {
+            httpClient.DefaultRequestHeaders.Authorization
+                = new AuthenticationHeaderValue("Bearer", await tokenService.GetTokenAsync());
+
+            var result = await httpClient.GetAsync($"{RequestUri}/{id}");
+            result.EnsureSuccessStatusCode();
+            var content = await result.Content.ReadAsStringAsync();
+            Console.WriteLine(content);
+
+            var response = JsonSerializer.Deserialize<ApiResponsePropertyById>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+            //it is only one property
+            Console.WriteLine($"PropertyId: {response!.Property.PropertyId}, StreetName: {response!.Property.StreetName}, City: {response!.Property.City}");
+            return response!.Property;
+        }
+
         
 
         public async Task<List<PropertyViewModelByUser>> GetAllPropertiesByOwnerAsync()
