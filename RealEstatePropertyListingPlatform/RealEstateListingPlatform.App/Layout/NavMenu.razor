@@ -49,16 +49,15 @@
         collapseNavMenu = !collapseNavMenu;
     }
 
-    @inject AuthenticationStateProvider AuthStateProvider
-
-    protected override async Task OnInitializedAsync()
-    {
-        var authState = await AuthStateProvider.GetAuthenticationStateAsync();
-        var user = authState.User;
-        var userRoles = authState.User.FindAll(ClaimTypes.Role).Select(c => c.Value).ToList();
-
-        Console.WriteLine($"--------------\nUser Roles: {string.Join(", ", userRoles)}\n-------------");
-
-        // Rest of your initialization code
-    }
+//    @inject AuthenticationStateProvider AuthStateProvider
+//
+//    protected override async Task OnInitializedAsync()
+//    {
+//        var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+//        var user = authState.User;
+//        var userRoles = authState.User.FindAll(ClaimTypes.Role).Select(c => c.Value).ToList();
+//
+//        Console.WriteLine($"--------------\nUser Roles: {string.Join(", ", userRoles)}\n-------------");
+//
+//    }
 }
