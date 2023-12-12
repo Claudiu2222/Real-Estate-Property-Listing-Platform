@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Options;
 using RealEstateListingPlatform.App.Contracts;
 using RealEstateListingPlatform.App.ViewModels;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 
 namespace RealEstateListingPlatform.App.Services
@@ -25,6 +26,8 @@ namespace RealEstateListingPlatform.App.Services
 
         public async Task Logout()
         {
+            httpClient.DefaultRequestHeaders.Authorization
+                = new AuthenticationHeaderValue("Bearer", await tokenService.GetTokenAsync());
             await tokenService.RemoveTokenAsync();
             var result = await httpClient.PostAsync("api/v1/authentication/logout", null);
             result.EnsureSuccessStatusCode();
