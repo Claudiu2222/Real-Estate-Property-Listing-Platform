@@ -1,10 +1,9 @@
-﻿using Microsoft.Extensions.Options;
-using RealEstateListingPlatform.App.Contracts;
+﻿using RealEstateListingPlatform.App.Contracts;
 using RealEstateListingPlatform.App.ViewModels;
 using System.Net.Http.Json;
 
 namespace RealEstateListingPlatform.App.Services
-{   
+{
     //primary constructor
     public class AuthenticationService(HttpClient httpClient, ITokenService tokenService) : IAuthenticationService
     {

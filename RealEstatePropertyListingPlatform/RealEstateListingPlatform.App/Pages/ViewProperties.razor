@@ -1,0 +1,79 @@
+﻿@page "/viewproperties"
+@using RealEstateListingPlatform.App.Contracts
+@using RealEstateListingPlatform.App.ViewModels
+<h3>Your Properties</h3>
+
+<div class="row mb-3 ms-2">
+    @if(Properties != null)
+    {
+        count = 1;
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nr. crt</th>
+                    <th>Address</th>
+                    <th>City</th>
+                    <th>Number of rooms</th>
+                    <th>Square feet</th>
+                    <th>Buttons</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var property in Properties)
+                {
+                    <tr>
+                        <td>@count</td>
+                        <td>@property.StreetName</td>
+                        <td>@property.City</td>
+                        <td>@property.NumberOfRooms</td>
+                        <td>@property.SquareFeet</td>
+                        <td>
+                            <button @onclick="()=>EditProperty(property)">Edit</button>
+                            <button @onclick="()=>DeleteProperty(property)">Delete</button>
+                        </td>
+                    </tr>
+                    count++;
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>You don't have any properties yet.</p>
+    }
+</div>
+
+@code {
+    [Inject]
+    public IPropertyDataService PropertyDataService { get; set; }
+
+    [Inject]
+    public NavigationManager NavigationManager { get; set; }
+
+    public List<PropertyViewModelByUser> Properties { get; set; }
+
+    public string Message { get; set; }
+
+    public int count { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Properties = (await PropertyDataService.GetAllPropertiesByOwnerAsync()).ToList();
+
+    }
+}
+
+@functions {
+    private void EditProperty(PropertyViewModelByUser property)
+    {
+
+        NavigationManager.NavigateTo($"/editproperty/{property.PropertyId}");
+    }
+
+    private async void DeleteProperty(PropertyViewModelByUser property)
+    {
+        await PropertyDataService.DeletePropertyAsync(property.PropertyId);
+        NavigationManager.NavigateTo("/viewproperties");
+    }
+
+}

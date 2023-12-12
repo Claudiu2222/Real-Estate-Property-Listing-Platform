@@ -59,8 +59,6 @@ namespace RealEstatePropertyListingPlatform.Application.Features.Properties.Comm
                 Success = true,
                 Property = new PropertyDto
                 {
-                    PropertyId = property.Value.PropertyId,
-                    OwnerId = property.Value.OwnerId,
                     StreetName = property.Value.StreetName,
                     City = property.Value.City,
                     Region = property.Value.Region,
