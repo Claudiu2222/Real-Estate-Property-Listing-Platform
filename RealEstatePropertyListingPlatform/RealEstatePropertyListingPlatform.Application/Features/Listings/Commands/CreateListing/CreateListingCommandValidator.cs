@@ -8,11 +8,9 @@ namespace RealEstatePropertyListingPlatform.Application.Features.Listings.Comman
     {
         private static readonly int MaxStringLength = 100;
 
-        private readonly ICurrentUserService currentUserService;
         private readonly IPropertyRepository propertyRepository;
-        public CreateListingCommandValidator(ICurrentUserService currentUserService, IPropertyRepository propertyRepository)
+        public CreateListingCommandValidator(IPropertyRepository propertyRepository)
         {
-            this.currentUserService = currentUserService;
             this.propertyRepository = propertyRepository;
 
 
@@ -40,11 +38,6 @@ namespace RealEstatePropertyListingPlatform.Application.Features.Listings.Comman
             RuleFor(p => p.Description)
                 .MinimumLength(10).WithMessage("{PropertyName} must be at least {MinLength} characters.");
 
-
-            RuleFor(p => p.ListingCreatorId)
-            .Must(BeSameAsCurrentUser)
-            .WithMessage("{PropertyName} must be the same as the current user.");
-
             RuleFor(p=> p.PropertyId)
                 .MustAsync(BeAValidPropertyId)
                 .WithMessage("{PropertyName} must be a valid property id.");
@@ -52,17 +45,6 @@ namespace RealEstatePropertyListingPlatform.Application.Features.Listings.Comman
         }
 
 
-        private bool BeSameAsCurrentUser(Guid listingCreatorId)
-        {
-            var currentUserIdClaim = currentUserService.UserId;
-
-            if (Guid.TryParse(currentUserIdClaim, out Guid currentUserId))
-            {
-                return listingCreatorId == currentUserId;
-            }
-
-            return false;
-        }
 
         private async Task<bool> BeAValidPropertyId(Guid propertyId, CancellationToken cancellationToken)
         {

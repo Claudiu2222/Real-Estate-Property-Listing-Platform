@@ -28,10 +28,18 @@ builder.Services.AddBlazoredLocalStorage(config =>
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<CustomStateProvider>();
 
+//for property controller
 builder.Services.AddHttpClient<IPropertyDataService, PropertyDataService>(client =>
 {
     client.BaseAddress = new Uri("https://localhost:7187/");
 });
+
+//for creating an Admin acc
+builder.Services.AddHttpClient<IUserService, UserDataService>(client =>
+{
+    client.BaseAddress = new Uri("https://localhost:7187/");
+});
+
 
 builder.Services.AddScoped<AuthenticationStateProvider>(s => s.GetRequiredService<CustomStateProvider>());
 builder.Services.AddHttpClient<IAuthenticationService, AuthenticationService>(client =>
