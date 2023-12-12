@@ -156,26 +156,19 @@
 @functions {
     private async Task HandleValidSubmit()
     {
-        try
-        {
+            Message = string.Empty;
             var result = await PropertyDataService.UpdatePropertyAsync(PropertyViewModelUser, PropertyViewModelUser.PropertyId);
-            if (result.IsSuccess)
+            if (result.Success)
             {
                 Message = "Property updated successfully";
             }
             else
             {
-                Message = result.ValidationErrors;
-                if (!string.IsNullOrWhiteSpace(result.ValidationErrors))
+                for(int i = 0; i < result.ValidationErrors.Count; i++)
                 {
-                    Message += result.ValidationErrors;
+                Message += result.ValidationErrors[i] + " ";
                 }
             }
-        }
-        catch(Exception ex)
-        {
-            Message = ex.Message;
-        }
     
 
     }

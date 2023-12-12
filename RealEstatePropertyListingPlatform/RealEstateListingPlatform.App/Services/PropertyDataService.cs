@@ -44,16 +44,26 @@ namespace RealEstateListingPlatform.App.Services
             return response!;
         }
 
-        public async Task<ApiResponse<PropertyViewModelByUser>> UpdatePropertyAsync(PropertyViewModelByUser categoryViewModel, Guid id)
+        public async Task<ApiResponsePropertyById> UpdatePropertyAsync(PropertyViewModelByUser categoryViewModel, Guid id)
         {
         
             httpClient.DefaultRequestHeaders.Authorization
                 = new AuthenticationHeaderValue("Bearer", await tokenService.GetTokenAsync());
 
             var result = await httpClient.PutAsJsonAsync($"{RequestUri}/{id}", categoryViewModel);
-            result.EnsureSuccessStatusCode();
-            var response = await result.Content.ReadFromJsonAsync<ApiResponse<PropertyViewModelByUser>>();
-            response!.IsSuccess = result.IsSuccessStatusCode;
+            var response = new ApiResponsePropertyById();
+            /*try
+            {
+                result.EnsureSuccessStatusCode();
+                response = await result.Content.ReadFromJsonAsync<ApiResponse<PropertyViewModelByUser>>();
+                response!.IsSuccess = result.IsSuccessStatusCode;
+            }
+            catch (Exception ex)
+            {
+                response!.IsSuccess = false;
+            }*/
+            response = await result.Content.ReadFromJsonAsync<ApiResponsePropertyById>();
+                response!.Success = result.IsSuccessStatusCode;
             return response!;
         }
 
