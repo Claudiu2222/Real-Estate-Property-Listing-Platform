@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RealEstatePropertyListingPlatform.API.Controllers;
 using RealEstatePropertyListingPlatform.Application.Features.Listings.Commands.CreateListing;
@@ -6,10 +7,12 @@ using RealEstatePropertyListingPlatform.Application.Features.Listings.Commands.D
 using RealEstatePropertyListingPlatform.Application.Features.Listings.Commands.UpdateListing;
 using RealEstatePropertyListingPlatform.Application.Features.Listings.Queries.GetAllListings;
 using RealEstatePropertyListingPlatform.Application.Features.Listings.Queries.GetByIdListing;
+using RealEstatePropertyListingPlatform.Application.Features.Listings.Queries.GetPagedListings;
+using RealEstatePropertyListingPlatform.Application.Features.Users.Queries.GetPagedUsers;
 
 namespace RealEstateListingListingPlatform.API.Controllers
 {
-    public class ListingController : ApiControllerBase
+    public class ListingsController : ApiControllerBase
     {
         [Authorize(Roles = "User")]
         [HttpPost]
@@ -69,7 +72,7 @@ namespace RealEstateListingListingPlatform.API.Controllers
             return Ok(result);
 
         }
-       
+
 
 
         [Authorize(Roles = "User")]
@@ -89,9 +92,10 @@ namespace RealEstateListingListingPlatform.API.Controllers
             {
                 return BadRequest(result);
             }
+
             return Ok(result);
         }
-        
+
 
         [Authorize(Roles = "User")]
         [HttpDelete("{id}")]
@@ -105,7 +109,27 @@ namespace RealEstateListingListingPlatform.API.Controllers
             {
                 return BadRequest(result);
             }
+
             return NoContent();
+        }
+
+
+
+
+        [HttpGet("paginated")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+
+        public async Task<IActionResult> GetPaginated([FromQuery] int page, [FromQuery] int size)
+        {
+
+            if (page < 1 || size < 1)
+            {
+                return BadRequest();
+            }
+
+            var result = await Mediator.Send(new GetPagedListingsQuery(page, size));
+            return Ok(result);
         }
     }
 }
