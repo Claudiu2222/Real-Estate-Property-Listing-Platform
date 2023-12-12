@@ -2,8 +2,22 @@
 @using RealEstateListingPlatform.App.Contracts
 @using RealEstateListingPlatform.App.ViewModels
 @using RealEstatePropertyListingPlatform.Domain.Enums
+<head>
+    <link href="~/css/app.css" rel="stylesheet" />
+</head>
 <h3>UpdateProperty</h3>
 
+<div class="@GetAlertClass() mb-3 ms-2" style="display: @(string.IsNullOrWhiteSpace(Message) ? "none" : "block");">
+    <div class="d-flex align-items-center">
+        <div class="me-2">
+                <svg id="checkmark" xmlns="http://www.w3.org/2000/svg" style="width: 24px; height: 24px; transform-origin: center; transition: transform 0.3s ease-in-out;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                 <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                </svg>
+            </div>
+        <div>@Message</div>
+    </div>
+</div>
 
 <EditForm Model="@PropertyViewModelUser" OnValidSubmit="@HandleValidSubmit">
 
@@ -113,6 +127,9 @@
 </EditForm>
 
 
+
+
+
 @code {
     [Parameter]
     public string PropertyId { get; set; }
@@ -139,20 +156,37 @@
 @functions {
     private async Task HandleValidSubmit()
     {
-        var result = await PropertyDataService.UpdatePropertyAsync(PropertyViewModelUser, PropertyViewModelUser.PropertyId);
-        if (result.IsSuccess)
+        try
         {
-            Message = "Property created successfully";
-            NavigationManager.NavigateTo("/");
-        }
-        else
-        {
-            Message = result.Message;
-            if (!string.IsNullOrWhiteSpace(result.ValidationErrors))
+            var result = await PropertyDataService.UpdatePropertyAsync(PropertyViewModelUser, PropertyViewModelUser.PropertyId);
+            if (result.IsSuccess)
             {
-                Message += result.ValidationErrors;
+                Message = "Property updated successfully";
+            }
+            else
+            {
+                Message = result.ValidationErrors;
+                if (!string.IsNullOrWhiteSpace(result.ValidationErrors))
+                {
+                    Message += result.ValidationErrors;
+                }
             }
         }
+        catch(Exception ex)
+        {
+            Message = ex.Message;
+        }
+    
+
+    }
+    private string GetAlertClass()
+    {
+        if (string.IsNullOrWhiteSpace(Message))
+        {
+            return "alert alert-info"; // sau o altă clasă pentru alerte informative
+        }
+
+        return Message.StartsWith("Property updated successfully") ? "alert alert-success" : "alert alert-danger";
     }
 
     private void Cancel()
