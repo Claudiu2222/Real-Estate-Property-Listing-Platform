@@ -17,8 +17,6 @@ namespace RealEstateListingPlatform.App.ViewModels
         public string? Title { get; set; }
         public PriceViewModel? Price { get; set; }
         public string? Description { get; set; }
-
-        [JsonIgnore]
         public List<string>? Photos { get; set; }
         public DateTime DateCreated { get; set; }
         public DateTime DateUpdated { get; set; }

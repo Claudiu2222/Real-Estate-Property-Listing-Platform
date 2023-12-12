@@ -9,7 +9,7 @@ namespace RealEstateListingPlatform.App.Services
 {
     public class ListingDataService : IListingDataService
     {
-        private const string RequestUri = "api/v1/Listing";
+        private const string RequestUri = "api/v1/Listings";
         private readonly HttpClient httpClient;
         private readonly ITokenService tokenService;
 
@@ -19,7 +19,7 @@ namespace RealEstateListingPlatform.App.Services
             this.tokenService = tokenService;
         }
 
-        public async Task<List<ListingViewModel>?> GetListingsAsync()
+        public async Task<List<ListingViewModel>> GetListingsAsync()
         {
             try
             {
@@ -29,7 +29,8 @@ namespace RealEstateListingPlatform.App.Services
                     var content = await result.Content.ReadAsStringAsync();
 
                     // Deserialize the root object, which contains the "listings" property
-                    var responseObject = JsonSerializer.Deserialize<ResponseObject>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                    var responseObject = JsonSerializer.Deserialize<ApiResponseListing>(content,
+                        new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
                     // Check if "wasFound" is true before accessing "listings"
                     if (responseObject?.WasFound == true)
@@ -45,22 +46,39 @@ namespace RealEstateListingPlatform.App.Services
             }
             catch (HttpRequestException ex)
             {
+                throw new ApplicationException("Error fetching listings", ex);
+            }
+        }
+
+        public async Task<ApiResponseListing> GetPagedListingsAsync(int pageNumber, int pageSize)
+        {
+            try
+            {
+                using (var result = await httpClient.GetAsync($"{RequestUri}/paginated?page={pageNumber}&size={pageSize}",
+                           HttpCompletionOption.ResponseHeadersRead))
+                {
+                    result.EnsureSuccessStatusCode();
+                    var content = await result.Content.ReadAsStringAsync();
+
+                    // Deserialize the root object, which contains the "listings" property
+                    var responseObject = JsonSerializer.Deserialize<ApiResponseListing>(content,
+                        new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+                    // Check if "wasFound" is true before accessing "listings"
+                    return responseObject;
+
+                }
+            }
+            catch (HttpRequestException ex)
+            {
                 // Handle specific exception or log the error
                 // You may also consider logging the response content for debugging
                 throw new ApplicationException("Error fetching listings", ex);
             }
         }
-
-        // Create a class to represent the root object of the JSON response
-        public class ResponseObject
-        {
-            public List<ListingViewModel>? Listings { get; set; }
-            public bool WasFound { get; set; }
-            public bool Success { get; set; }
-            public string? Message { get; set; }
-            public List<string>? ValidationErrors { get; set; }
         }
 
 
-    }
+
+
 }
