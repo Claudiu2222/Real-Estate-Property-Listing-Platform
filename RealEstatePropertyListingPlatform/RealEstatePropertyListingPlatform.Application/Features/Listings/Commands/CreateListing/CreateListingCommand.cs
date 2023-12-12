@@ -5,7 +5,6 @@ namespace RealEstatePropertyListingPlatform.Application.Features.Listings.Comman
 {
     public class CreateListingCommand : IRequest<CreateListingCommandResponse>
     {
-        public Guid ListingCreatorId { get; set; }
         public Guid PropertyId { get; set; }
         public string Title { get; set; } = default!;
         public PriceInfo Price { get; set; } = default!;

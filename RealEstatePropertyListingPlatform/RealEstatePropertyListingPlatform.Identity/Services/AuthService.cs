@@ -93,6 +93,8 @@ namespace RealEstatePropertyListingPlatform.Identity.Services
                new Claim(ClaimTypes.Name, user.UserName!),
                new Claim(ClaimTypes.NameIdentifier, user.Id),
                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+               //new Claim(ClaimTypes.Role, string.Join(",", userRoles))
+
             };
 
             foreach (var userRole in userRoles)

@@ -19,7 +19,7 @@ namespace RealEstatePropertyListingPlatform.Application.Features.Listings.Comman
 
         public async Task<CreateListingCommandResponse> Handle(CreateListingCommand request, CancellationToken cancellationToken)
         {
-            var validatorProperty = new CreateListingCommandValidator(this.currentUserService, this.propertyRepository);
+            var validatorProperty = new CreateListingCommandValidator(this.propertyRepository);
 
             var validationResult = await validatorProperty.ValidateAsync(request);
 
@@ -32,7 +32,22 @@ namespace RealEstatePropertyListingPlatform.Application.Features.Listings.Comman
                 };
             }
 
-            var listing = Listing.Create(request.ListingCreatorId, request.PropertyId, request.Title, request.Price, request.Description, request.Photos, request.Negotiable);
+            Guid creatorId;
+            try
+            {
+                creatorId = Guid.Parse(this.currentUserService.UserId);
+            }
+            catch (Exception)
+            {
+                return new CreateListingCommandResponse
+                {
+                    Success = false,
+                    ValidationErrors = new List<string>() { "Invalid user id." }
+                };
+            }
+
+
+            var listing = Listing.Create(creatorId, request.PropertyId, request.Title, request.Price, request.Description, request.Photos, request.Negotiable);
 
             if (!listing.IsSuccess)
             {
