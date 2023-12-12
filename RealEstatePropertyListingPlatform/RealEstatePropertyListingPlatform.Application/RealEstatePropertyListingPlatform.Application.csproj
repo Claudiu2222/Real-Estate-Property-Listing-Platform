@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Featues\**" />
+    <EmbeddedResource Remove="Featues\**" />
+    <None Remove="Featues\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RealEstatePropertyListingPlatform.Domain\RealEstatePropertyListingPlatform.Domain.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="11.8.0" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.8.0" />
+    <PackageReference Include="MediatR" Version="12.1.1" />
+  </ItemGroup>
+</Project>

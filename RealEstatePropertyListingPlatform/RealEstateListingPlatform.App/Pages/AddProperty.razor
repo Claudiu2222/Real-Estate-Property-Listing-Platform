@@ -1,0 +1,153 @@
+﻿@page "/addproperty"
+@using RealEstateListingPlatform.App.Contracts
+@using RealEstateListingPlatform.App.ViewModels
+@using RealEstatePropertyListingPlatform.Domain.Enums
+
+
+<h3>New category</h3>
+
+<EditForm Model="@PropertyViewModel" OnValidSubmit="@HandleValidSubmit">
+
+    <DataAnnotationsValidator />
+    <ValidationSummary></ValidationSummary>
+
+    <div class="row mb-3 ms-2">
+        <label for="streetname" class="col-sm-3 form-label">Street name:</label>
+        <div class="col-sm-5">
+            <InputText id="streetname" class="form-control" @bind-Value="@PropertyViewModel.StreetName" placeholder="Enter street name"></InputText>
+            <ValidationMessage For="@(() => PropertyViewModel.StreetName)" />
+        </div>
+    </div>
+
+    <div class="row mb-3 ms-2">
+        <label for="city" class="col-sm-3 form-label">City name:</label>
+        <div class="col-sm-5">
+            <InputText id="city" class="form-control" @bind-Value="@PropertyViewModel.City" placeholder="Enter city name"></InputText>
+            <ValidationMessage For="@(() => PropertyViewModel.City)" />
+        </div>
+    </div>
+    <div class="row mb-3 ms-2">
+
+        <label for="region" class="col-sm-3 form-label">Region name:</label>
+        <div class="col-sm-5">
+            <InputText id="region" class="form-control" @bind-Value="@PropertyViewModel.Region" placeholder="Enter region name"></InputText>
+            <ValidationMessage For="@(() => PropertyViewModel.Region)" />
+        </div>
+    </div>
+
+    <div class="row mb-3 ms-2">
+        <label for="postalcode" class="col-sm-3 form-label">Postal code:</label>
+        <div class="col-sm-5">
+            <InputText id="postalcode" class="form-control" @bind-Value="@PropertyViewModel.PostalCode" placeholder="Enter postal code"></InputText>
+            <ValidationMessage For="@(() => PropertyViewModel.PostalCode)" />
+        </div>
+    </div>
+
+    <div class="row mb-3 ms-2">
+        <label for="country" class="col-sm-3 form-label">Country :</label>
+        <div class="col-sm-5">
+            <InputText id="country" class="form-control" @bind-Value="@PropertyViewModel.Country" placeholder="Enter country"></InputText>
+            <ValidationMessage For="@(() => PropertyViewModel.Country)" />
+        </div>
+    </div>
+
+    <div class="row mb-3 ms-2">
+        <label for="propertyType" class="col-sm-3 form-label"> Property Type :</label>
+
+        <div class="col-sm-5">
+            <InputSelect id="propertyType" class="form-control" @bind-Value="@PropertyViewModel.PropertyType">
+
+                @foreach (var propertyType in Enum.GetValues(typeof(PropertyType)))
+                {
+                    <option value="@propertyType">@propertyType</option>
+                })
+                <option value="10">Other</option>
+
+            </InputSelect>
+
+
+            <ValidationMessage For="@(() => PropertyViewModel.PropertyType)" />
+        </div>
+    </div>
+
+    <div class="row mb-3 ms-2">
+        <label for="nrRooms" class="col-sm-3 form-label">Number of rooms :</label>
+        <div class="col-sm-5">
+            <InputNumber id="nrRooms"  class="form-control" @bind-Value="@PropertyViewModel.NumberOfRooms" placeholder="Enter nr. of rooms"></InputNumber>
+            <ValidationMessage For="@(() => PropertyViewModel.NumberOfRooms)" />
+        </div>
+    </div>
+
+    <div class="row mb-3 ms-2">
+        <label for="nrBathrooms" class="col-sm-3 form-label">Number of Bathrooms :</label>
+        <div class="col-sm-5">
+            <InputNumber id="nrBathrooms"  class="form-control" @bind-Value="@PropertyViewModel.NumberOfBathrooms" placeholder="Enter nr. of bathrooms"></InputNumber>
+            <ValidationMessage For="@(() => PropertyViewModel.NumberOfBathrooms)" />
+        </div>
+    </div>
+
+    <div class="row mb-3 ms-2">
+        <label for="floor" class="col-sm-3 form-label">Number of floor :</label>
+        <div class="col-sm-5">
+            <InputNumber id="floor"  class="form-control" @bind-Value="@PropertyViewModel.Floor" placeholder="Enter nr floor"></InputNumber>
+            <ValidationMessage For="@(() => PropertyViewModel.Floor)" />
+        </div>
+    </div>
+
+    <div class="row mb-3 ms-2">
+        <label for="nrfloors" class="col-sm-3 form-label">Number of total floors :</label>
+        <div class="col-sm-5">
+            <InputNumber id="nrfloors"  class="form-control" @bind-Value="@PropertyViewModel.NumberOfFloors" placeholder="Enter nr of total floors"></InputNumber>
+            <ValidationMessage For="@(() => PropertyViewModel.NumberOfFloors)" />
+        </div>
+    </div>
+
+    <div class="row mb-3 ms-2">
+        <label for="squarefeet" class="col-sm-3 form-label">Number of squarefeet :</label>
+        <div class="col-sm-5">
+            <InputNumber id="squarefeet" class="form-control" @bind-Value="@PropertyViewModel.SquareFeet" placeholder="Enter nr of squarefeet"></InputNumber>
+            <ValidationMessage For="@(() => PropertyViewModel.SquareFeet)" />
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save category</button>
+    <button class="btn btn-primary" @onclick="Cancel">Cancel</button>
+</EditForm>
+
+@code {
+    [Inject]
+    public IPropertyDataService PropertyDataService { get; set; }
+
+    [Inject]
+    public NavigationManager NavigationManager { get; set; }
+
+    public PropertyViewModel PropertyViewModel { get; set; } = new PropertyViewModel();
+    
+    public string Message { get; set; }
+}
+
+@functions {
+    private async Task HandleValidSubmit()
+    {
+        var result = await PropertyDataService.CreatePropertyAsync(PropertyViewModel);
+        if (result.IsSuccess)
+        {
+            Message = "Property created successfully";
+            NavigationManager.NavigateTo("/");
+        }
+        else
+        {
+            Message = result.Message;
+            if (!string.IsNullOrWhiteSpace(result.ValidationErrors))
+            {
+                Message += result.ValidationErrors;
+            }
+        }
+    }
+
+    private void Cancel()
+    {
+        NavigationManager.NavigateTo("/");
+    }
+
+}
