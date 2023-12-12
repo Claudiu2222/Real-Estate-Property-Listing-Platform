@@ -34,6 +34,11 @@ builder.Services.AddHttpClient<IPropertyDataService, PropertyDataService>(client
     client.BaseAddress = new Uri("https://localhost:7187/");
 });
 
+builder.Services.AddHttpClient<IListingDataService, ListingDataService>(client =>
+{
+    client.BaseAddress = new Uri("https://localhost:7187/");
+});
+
 //for creating an Admin acc
 builder.Services.AddHttpClient<IUserService, UserDataService>(client =>
 {
