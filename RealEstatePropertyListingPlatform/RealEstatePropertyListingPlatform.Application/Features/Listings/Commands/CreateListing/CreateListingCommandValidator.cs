@@ -8,11 +8,9 @@ namespace RealEstatePropertyListingPlatform.Application.Features.Listings.Comman
     {
         private static readonly int MaxStringLength = 100;
 
-        private readonly ICurrentUserService currentUserService;
         private readonly IPropertyRepository propertyRepository;
-        public CreateListingCommandValidator(ICurrentUserService currentUserService, IPropertyRepository propertyRepository)
+        public CreateListingCommandValidator(IPropertyRepository propertyRepository)
         {
-            this.currentUserService = currentUserService;
             this.propertyRepository = propertyRepository;
 
 
@@ -31,19 +29,9 @@ namespace RealEstatePropertyListingPlatform.Application.Features.Listings.Comman
             RuleFor(p => p.Photos)
                 .Must(p => p.Count > 0).WithMessage("{PropertyName} must contain at least one photo.");
 
-            RuleFor(p => p.DateCreated)
-                .Must(p => p.Date <= DateTime.Now.Date).WithMessage("{PropertyName} must be less than or equal to today's date.");
-
-            RuleFor(p => p.DateUpdated)
-                .Must(p => p.Date <= DateTime.Now.Date).WithMessage("{PropertyName} must be less than or equal to today's date.");
 
             RuleFor(p => p.Description)
                 .MinimumLength(10).WithMessage("{PropertyName} must be at least {MinLength} characters.");
-
-
-            RuleFor(p => p.ListingCreatorId)
-            .Must(BeSameAsCurrentUser)
-            .WithMessage("{PropertyName} must be the same as the current user.");
 
             RuleFor(p=> p.PropertyId)
                 .MustAsync(BeAValidPropertyId)
@@ -52,17 +40,6 @@ namespace RealEstatePropertyListingPlatform.Application.Features.Listings.Comman
         }
 
 
-        private bool BeSameAsCurrentUser(Guid listingCreatorId)
-        {
-            var currentUserIdClaim = currentUserService.UserId;
-
-            if (Guid.TryParse(currentUserIdClaim, out Guid currentUserId))
-            {
-                return listingCreatorId == currentUserId;
-            }
-
-            return false;
-        }
 
         private async Task<bool> BeAValidPropertyId(Guid propertyId, CancellationToken cancellationToken)
         {

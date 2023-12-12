@@ -8,5 +8,13 @@ namespace RealEstateListingPlatform.App.Contracts
 
         Task<ApiResponse<PropertyViewModel>> CreatePropertyAsync(PropertyViewModel categoryViewModel);
 
+        Task<ApiResponse<PropertyViewModel>> DeletePropertyAsync(Guid id);
+
+        Task<ApiResponsePropertyById> UpdatePropertyAsync(PropertyViewModelByUser categoryViewModel, Guid id);
+
+        Task<PropertyViewModelByUser> GetPropertyByIdAsync(Guid id);
+
+        Task<List<PropertyViewModelByUser>> GetAllPropertiesByOwnerAsync();
+
     }
 }

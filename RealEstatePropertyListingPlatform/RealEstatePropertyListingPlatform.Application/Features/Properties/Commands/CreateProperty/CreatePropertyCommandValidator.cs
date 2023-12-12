@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using RealEstatePropertyListingPlatform.Application.Contracts.Interfaces;
 
 namespace RealEstatePropertyListingPlatform.Application.Features.Properties.Commands.CreateProperty
 {

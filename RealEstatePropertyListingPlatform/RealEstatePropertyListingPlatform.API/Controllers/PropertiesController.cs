@@ -4,6 +4,7 @@ using RealEstatePropertyListingPlatform.Application.Features.Properties.Commands
 using RealEstatePropertyListingPlatform.Application.Features.Properties.Commands.DeleteProperty;
 using RealEstatePropertyListingPlatform.Application.Features.Properties.Commands.UpdateProperty;
 using RealEstatePropertyListingPlatform.Application.Features.Properties.Queries.GetAllProperties;
+using RealEstatePropertyListingPlatform.Application.Features.Properties.Queries.GetByIdOwner;
 using RealEstatePropertyListingPlatform.Application.Features.Properties.Queries.GetByIdProperty;
 
 namespace RealEstatePropertyListingPlatform.API.Controllers
@@ -105,6 +106,22 @@ namespace RealEstatePropertyListingPlatform.API.Controllers
                 return BadRequest(result);
             }
             return NoContent();
+        }
+
+        [Authorize(Roles = "User")]
+        [HttpGet("owner")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetByIdOwner()
+        {
+            var result = await Mediator.Send(new GetByIdOwnerQuery());
+
+            if (!result.Success)
+            {
+                return NotFound(result);
+            }
+
+            return Ok(result);
         }
     }
 }

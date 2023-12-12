@@ -1,0 +1,68 @@
+﻿@page "/createadminaccount"
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
+@using RealEstateListingPlatform.App.Contracts
+@using RealEstateListingPlatform.App.ViewModels
+
+@inject NavigationManager navigationManager
+@inject IUserService userService
+
+@attribute [Authorize(Roles = "Admin")]
+
+
+<h3>Create an Admin Account</h3>
+
+
+    <EditForm class="form-create-admin" OnValidSubmit="OnSubmit" Model="CreateAdminRequest">
+    <DataAnnotationsValidator />
+
+    <label for="inputName" class="sr-only">Name</label>
+            <InputText id="inputName" class="form-control" placeholder="Name for new Admin" @bind-Value="CreateAdminRequest.Name" />
+            <ValidationMessage For="@(() => CreateAdminRequest.Name)" />
+
+    <label for="inputUsername" class="sr-only">Username</label>
+            <InputText id="inputUsername" class="form-control" @bind-Value="CreateAdminRequest.Username" autofocus placeholder="Username Admin" />
+            <ValidationMessage For="@(() => CreateAdminRequest.Username)" />
+
+    <label for="inputPassword" class="sr-only">Password</label>
+            <InputText type="password" id="inputPassword" class="form-control" placeholder="Password" @bind-Value="CreateAdminRequest.Password" />
+            <ValidationMessage For="@(() => CreateAdminRequest.Password)" />
+
+    <label for="inputEmail" class="sr-only">Email</label>
+            <InputText type="email" id="inputEmail" class="form-control" placeholder="Email new Admin" @bind-Value="CreateAdminRequest.Email" />
+            <ValidationMessage For="@(() => CreateAdminRequest.Email)" />
+    
+    <label for="inputPhoneNumber" class="sr-only">Phone Number</label>
+            <InputText type="tel" id="inputPhoneNumber" class="form-control" placeholder="PhoneNumber" @bind-Value="CreateAdminRequest.PhoneNumber" />
+            <ValidationMessage For="@(() => CreateAdminRequest.PhoneNumber)" />
+
+
+
+    <br />
+
+    <button class="btn btn-lg btn-primary btn-block" type="submit"> Create Admin Account</button>
+
+    <label class="text-danger">@error</label>
+
+</EditForm>
+
+@code {
+
+    RegisterViewModel CreateAdminRequest { get; set; } = new RegisterViewModel();
+    string error { get; set; }
+
+    async Task OnSubmit()
+    {
+        error = null;
+        try
+        {
+            await userService.CreateAdmin(CreateAdminRequest);
+            navigationManager.NavigateTo("/usersoverview");
+        }
+        catch (Exception ex)
+        {
+            error = ex.Message;
+        }
+    }
+
+}

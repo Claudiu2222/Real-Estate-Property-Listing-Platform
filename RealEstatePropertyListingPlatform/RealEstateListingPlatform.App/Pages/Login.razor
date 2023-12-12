@@ -1,8 +1,10 @@
 ﻿@page "/login"
 @using RealEstateListingPlatform.App.Auth
+@using RealEstateListingPlatform.App.Contracts
 @using RealEstateListingPlatform.App.ViewModels
 @inject NavigationManager navigationManager
 @inject CustomStateProvider authStateProvider
+@inject ITokenService TokenService
 
 <h1 class="h2 font-weight-normal login-title">
     Login
@@ -33,6 +35,19 @@
 @code {
     LoginViewModel loginRequest { get; set; } = new LoginViewModel();
     string error { get; set; }
+
+}
+
+@functions{
+
+    protected override async Task OnInitializedAsync()
+    {
+        var token = await TokenService.GetTokenAsync();
+        if (token != null)
+        {
+            navigationManager.NavigateTo("/");
+        }
+    }
 
     async Task OnSubmit()
     {

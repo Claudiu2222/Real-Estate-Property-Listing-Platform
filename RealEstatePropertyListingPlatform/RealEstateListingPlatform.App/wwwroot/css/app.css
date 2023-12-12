@@ -1,4 +1,4 @@
-html, body {
+﻿html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
@@ -100,4 +100,148 @@ a, .btn-link {
 
 code {
     color: #c02d76;
+}
+
+
+.button-delete {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    border-radius: 40px;
+    border: 2px solid rgb(231, 50, 50);
+    background-color: #fff;
+    cursor: pointer;
+    box-shadow: 0 0 10px #333;
+    overflow: hidden;
+    transition: .3s;
+}
+
+    .button-delete:hover {
+        background-color: rgb(245, 207, 207);
+        transform: scale(1.2);
+        box-shadow: 0 0 4px #111;
+        transition: .3s;
+    }
+
+.svg {
+    color: rgb(231, 50, 50);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: .3s;
+}
+
+.button-delete:focus svg {
+    opacity: 0;
+    transition: .3s;
+}
+
+.span {
+    width: 150px;
+    position: absolute;
+    opacity: 0;
+    transform: translate(-50%, -50%);
+    color: rgb(231, 50, 50);
+    font-weight: 600;
+    transition: .3s;
+}
+
+.button-delete:focus {
+    width: 150px;
+    height: 50px;
+    transition: .3s;
+}
+
+    .button-delete:focus span {
+        opacity: 1;
+        transition: .3s;
+    }
+
+.button-edit{
+position: relative;
+    width: 40px;
+    height: 40px;
+    border-radius: 40px;
+    border: 2px solid #1861ac;
+    background-color: #fff;
+    cursor: pointer;
+    box-shadow: 0 0 10px #333;
+    overflow: hidden;
+    transition: .3s;
+}
+
+    .button-edit:hover {
+        background-color: rgb(23, 207, 207);
+        transform: scale(1.2);
+        box-shadow: 0 0 4px #111;
+        transition: .3s;
+}
+
+.button-add-listing {
+    position: relative;
+    width: 130px;
+    height: 40px;
+    border-radius: 40px;
+    border: 2px solid #26b050;
+    background-color: #fff;
+    cursor: pointer;
+    box-shadow: 0 0 10px #333;
+    overflow: hidden;
+    transition: .3s;
+    font-weight: bold;
+}
+
+    .button-add-listing:hover {
+        background-color: rgb(182, 255, 0);
+        transform: scale(1.1);
+        box-shadow: 0 0 4px #111;
+        transition: .3s;
+}
+.span-add-listing{
+    font-size: 13px;
+}
+
+.alert {
+    padding: 0.75rem 1.25rem;
+    margin-bottom: 1rem;
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+}
+
+.alert-success {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
+
+.alert-danger {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+
+/* Animatie pentru icon */
+svg {
+    transition: transform 0.3s ease-in-out;
+}
+
+/* Animatie pentru iconul de bifă atunci când alerta de succes apare */
+.alert-success svg {
+    animation: checkmark 0.6s;
+}
+
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+#checkmark {
+    animation: rotate 1s linear;
 }
