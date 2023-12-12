@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using RealEstatePropertyListingPlatform.Application.Persistence;
+using RealEstatePropertyListingPlatform.Domain.Records;
 
 namespace RealEstatePropertyListingPlatform.Application.Features.Listings.Queries.GetAllListings
 {
@@ -27,7 +28,11 @@ namespace RealEstatePropertyListingPlatform.Application.Features.Listings.Querie
                     ListingCreatorId = x.ListingCreatorId,
                     PropertyId = x.PropertyId,
                     Title = x.Title,
-                    Price = x.Price,
+                    Price = new PriceInfo
+                    {
+                        Value = x.Price.Value,
+                        Currency = x.Price.Currency
+                    },
                     Description = x.Description,
                     Photos = x.Photos,
                     Negotiable = x.Negotiable,
