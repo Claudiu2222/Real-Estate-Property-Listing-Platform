@@ -42,10 +42,6 @@ namespace RealEstatePropertyListingPlatform.Identity.Services
             if (emailExists != null)
                 return (0, "Email already exists");
 
-            var phoneNumberExists = await userManager.FindByEmailAsync(model.PhoneNumber);
-            if (phoneNumberExists != null)
-                return (0, "Phone number already exists");
-
             ApplicationUser user = new ApplicationUser()
             {
                 Email = model.Email,
@@ -120,6 +116,68 @@ namespace RealEstatePropertyListingPlatform.Identity.Services
 
             return (1, usersModel);
 
+        }
+
+        public async Task<(int, UserModel)> GetCurrentUser()
+        {
+            var user = await this.userManager.FindByIdAsync(this.currentUserService.UserId);
+
+            if (user == null)
+            {
+                return (404, null!);
+            }
+
+            var userModel = new UserModel
+            {
+                Id = user.Id,
+                Email = user.Email,
+                Name = user.Name,
+                PhoneNumber = user.PhoneNumber,
+                Username = user.UserName
+            };
+
+            return (1, userModel);
+        }
+
+
+        public async Task<(int, UserModel)> Update(UserModel userModel)
+        {
+
+            var user = await this.userManager.FindByIdAsync(this.currentUserService.UserId);
+
+            if (user == null)
+            {
+                return (404, null!);
+            }
+
+            var userExists = await userManager.FindByNameAsync(userModel.Username);
+            
+            if (userExists != null && userExists.Id != this.currentUserService.UserId) //if exists in db a diff user from the current one with the same name
+            {
+                return (0, null!);
+            }
+
+            var emailExists = await userManager.FindByEmailAsync(userModel.Email);
+
+            if (emailExists != null && emailExists.Id != this.currentUserService.UserId)
+                return (0, null!);
+
+
+            user.Name = userModel.Name;
+            user.Email = userModel.Email;
+            user.PhoneNumber = userModel.PhoneNumber;
+            user.UserName = userModel.Username;
+
+
+            var result = await this.userManager.UpdateAsync(user);
+
+            if (!result.Succeeded)
+            {
+                return (0, null!);
+            }
+
+            return (1, userModel);
+            
         }
 
         public async Task<(int, string)> Delete(string id)
