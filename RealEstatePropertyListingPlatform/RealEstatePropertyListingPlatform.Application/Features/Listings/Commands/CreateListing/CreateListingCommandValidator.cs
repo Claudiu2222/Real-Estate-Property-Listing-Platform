@@ -29,11 +29,6 @@ namespace RealEstatePropertyListingPlatform.Application.Features.Listings.Comman
             RuleFor(p => p.Photos)
                 .Must(p => p.Count > 0).WithMessage("{PropertyName} must contain at least one photo.");
 
-            RuleFor(p => p.DateCreated)
-                .Must(p => p.Date <= DateTime.Now.Date).WithMessage("{PropertyName} must be less than or equal to today's date.");
-
-            RuleFor(p => p.DateUpdated)
-                .Must(p => p.Date <= DateTime.Now.Date).WithMessage("{PropertyName} must be less than or equal to today's date.");
 
             RuleFor(p => p.Description)
                 .MinimumLength(10).WithMessage("{PropertyName} must be at least {MinLength} characters.");

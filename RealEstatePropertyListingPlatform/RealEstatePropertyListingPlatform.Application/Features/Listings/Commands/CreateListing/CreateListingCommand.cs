@@ -10,8 +10,6 @@ namespace RealEstatePropertyListingPlatform.Application.Features.Listings.Comman
         public PriceInfo Price { get; set; } = default!;
         public string Description { get; set; } = default!;
         public List<string> Photos { get; set; } = default!;
-        public DateTime DateCreated { get; set; }
-        public DateTime DateUpdated { get; set; }
         public bool Negotiable { get; set; }
     }
 }

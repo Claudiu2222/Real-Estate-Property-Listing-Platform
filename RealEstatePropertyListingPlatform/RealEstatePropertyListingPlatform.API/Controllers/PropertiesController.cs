@@ -28,7 +28,7 @@ namespace RealEstatePropertyListingPlatform.API.Controllers
             return Ok(result);
         }
 
-        [Authorize(Roles = "User")]
+        //[Authorize(Roles = "User")]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
