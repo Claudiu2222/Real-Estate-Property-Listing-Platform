@@ -1,4 +1,6 @@
-﻿using RealEstatePropertyListingPlatform.Application.Persistence;
+﻿using Microsoft.EntityFrameworkCore;
+using RealEstatePropertyListingPlatform.Application.Persistence;
+using RealEstatePropertyListingPlatform.Domain.Common;
 using RealEstatePropertyListingPlatform.Domain.Entities;
 
 namespace RealEstatePropertyListingPlatform.Infrastructure.Repositories
@@ -7,6 +9,16 @@ namespace RealEstatePropertyListingPlatform.Infrastructure.Repositories
     {
         public ListingRepository(RealEstatePropertyListingPlatformContext context) : base(context)
         {
+        }
+
+        public async Task<IReadOnlyList<Listing>> GetPagedListingsByIdAsync(int pageNumber, int pageSize, Guid userId)
+        { 
+            return await context.Listings
+                .Where(x => x.ListingCreatorId == userId)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .AsNoTracking()
+                .ToListAsync();
         }
     }
 }
