@@ -127,7 +127,7 @@
                 await Task.CompletedTask;
             },
             null,
-            3000,
+            1000,
             System.Threading.Timeout.Infinite 
         );
         }
@@ -152,6 +152,6 @@
 
     private void Cancel()
     {
-        NavigationManager.NavigateTo("/");
+        NavigationManager.NavigateTo("/viewmylistings");
     }
 }

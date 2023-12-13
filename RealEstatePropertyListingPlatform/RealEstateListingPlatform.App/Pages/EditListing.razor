@@ -1,0 +1,174 @@
+﻿@page "/editlisting/{ListingId}"
+@using RealEstateListingPlatform.App.Contracts
+@using RealEstateListingPlatform.App.Services
+@using RealEstateListingPlatform.App.ViewModels
+@using RealEstatePropertyListingPlatform.Domain.Enums
+
+<h3>Edit your listing</h3>
+
+<div class="@GetAlertClass() mb-3 ms-2" style="display: @(string.IsNullOrWhiteSpace(Message) ? "none" : "block");">
+    <div class="d-flex align-items-center">
+        <div class="me-2">
+            <svg id="checkmark" xmlns="http://www.w3.org/2000/svg" style="width: 24px; height: 24px; transform-origin: center; transition: transform 0.3s ease-in-out;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </svg>
+        </div>
+        <div>@Message</div>
+    </div>
+</div>
+
+<EditForm Model="@ListingViewModelById" OnValidSubmit="@HandleValidSubmit">
+
+    <DataAnnotationsValidator />
+
+    <div class="row mb-3 ms-2">
+        <label for="streetname" class="col-sm-3 form-label">Title:</label>
+        <div class="col-sm-5">
+            <InputText id="title" class="form-control" @bind-Value="@ListingViewModelById.Title" placeholder="@ListingViewModelById.Title"></InputText>
+            <ValidationMessage For="@(() => ListingViewModelById.Title)" />
+        </div>
+    </div>
+
+    <div class="row mb-3 ms-2">
+        <label for="price" class="col-sm-3 form-label">Price:</label>
+        <div class="col-sm-5">
+            <InputNumber id="price" class="form-control" @bind-Value="@initialPrice.Value" placeholder="Value"></InputNumber>
+            <!-- Input pentru valoarea numerică -->
+            <InputSelect id="price-currency" class="form-control" @bind-Value="@initialPrice.Currency">
+
+                @foreach (var currency in Enum.GetValues(typeof(Currency)))
+                {
+                    <option value="@currency">@currency</option>
+                })
+
+            </InputSelect>
+            <ValidationMessage For="@(() => price.Value)" />
+            <ValidationMessage For="@(() => price.Currency)" />
+        </div>
+    </div>
+
+    <div class="row mb-3 ms-2">
+        <label for="description" class="col-sm-3 form-label">Description:</label>
+        <div class="col-sm-5">
+            <InputTextArea id="description" class="form-control" @bind-Value="@ListingViewModelById.Description" placeholder="@ListingViewModelById.Description"></InputTextArea>
+            <ValidationMessage For="@(() => ListingViewModelById.Description)" />
+        </div>
+
+    </div>
+    <div class="row mb-3 ms-2">
+        <label for="photos" class="col-sm-3 form-label">Photos:</label>
+        <div class="col-sm-5">
+            <div>
+                    <InputTextArea id="photos" class="form-control" @bind-Value="@initialPhotos" placeholder="Enter photo URL"></InputTextArea>
+                    <ValidationMessage For="@(() => initialPhotos)" />
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-3 ms-2">
+        <label for="negotiable" class="col-sm-3 form-label">Negotiable:</label>
+        <div class="col-sm-5">
+            <div class="form-check">
+                <InputCheckbox id="negotiable" class="form-check-input" type="checkbox" @bind-Value="@negotiable" />
+                <label class="form-check-label" for="negotiable">Negotiable</label>
+            </div>
+            <ValidationMessage For="@(() => ListingViewModelById.Negotiable)" />
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save listing</button>
+    <button class="btn btn-primary" @onclick="Cancel">Cancel</button>
+</EditForm>
+
+@code {
+    [Parameter]
+    public string ListingId { get; set; }
+
+    [Inject]
+    public IListingDataService ListingDataService { get; set; }
+
+    public ListingViewModel ListingViewModelById { get; set; } = new ListingViewModel();
+
+    [Inject]
+    public NavigationManager NavigationManager { get; set; }
+
+    public PriceViewModel initialPrice { get; set; } = new PriceViewModel();
+
+    public PriceViewModel price { get; set; } = new PriceViewModel();
+
+    public string initialPhotos { get; set; }
+
+    public bool negotiable { get; set; }
+
+    public ListingViewModelCreate ListingViewModel { get; set; } = new ListingViewModelCreate();
+
+    public string Message { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Guid guid = Guid.Parse(ListingId);
+        ListingViewModelById = await ListingDataService.GetListingByIdAsync(guid);
+        initialPrice = ListingViewModelById.Price;
+        for(int i = 0; i < ListingViewModelById.Photos.Count; i++)
+        {
+            initialPhotos += ListingViewModelById.Photos[i] + "\n";
+        }
+
+        negotiable = ListingViewModelById.Negotiable;
+
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        ListingViewModelById.Price = initialPrice;
+        ListingViewModelById.Photos = new List<string>();
+        Console.WriteLine("Photos:" + initialPhotos);
+        string[] photos = initialPhotos.Split("\n");
+        for(int i = 0; i < photos.Length-1; i++)
+        {
+            ListingViewModelById.Photos.Add(photos[i]);
+        }
+
+        ListingViewModelById.Negotiable = negotiable;
+
+        Message = string.Empty;
+        var result = await ListingDataService.UpdateListingAsync(ListingViewModelById);
+        if (result.Success)
+        {
+            Message = "Listing updated successfully";
+        }
+        else
+        {
+            for (int i = 0; i < result.ValidationErrors.Count; i++)
+            {
+                Message += result.ValidationErrors[i] + " ";
+            }
+        }
+
+
+    }
+    private string GetAlertClass()
+    {
+        if (string.IsNullOrWhiteSpace(Message))
+        {
+            return "alert alert-info"; // sau o altă clasă pentru alerte informative
+        }
+
+        return Message.StartsWith("Listing updated successfully") ? "alert alert-success" : "alert alert-danger";
+    }
+
+    private void Cancel()
+    {
+        NavigationManager.NavigateTo("/viewmylistings");
+    }
+
+    private void ToggleNegotiable(ChangeEventArgs e)
+    {
+        if (e.Value is bool value)
+        {
+            ListingViewModel.Negotiable = value;
+        }
+    }
+
+}

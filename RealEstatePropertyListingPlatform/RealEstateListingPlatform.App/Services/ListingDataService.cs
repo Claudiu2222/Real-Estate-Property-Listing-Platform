@@ -63,6 +63,52 @@ namespace RealEstateListingPlatform.App.Services
             }
         }
 
+        public async Task<ListingViewModel> GetListingByIdAsync(Guid id)
+        {
+            try
+            {
+                httpClient.DefaultRequestHeaders.Authorization
+                    = new AuthenticationHeaderValue("Bearer", await tokenService.GetTokenAsync());
+                using (var result = await httpClient.GetAsync($"{RequestUri}/{id}", HttpCompletionOption.ResponseHeadersRead))
+                {
+                    result.EnsureSuccessStatusCode();
+                    var content = await result.Content.ReadAsStringAsync();
+
+                    var responseObject = JsonSerializer.Deserialize<ApiResponseListingById>(content,
+                                               new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+                    return responseObject.Listing;
+                }
+            }
+            catch (HttpRequestException ex)
+            {
+                throw new ApplicationException("Error fetching listing", ex);
+            }
+        }
+
+        public async Task<ApiResponseListingById> UpdateListingAsync(ListingViewModel listingViewModel)
+        {
+            httpClient.DefaultRequestHeaders.Authorization
+                = new AuthenticationHeaderValue("Bearer", await tokenService.GetTokenAsync());
+
+            var result = await httpClient.PutAsJsonAsync($"{RequestUri}/{listingViewModel.ListingId}", listingViewModel);
+            var response = await result.Content.ReadFromJsonAsync<ApiResponseListingById>();
+            response!.Success = result.IsSuccessStatusCode;
+            return response!;
+        }
+
+        public async Task<ApiResponseListingById> DeleteListingAsync(Guid id)
+        {
+            httpClient.DefaultRequestHeaders.Authorization
+                = new AuthenticationHeaderValue("Bearer", await tokenService.GetTokenAsync());
+
+            var result = await httpClient.DeleteAsync($"{RequestUri}/{id}");
+            result.EnsureSuccessStatusCode();
+            var response = await result.Content.ReadFromJsonAsync<ApiResponseListingById>();
+            response!.Success = result.IsSuccessStatusCode;
+            return response!;
+        }
+
         public async Task<ApiResponseListing> GetPagedListingsAsync(int pageNumber, int pageSize)
         {
             try
