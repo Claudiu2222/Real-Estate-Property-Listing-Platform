@@ -43,16 +43,22 @@ namespace RealEstatePropertyListingPlatform.Application.Features.Listings.Querie
                 };
             }
 
-            var result = await listingRepository.GetPagedListingsByIdAsync(request.PageNumber, request.PageSize, currentUserId );
+            var result = await listingRepository.GetListingsByUserId(currentUserId);
 
             var totalCount = result.Count();
+
+            result = result
+                .Skip((request.PageNumber - 1) * request.PageSize)
+                .Take(request.PageSize)
+                .ToList();
+
             if (totalCount < (request.PageNumber - 1) * request.PageSize)
             {
                 return new GetPagedListingsByIdResponse
                 {
                     Success = false,
                     ValidationErrors = new List<string> { "Page number out of range" },
-                    TotalCount = totalCount,
+                    TotalCount = totalCount
                 };
             }
 
