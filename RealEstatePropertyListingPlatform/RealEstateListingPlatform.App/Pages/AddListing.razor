@@ -1,0 +1,157 @@
+﻿@page "/addlisting/{PropertyId}"
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
+@using RealEstateListingPlatform.App.Contracts
+@using RealEstateListingPlatform.App.ViewModels
+@using RealEstatePropertyListingPlatform.Domain.Enums
+@inject AuthenticationStateProvider AuthStateProvider
+@* idk why it doesn't work *@
+@attribute [Authorize(Roles = "User")]
+<head>
+    <link href="~/css/app.css" rel="stylesheet" />
+</head>
+<h3>Add Listing</h3>
+
+<div class="@GetAlertClass() mb-3 ms-2" style="display: @(string.IsNullOrWhiteSpace(Message) ? "none" : "block");">
+    <div class="d-flex align-items-center">
+        <div class="me-2">
+            <svg id="checkmark" xmlns="http://www.w3.org/2000/svg" style="width: 24px; height: 24px; transform-origin: center; transition: transform 0.3s ease-in-out;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </svg>
+        </div>
+        <div>@Message</div>
+    </div>
+</div>
+
+<EditForm Model="@ListingViewModel" OnValidSubmit="@HandleValidSubmit">
+
+    <DataAnnotationsValidator />
+
+     <div class="row mb-3 ms-2">
+        <label for="streetname" class="col-sm-3 form-label">Title:</label>
+        <div class="col-sm-5">
+            <InputText id="title" class="form-control" @bind-Value="@ListingViewModel.Title" placeholder="Enter title"></InputText>
+            <ValidationMessage For="@(() => ListingViewModel.Title)" />
+        </div>
+    </div>
+
+    <div class="row mb-3 ms-2">
+        <label for="price" class="col-sm-3 form-label">Price:</label>
+        <div class="col-sm-5">
+            <InputNumber id="price" class="form-control" @bind-Value="@price.Value"></InputNumber>
+            <!-- Input pentru valoarea numerică -->
+            <InputSelect id="price-currency" class="form-control" @bind-Value="@price.Currency">
+
+                @foreach (var currency in Enum.GetValues(typeof(Currency)))
+                {
+                    <option value="@currency">@currency</option>
+                })
+
+            </InputSelect>
+            <ValidationMessage For="@(() => price.Value)" />
+            <ValidationMessage For="@(() => price.Currency)" />
+        </div>
+    </div>
+
+    <div class="row mb-3 ms-2">
+            <label for="description" class="col-sm-3 form-label">Description:</label>
+            <div class="col-sm-5">
+                <InputTextArea id="description" class="form-control" @bind-Value="@ListingViewModel.Description" placeholder="Enter description"></InputTextArea>
+                <ValidationMessage For="@(() => ListingViewModel.Description)" />
+            </div>
+
+    </div>
+    <div class="row mb-3 ms-2">
+        <label for="photos" class="col-sm-3 form-label">Photos:</label>
+        <div class="col-sm-5">
+            <InputTextArea id="photos" class="form-control" @bind-Value="@photoLinks" placeholder="Enter links to photos"></InputTextArea>
+            <ValidationMessage For="@(() => photoLinks)" />
+        </div>
+    </div>
+
+    <div class="row mb-3 ms-2">
+        <label for="negotiable" class="col-sm-3 form-label">Negotiable:</label>
+        <div class="col-sm-5">
+            <div class="form-check">
+                <InputCheckbox id="negotiable" class="form-check-input" @bind-Value="@ListingViewModel.Negotiable"></InputCheckbox>
+                <label class="form-check-label" for="negotiable">Negotiable</label>
+            </div>
+            <ValidationMessage For="@(() => ListingViewModel.Negotiable)" />
+        </div>
+    </div>
+
+
+
+
+    <button type="submit" class="btn btn-primary">Save listing</button>
+    <button class="btn btn-primary" @onclick="Cancel">Cancel</button>
+</EditForm>
+
+@code {
+    [Parameter]
+    public string PropertyId { get; set; }
+
+    [Inject]
+    public IListingDataService ListingDataService { get; set; }
+
+    [Inject]
+    public NavigationManager NavigationManager { get; set; }
+
+    public PriceViewModel price { get; set; } = new PriceViewModel();
+
+    public string photoLinks { get; set; }
+
+    public ListingViewModelCreate ListingViewModel { get; set; } = new ListingViewModelCreate();
+
+    public string Message { get; set; }
+
+    private bool showMessage = true; // Folosit pentru a arăta sau ascunde div-ul
+
+    private System.Threading.Timer _timer;
+
+
+    private async Task HandleValidSubmit()
+    {
+        ListingViewModel.PropertyId = PropertyId;
+        ListingViewModel.Price = price;
+        ListingViewModel.Photos = photoLinks.Split(" ").ToList();
+        var result = await ListingDataService.CreateListingAsync(ListingViewModel);
+        if (result.Success)
+        {
+            Message = "Property created successfully";
+            _timer = new System.Threading.Timer(
+            async (state) =>
+            {
+                NavigationManager.NavigateTo("/");
+                await Task.CompletedTask;
+            },
+            null,
+            3000,
+            System.Threading.Timeout.Infinite 
+        );
+        }
+        else
+        {
+            for(int i = 0; i < result.ValidationErrors.Count; i++)
+            {
+                Message += result.ValidationErrors[i] + " ";
+            }
+        }
+    }
+    private string GetAlertClass()
+    {
+        Console.WriteLine(Message);
+        if (string.IsNullOrWhiteSpace(Message))
+        {
+            return "alert alert-info"; // sau o altă clasă pentru alerte informative
+        }
+
+        return Message.StartsWith("Property created successfully") ? "alert alert-success" : "alert alert-danger";
+    }
+
+    private void Cancel()
+    {
+        NavigationManager.NavigateTo("/");
+    }
+}
