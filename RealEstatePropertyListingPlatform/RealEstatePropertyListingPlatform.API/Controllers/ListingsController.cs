@@ -8,6 +8,7 @@ using RealEstatePropertyListingPlatform.Application.Features.Listings.Commands.U
 using RealEstatePropertyListingPlatform.Application.Features.Listings.Queries.GetAllListings;
 using RealEstatePropertyListingPlatform.Application.Features.Listings.Queries.GetByIdListing;
 using RealEstatePropertyListingPlatform.Application.Features.Listings.Queries.GetPagedListings;
+using RealEstatePropertyListingPlatform.Application.Features.Listings.Queries.GetPagedListingsById;
 using RealEstatePropertyListingPlatform.Application.Features.Users.Queries.GetPagedUsers;
 
 namespace RealEstateListingListingPlatform.API.Controllers
@@ -131,5 +132,23 @@ namespace RealEstateListingListingPlatform.API.Controllers
             var result = await Mediator.Send(new GetPagedListingsQuery(page, size));
             return Ok(result);
         }
+
+        [Authorize(Roles = "User")]
+        [HttpGet("owner/paginated")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+
+        public async Task<IActionResult> GetPaginatedListingsByOwner([FromQuery] int page, [FromQuery] int size)
+        {
+
+            if (page < 1 || size < 1)
+            {
+                return BadRequest();
+            }
+
+            var result = await Mediator.Send(new GetPagedListingsByIdQuery(page, size));
+            return Ok(result);
+        }
+
     }
 }

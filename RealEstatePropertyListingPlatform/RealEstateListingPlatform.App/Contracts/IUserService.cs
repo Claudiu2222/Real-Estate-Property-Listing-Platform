@@ -1,4 +1,6 @@
-﻿using RealEstateListingPlatform.App.ViewModels;
+﻿using RealEstateListingPlatform.App.Services.Responses;
+using RealEstateListingPlatform.App.ViewModels;
+using RealEstateListingPlatform.App.ViewModels.UserModels;
 
 namespace RealEstateListingPlatform.App.Contracts
 {
@@ -6,6 +8,8 @@ namespace RealEstateListingPlatform.App.Contracts
     {
 
         Task CreateAdmin(RegisterViewModel createAdminRequest);
+        Task<ApiResponseSingleData<UserInfoViewModel>> GetInfoCurrentUser();
+        Task<ApiResponseSingleData<UserInfoViewModel>> Update(UserInfoViewModel updateRequest);
 
 
     }

@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using System.Transactions;
+using MediatR;
 using RealEstatePropertyListingPlatform.Application.Persistence;
 
 namespace RealEstatePropertyListingPlatform.Application.Features.Properties.Commands.DeleteProperty
@@ -8,7 +9,7 @@ namespace RealEstatePropertyListingPlatform.Application.Features.Properties.Comm
         
         private readonly IPropertyRepository propertyRepository;
 
-        public DeletePropertyCommandHandler( IPropertyRepository propertyRepository)
+        public DeletePropertyCommandHandler( IPropertyRepository propertyRepository, IListingRepository listingRepository)
         {
             
             this.propertyRepository = propertyRepository;

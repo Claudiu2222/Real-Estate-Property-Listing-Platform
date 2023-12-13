@@ -89,6 +89,36 @@ namespace RealEstateListingPlatform.App.Services
                 throw new ApplicationException("Error fetching listings", ex);
             }
         }
+
+        public async Task<ApiResponseListing> GetPagedListingsForUserAsync(int pageNumber, int pageSize)
+        {
+            try
+            {
+                httpClient.DefaultRequestHeaders.Authorization
+                    = new AuthenticationHeaderValue("Bearer", await tokenService.GetTokenAsync());
+                using (var result = await httpClient.GetAsync(
+                           $"{RequestUri}/owner/paginated?page={pageNumber}&size={pageSize}",
+                           HttpCompletionOption.ResponseHeadersRead))
+                {
+                    result.EnsureSuccessStatusCode();
+                    var content = await result.Content.ReadAsStringAsync();
+
+                    // Deserialize the root object, which contains the "listings" property
+                    var responseObject = JsonSerializer.Deserialize<ApiResponseListing>(content,
+                        new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+                    // Check if "wasFound" is true before accessing "listings"
+                    return responseObject;
+
+                }
+            }
+            catch (HttpRequestException ex)
+            {
+                // Handle specific exception or log the error
+                // You may also consider logging the response content for debugging
+                throw new ApplicationException("Error fetching listings", ex);
+            }
+        }
         }
 
 
