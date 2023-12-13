@@ -1,22 +1,18 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
 
 namespace RealEstateListingPlatform.App.ViewModels
 {
-    
 
-    public class ListingViewModel
+    public class ListingViewModelCreate
     {
-        public string ListingId { get; set; }
-        public string ListingCreatorId { get; set; }
         public string PropertyId { get; set; }
+        [Required (ErrorMessage = "Title is required")]
         public string? Title { get; set; }
         public PriceViewModel? Price { get; set; }
+        [Required (ErrorMessage = "Description is required")]
         public string? Description { get; set; }
         public List<string>? Photos { get; set; }
-        public DateTime DateCreated { get; set; }
-        public DateTime DateUpdated { get; set; }
+        [Required (ErrorMessage = "Negotiable is required")]
         public bool Negotiable { get; set; }
     }
-
- }
+}

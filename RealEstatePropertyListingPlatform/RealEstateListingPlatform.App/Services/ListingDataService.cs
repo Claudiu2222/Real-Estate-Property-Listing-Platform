@@ -2,6 +2,8 @@
 using RealEstateListingPlatform.App.Services.Responses;
 using RealEstateListingPlatform.App.ViewModels;
 using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Net.Http.Json;
 using System.Text.Json;
 
 
@@ -17,6 +19,17 @@ namespace RealEstateListingPlatform.App.Services
         {
             this.httpClient = httpClient;
             this.tokenService = tokenService;
+        }
+
+        public async Task<ApiResponseListingCreate> CreateListingAsync(ListingViewModelCreate listingViewModel)
+        {
+            httpClient.DefaultRequestHeaders.Authorization
+                = new AuthenticationHeaderValue("Bearer", await tokenService.GetTokenAsync());
+
+            var result = await httpClient.PostAsJsonAsync(RequestUri, listingViewModel);
+            var response = await result.Content.ReadFromJsonAsync<ApiResponseListingCreate>();
+            response!.Success = result.IsSuccessStatusCode;
+            return response!;
         }
 
         public async Task<List<ListingViewModel>> GetListingsAsync()
