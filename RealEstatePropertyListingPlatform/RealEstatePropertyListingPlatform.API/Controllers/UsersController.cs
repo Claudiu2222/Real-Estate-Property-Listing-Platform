@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RealEstatePropertyListingPlatform.Application.Contracts.Identity;
+using RealEstatePropertyListingPlatform.Application.Models.Identity;
 
 namespace RealEstatePropertyListingPlatform.API.Controllers
 {
@@ -15,6 +16,61 @@ namespace RealEstatePropertyListingPlatform.API.Controllers
             _logger = logger;
         }
 
+
+        [Authorize(Roles = "Admin, User")]
+        [HttpGet]
+        [Route("currentuser")]
+        public async Task<IActionResult> GetCurrentUser()
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest("Invalid payload");
+                }
+
+                var (status, users) = await _authService.GetCurrentUser();
+
+                if (status == 0)
+                {
+                    return BadRequest();
+                }
+
+                return Ok(users);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [Authorize(Roles = "Admin, User")]
+        [HttpPut]
+        public async Task<IActionResult> Update(UserModel userModel)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest("Invalid payload");
+                }
+
+                var (status, userUpdated) = await _authService.Update(userModel);
+
+                if (status == 0)
+                {
+                    return BadRequest();
+                }
+
+                return Ok(userUpdated);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
 
 
         [Authorize(Roles = "Admin")]

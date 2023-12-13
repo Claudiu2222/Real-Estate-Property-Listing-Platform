@@ -1,0 +1,162 @@
+﻿@page "/profile"
+@using RealEstateListingPlatform.App.Contracts
+@using RealEstateListingPlatform.App.ViewModels.UserModels
+
+<h3 class="mb-4">My Profile</h3>
+
+<div class="@GetAlertClass() mb-3 ms-2" style="display: @(string.IsNullOrWhiteSpace(Message) ? "none" : "block");">
+    <div class="d-flex align-items-center">
+        <div class="me-2">
+            <svg id="checkmark" xmlns="http://www.w3.org/2000/svg" style="width: 24px; height: 24px; transform-origin: center; transition: transform 0.3s ease-in-out;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </svg>
+        </div>
+        <div>@Message</div>
+    </div>
+</div>
+
+@if (userViewModel != null)
+{
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">User Information</h5>
+
+            @if (!editMode)
+            {
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><strong>Username:</strong> @userViewModel.Username</li>
+                    <li class="list-group-item"><strong>Name:</strong> @userViewModel.Name</li>
+                    <li class="list-group-item"><strong>Phone Number:</strong> @userViewModel.PhoneNumber</li>
+                    <li class="list-group-item"><strong>Email:</strong> @userViewModel.Email</li>
+                </ul>
+
+                <button class="btn btn-primary mt-3" @onclick="EditUserInfo">Edit</button>
+            }
+            else
+            {
+
+                <EditForm Model="@editedUser" OnValidSubmit="@SaveChanges">
+
+                    <DataAnnotationsValidator />
+                    <ValidationSummary></ValidationSummary>
+
+
+                    <div class="row mb-3 ms-2">
+                        <label for="username" class="col-sm-3 form-label">Username:</label>
+                        <div class="col-sm-5">
+                            <InputText id="username" class="form-control" @bind-Value="@editedUser.Username"></InputText>
+                            <ValidationMessage For="@(() => editedUser.Username)" />
+                        </div>
+                    </div>
+
+                    <div class="row mb-3 ms-2">
+                        <label for="name" class="col-sm-3 form-label">Name:</label>
+                        <div class="col-sm-5">
+                            <InputText id="name" class="form-control" @bind-Value="@editedUser.Name"></InputText>
+                            <ValidationMessage For="@(() => editedUser.Name)" />
+                        </div>
+                    </div>
+
+                    <div class="row mb-3 ms-2">
+                        <label for="phoneNumber" class="col-sm-3 form-label">Phone Number:</label>
+                        <div class="col-sm-5">
+                            <InputText id="phoneNumber" class="form-control" @bind-Value="@editedUser.PhoneNumber"></InputText>
+                            <ValidationMessage For="@(() => editedUser.PhoneNumber)" />
+                        </div>
+                    </div>
+
+                    <div class="row mb-3 ms-2">
+                        <label for="email" class="col-sm-3 form-label">Email:</label>
+                        <div class="col-sm-5">
+                            <InputText id="email" class="form-control" @bind-Value="@editedUser.Email"></InputText>
+                            <ValidationMessage For="@(() => editedUser.Email)" />
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Save Updates</button>
+                    <button class="btn btn-secondary" @onclick="CancelEdit">Cancel</button>
+                </EditForm>
+            }
+        </div>
+    </div>
+}
+else
+{
+    <p>Loading user details...</p>
+}
+
+@code {
+    [Inject]
+    public IUserService userService { get; set; }
+
+    private UserInfoViewModel? userViewModel;
+    private UserInfoViewModel? editedUser;
+    private bool editMode = false;
+
+    public string Message { get; set; } = string.Empty;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        var response = await userService.GetInfoCurrentUser();
+
+        if (response.IsSuccess)
+        {
+            userViewModel = response.Data;
+            // Create a copy of the userViewModel for editing
+            editedUser = new UserInfoViewModel
+                {   Id = userViewModel.Id,
+                    Username = userViewModel.Username,
+                    Name = userViewModel.Name,
+                    Email = userViewModel.Email,
+                    PhoneNumber = userViewModel.PhoneNumber
+                };
+        }
+    }
+
+    private void EditUserInfo()
+    {
+        // Set editMode to true to switch to edit mode
+        editMode = true;
+    }
+
+    private async void SaveChanges()
+    {
+        Message = string.Empty;
+        var response = await userService.Update(editedUser);
+
+        if(response.IsSuccess)
+        {
+            Message = "Profile updated successfully";
+
+            userViewModel = editedUser;
+        }
+        else
+        {
+            Message = response.Message;
+            if (!string.IsNullOrWhiteSpace(response.ValidationErrors))
+            {
+                Message += response.ValidationErrors;
+            }
+        }
+        editMode = false;
+        StateHasChanged();
+    }
+
+    private void CancelEdit()
+    {
+        Message = string.Empty;
+        editMode = false;
+    }
+
+    private string GetAlertClass()
+    {
+        if (string.IsNullOrWhiteSpace(Message))
+        {
+            return "alert alert-info";
+        }
+
+        return Message.StartsWith("Profile updated successfully") ? "alert alert-success" : "alert alert-danger";
+    }
+}
