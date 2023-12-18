@@ -2,7 +2,6 @@
 using RealEstatePropertyListingPlatform.Application.Persistence;
 using RealEstatePropertyListingPlatform.Domain.Common;
 using RealEstatePropertyListingPlatform.Domain.Entities;
-using System.Xml.Linq;
 
 namespace RealEstatePropertyListingPlatform.Infrastructure.Repositories
 {

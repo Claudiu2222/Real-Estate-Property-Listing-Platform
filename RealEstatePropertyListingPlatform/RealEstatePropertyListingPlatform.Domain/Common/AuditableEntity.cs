@@ -1,5 +1,8 @@
-﻿namespace RealEstatePropertyListingPlatform.Domain.Common
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace RealEstatePropertyListingPlatform.Domain.Common
 {
+    [ExcludeFromCodeCoverage]
     public class AuditableEntity
     {
         public string? CreatedBy { get; set; }

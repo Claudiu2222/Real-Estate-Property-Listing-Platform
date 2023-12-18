@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RealEstatePropertyListingPlatform.Application.Persistence;
-using RealEstatePropertyListingPlatform.Domain.Common;
 using RealEstatePropertyListingPlatform.Domain.Entities;
 
 namespace RealEstatePropertyListingPlatform.Infrastructure.Repositories

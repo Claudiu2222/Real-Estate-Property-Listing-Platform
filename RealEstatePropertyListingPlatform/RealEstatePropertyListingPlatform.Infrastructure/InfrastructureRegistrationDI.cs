@@ -21,8 +21,8 @@ namespace RealEstatePropertyListingPlatform.Infrastructure
             services.AddScoped
                 (typeof(IAsyncRepository<>),
                 typeof(BaseRepository<>));
-            services.AddScoped<
-                IUserRepository, UserRepository>();
+/*            services.AddScoped<
+                IUserRepository, UserRepository>(); excluded from project -- Old-users*/
             services.AddScoped<
                 IPropertyRepository, PropertyRepository>();
             services.AddScoped<

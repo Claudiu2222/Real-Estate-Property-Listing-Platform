@@ -1,5 +1,4 @@
-﻿using System.Transactions;
-using MediatR;
+﻿using MediatR;
 using RealEstatePropertyListingPlatform.Application.Persistence;
 
 namespace RealEstatePropertyListingPlatform.Application.Features.Properties.Commands.DeleteProperty

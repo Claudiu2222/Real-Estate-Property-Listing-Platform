@@ -1,4 +1,5 @@
-﻿using RealEstatePropertyListingPlatform.Domain.Records;
+﻿using RealEstatePropertyListingPlatform.Domain.Enums;
+using RealEstatePropertyListingPlatform.Domain.Records;
 
 namespace RealEstatePropertyListingPlatform.Domain.ClassValidators
 {
@@ -36,9 +37,9 @@ namespace RealEstatePropertyListingPlatform.Domain.ClassValidators
 
         public static string ValidateMoney(PriceInfo price)
         {
-            if (string.IsNullOrWhiteSpace(price.Currency))
+            if(!Enum.IsDefined(typeof(Currency), price.Currency))
             {
-                return $"Currency cannot be empty";
+                return $"Currency is not valid";
             }
 
             if (price.Value < 0)
@@ -61,7 +62,7 @@ namespace RealEstatePropertyListingPlatform.Domain.ClassValidators
 
         public static string ValidatePhotos(List<string> photos)
         {
-            if (photos is { Count: < 1 })
+            if (photos.Count < 1)
             {
                 return $"Photos cannot be empty";
             }

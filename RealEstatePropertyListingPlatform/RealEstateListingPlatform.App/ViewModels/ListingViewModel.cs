@@ -1,9 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
-
-namespace RealEstateListingPlatform.App.ViewModels
+﻿namespace RealEstateListingPlatform.App.ViewModels
 {
-    
+
 
     public class ListingViewModel
     {

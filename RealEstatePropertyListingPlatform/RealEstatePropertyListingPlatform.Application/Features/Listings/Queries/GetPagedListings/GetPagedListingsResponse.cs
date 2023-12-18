@@ -1,10 +1,4 @@
-﻿using RealEstatePropertyListingPlatform.Application.Features.Users;
-using RealEstatePropertyListingPlatform.Application.Responses;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using RealEstatePropertyListingPlatform.Application.Responses;
 
 namespace RealEstatePropertyListingPlatform.Application.Features.Listings.Queries.GetPagedListings
 {

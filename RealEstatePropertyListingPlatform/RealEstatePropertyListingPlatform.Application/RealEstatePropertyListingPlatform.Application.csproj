@@ -6,8 +6,14 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Featues\**" />
+    <Compile Remove="Features\Users\**" />
     <EmbeddedResource Remove="Featues\**" />
+    <EmbeddedResource Remove="Features\Users\**" />
     <None Remove="Featues\**" />
+    <None Remove="Features\Users\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Persistence\IUserRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RealEstatePropertyListingPlatform.Domain\RealEstatePropertyListingPlatform.Domain.csproj" />

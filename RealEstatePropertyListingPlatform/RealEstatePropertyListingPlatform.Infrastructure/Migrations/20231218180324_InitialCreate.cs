@@ -11,26 +11,6 @@ namespace RealEstatePropertyListingPlatform.Infrastructure.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Users",
-                columns: table => new
-                {
-                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Email = table.Column<string>(type: "text", nullable: true),
-                    Password = table.Column<string>(type: "text", nullable: true),
-                    LastName = table.Column<string>(type: "text", nullable: true),
-                    FirstName = table.Column<string>(type: "text", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "text", nullable: true),
-                    CreatedBy = table.Column<string>(type: "text", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    LastModifiedBy = table.Column<string>(type: "text", nullable: true),
-                    LastModifiedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Users", x => x.UserId);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Listings",
                 columns: table => new
                 {
@@ -39,13 +19,12 @@ namespace RealEstatePropertyListingPlatform.Infrastructure.Migrations
                     PropertyId = table.Column<Guid>(type: "uuid", nullable: false),
                     Title = table.Column<string>(type: "text", nullable: true),
                     PriceValue = table.Column<decimal>(type: "numeric", nullable: false),
-                    PriceCurrency = table.Column<string>(type: "text", nullable: false),
+                    PriceCurrency = table.Column<int>(type: "integer", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: true),
                     Photos = table.Column<List<string>>(type: "text[]", nullable: true),
                     DateCreated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     DateUpdated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Negotiable = table.Column<bool>(type: "boolean", nullable: false),
-                    UserId = table.Column<Guid>(type: "uuid", nullable: true),
                     CreatedBy = table.Column<string>(type: "text", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     LastModifiedBy = table.Column<string>(type: "text", nullable: true),
@@ -54,11 +33,6 @@ namespace RealEstatePropertyListingPlatform.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Listings", x => x.ListingId);
-                    table.ForeignKey(
-                        name: "FK_Listings_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "UserId");
                 });
 
             migrationBuilder.CreateTable(
@@ -78,39 +52,15 @@ namespace RealEstatePropertyListingPlatform.Infrastructure.Migrations
                     Floor = table.Column<int>(type: "integer", nullable: false),
                     NumberOfFloors = table.Column<int>(type: "integer", nullable: false),
                     SquareFeet = table.Column<int>(type: "integer", nullable: false),
-                    UserId = table.Column<Guid>(type: "uuid", nullable: true)
+                    CreatedBy = table.Column<string>(type: "text", nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    LastModifiedBy = table.Column<string>(type: "text", nullable: true),
+                    LastModifiedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Properties", x => x.PropertyId);
-                    table.ForeignKey(
-                        name: "FK_Properties_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "UserId");
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Listings_UserId",
-                table: "Listings",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Properties_UserId",
-                table: "Properties",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Users_Email",
-                table: "Users",
-                column: "Email",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Users_PhoneNumber",
-                table: "Users",
-                column: "PhoneNumber",
-                unique: true);
         }
 
         /// <inheritdoc />
@@ -121,9 +71,6 @@ namespace RealEstatePropertyListingPlatform.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Properties");
-
-            migrationBuilder.DropTable(
-                name: "Users");
         }
     }
 }
