@@ -65,12 +65,7 @@ namespace RealEstatePropertyListingPlatform.Infrastructure.Migrations
                     b.Property<string>("Title")
                         .HasColumnType("text");
 
-                    b.Property<Guid?>("UserId")
-                        .HasColumnType("uuid");
-
                     b.HasKey("ListingId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Listings");
                 });
@@ -89,8 +84,20 @@ namespace RealEstatePropertyListingPlatform.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<int>("Floor")
                         .HasColumnType("integer");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("LastModifiedDate")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("NumberOfBathrooms")
                         .HasColumnType("integer");
@@ -122,74 +129,20 @@ namespace RealEstatePropertyListingPlatform.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid?>("UserId")
-                        .HasColumnType("uuid");
-
                     b.HasKey("PropertyId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Properties");
                 });
 
-            modelBuilder.Entity("RealEstatePropertyListingPlatform.Domain.Entities.User", b =>
-                {
-                    b.Property<Guid>("UserId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("text");
-
-                    b.Property<string>("FirstName")
-                        .HasColumnType("text");
-
-                    b.Property<string>("LastModifiedBy")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("LastModifiedDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("LastName")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Password")
-                        .HasColumnType("text");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("text");
-
-                    b.HasKey("UserId");
-
-                    b.HasIndex("Email")
-                        .IsUnique();
-
-                    b.HasIndex("PhoneNumber")
-                        .IsUnique();
-
-                    b.ToTable("Users");
-                });
-
             modelBuilder.Entity("RealEstatePropertyListingPlatform.Domain.Entities.Listing", b =>
                 {
-                    b.HasOne("RealEstatePropertyListingPlatform.Domain.Entities.User", null)
-                        .WithMany("Listings")
-                        .HasForeignKey("UserId");
-
                     b.OwnsOne("RealEstatePropertyListingPlatform.Domain.Records.PriceInfo", "Price", b1 =>
                         {
                             b1.Property<Guid>("ListingId")
                                 .HasColumnType("uuid");
 
-                            b1.Property<string>("Currency")
-                                .IsRequired()
-                                .HasColumnType("text")
+                            b1.Property<int>("Currency")
+                                .HasColumnType("integer")
                                 .HasColumnName("PriceCurrency");
 
                             b1.Property<decimal>("Value")
@@ -206,20 +159,6 @@ namespace RealEstatePropertyListingPlatform.Infrastructure.Migrations
 
                     b.Navigation("Price")
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("RealEstatePropertyListingPlatform.Domain.Entities.Property", b =>
-                {
-                    b.HasOne("RealEstatePropertyListingPlatform.Domain.Entities.User", null)
-                        .WithMany("Properties")
-                        .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("RealEstatePropertyListingPlatform.Domain.Entities.User", b =>
-                {
-                    b.Navigation("Listings");
-
-                    b.Navigation("Properties");
                 });
 #pragma warning restore 612, 618
         }

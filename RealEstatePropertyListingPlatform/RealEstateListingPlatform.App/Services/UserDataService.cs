@@ -2,7 +2,6 @@
 using RealEstateListingPlatform.App.Services.Responses;
 using RealEstateListingPlatform.App.ViewModels;
 using RealEstateListingPlatform.App.ViewModels.UserModels;
-using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 

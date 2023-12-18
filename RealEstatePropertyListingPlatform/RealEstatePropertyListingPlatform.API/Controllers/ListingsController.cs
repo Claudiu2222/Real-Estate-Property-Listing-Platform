@@ -1,5 +1,4 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RealEstatePropertyListingPlatform.API.Controllers;
 using RealEstatePropertyListingPlatform.Application.Features.Listings.Commands.CreateListing;
@@ -9,7 +8,6 @@ using RealEstatePropertyListingPlatform.Application.Features.Listings.Queries.Ge
 using RealEstatePropertyListingPlatform.Application.Features.Listings.Queries.GetByIdListing;
 using RealEstatePropertyListingPlatform.Application.Features.Listings.Queries.GetPagedListings;
 using RealEstatePropertyListingPlatform.Application.Features.Listings.Queries.GetPagedListingsById;
-using RealEstatePropertyListingPlatform.Application.Features.Users.Queries.GetPagedUsers;
 
 namespace RealEstateListingListingPlatform.API.Controllers
 {

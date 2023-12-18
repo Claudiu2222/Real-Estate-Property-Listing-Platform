@@ -81,6 +81,7 @@ namespace RealEstatePropertyListingPlatform.Domain.ClassValidators
                 {
                     return $"Number of rooms must be 0 for {propertyType}";
                 }
+                return null!; //if number of rooms is 0 for land, than it's valid
             }
                 
             if(numberOfRooms < 1)
@@ -99,6 +100,7 @@ namespace RealEstatePropertyListingPlatform.Domain.ClassValidators
                 {
                     return $"Number of bathrooms must be 0 for {propertyType}";
                 }
+                return null!; //if number of bathrooms is 0 for land or garage, than it's valid
             }
 
             if (numberOfBathrooms < 1)
@@ -129,7 +131,7 @@ namespace RealEstatePropertyListingPlatform.Domain.ClassValidators
 
             if (propertyType == PropertyType.Apartment || propertyType == PropertyType.Condo || propertyType==PropertyType.Office)
             {
-                if (floor < -1)
+                if (floor <= -1)
                 {
                     return $"Floor must be greater than -1 for {propertyType}";
                 }

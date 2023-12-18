@@ -4,7 +4,7 @@ using RealEstatePropertyListingPlatform.Domain.Enums;
 
 namespace RealEstatePropertyListingPlatform.Domain.Entities
 {
-    public class Property
+    public class Property : AuditableEntity
     {
         public Guid PropertyId { get; private set; }
         public Guid OwnerId { get; private set; }
@@ -53,6 +53,7 @@ namespace RealEstatePropertyListingPlatform.Domain.Entities
             return Result<Property>.Success(property);
         }
 
+        /*[ExcludeFromCodeCoverage]*/
         public void Update(string streetName, string city, string region, string postalCode,
                        string country, PropertyType propertyType, int numberOfRooms, int numberOfBathrooms, int floor, int numberOfFloors, int squareFeet)
         {   

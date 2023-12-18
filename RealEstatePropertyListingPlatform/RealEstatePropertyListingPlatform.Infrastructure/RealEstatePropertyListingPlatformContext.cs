@@ -24,7 +24,7 @@ namespace RealEstatePropertyListingPlatform.Infrastructure
             this.currentUserService = currentUserService;
         }
 
-        public DbSet<User> Users { get; set; }
+        //public DbSet<User> Users { get; set; } excluded from project - Old-Users
         public DbSet<Property> Properties { get; set; }
         public DbSet<Listing> Listings { get; set; }
 
@@ -36,8 +36,8 @@ namespace RealEstatePropertyListingPlatform.Infrastructure
                     price.Property(p => p.Value).HasColumnName("PriceValue");
                     price.Property(p => p.Currency).HasColumnName("PriceCurrency");
                 });
-            modelBuilder.Entity<User>().HasIndex(u => u.Email).IsUnique();
-            modelBuilder.Entity<User>().HasIndex(u => u.PhoneNumber).IsUnique();
+/*            modelBuilder.Entity<User>().HasIndex(u => u.Email).IsUnique();
+            modelBuilder.Entity<User>().HasIndex(u => u.PhoneNumber).IsUnique(); excludeed from project - OldUsers*/
         }
 
         /*        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

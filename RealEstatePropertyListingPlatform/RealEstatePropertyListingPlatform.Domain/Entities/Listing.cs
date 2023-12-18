@@ -49,48 +49,6 @@ namespace RealEstatePropertyListingPlatform.Domain.Entities
             return Result<Listing>.Success(listing);
         }
 
-        public Result<Listing> UpdatePrice(PriceInfo price)
-        {
-            var error = ListingValidator.ValidateMoney(price);
-            if (!string.IsNullOrWhiteSpace(error)) return Result<Listing>.Failure(error);
-            Price = price;
-            DateUpdated = DateTime.UtcNow;
-            return Result<Listing>.Success(this);
-        }
-        
-        public Result<Listing> UpdateTitle(string title)
-        {
-            var error = ListingValidator.ValidateString(title, nameof(title));
-            if (!string.IsNullOrWhiteSpace(error)) return Result<Listing>.Failure(error);
-            Title = title;
-            DateUpdated = DateTime.UtcNow;
-            return Result<Listing>.Success(this);
-        }
-        
-        public Result<Listing> UpdateDescription(string description)
-        {
-            var error = ListingValidator.ValidateString(description, nameof(description));
-            if (!string.IsNullOrWhiteSpace(error)) return Result<Listing>.Failure(error);
-            Description = description;
-            DateUpdated = DateTime.UtcNow;
-            return Result<Listing>.Success(this);
-        }
-        
-        public Result<Listing> UpdatePhotos(List<string> photos)
-        {
-            var error = ListingValidator.ValidatePhotos(photos);
-            if (!string.IsNullOrWhiteSpace(error)) return Result<Listing>.Failure(error);
-            Photos = photos;
-            DateUpdated = DateTime.UtcNow;
-            return Result<Listing>.Success(this);
-        }
-        
-        public Result<Listing> ToggleNegotiable()
-        {
-            Negotiable = !Negotiable;
-            DateUpdated = DateTime.UtcNow;
-            return Result<Listing>.Success(this);
-        }
 
         public void Update(string title, PriceInfo price, string description, List<string> photos, bool negotiable)
         {
@@ -101,5 +59,49 @@ namespace RealEstatePropertyListingPlatform.Domain.Entities
             Negotiable = negotiable;
             DateUpdated = DateTime.UtcNow;
         }
+
+        /*        public Result<Listing> UpdatePrice(PriceInfo price)
+                {
+                    var error = ListingValidator.ValidateMoney(price);
+                    if (!string.IsNullOrWhiteSpace(error)) return Result<Listing>.Failure(error);
+                    Price = price;
+                    DateUpdated = DateTime.UtcNow;
+                    return Result<Listing>.Success(this);
+                }
+
+                public Result<Listing> UpdateTitle(string title)
+                {
+                    var error = ListingValidator.ValidateString(title, nameof(title));
+                    if (!string.IsNullOrWhiteSpace(error)) return Result<Listing>.Failure(error);
+                    Title = title;
+                    DateUpdated = DateTime.UtcNow;
+                    return Result<Listing>.Success(this);
+                }
+
+                public Result<Listing> UpdateDescription(string description)
+                {
+                    var error = ListingValidator.ValidateString(description, nameof(description));
+                    if (!string.IsNullOrWhiteSpace(error)) return Result<Listing>.Failure(error);
+                    Description = description;
+                    DateUpdated = DateTime.UtcNow;
+                    return Result<Listing>.Success(this);
+                }
+
+                public Result<Listing> UpdatePhotos(List<string> photos)
+                {
+                    var error = ListingValidator.ValidatePhotos(photos);
+                    if (!string.IsNullOrWhiteSpace(error)) return Result<Listing>.Failure(error);
+                    Photos = photos;
+                    DateUpdated = DateTime.UtcNow;
+                    return Result<Listing>.Success(this);
+                }
+
+                public Result<Listing> ToggleNegotiable()
+                {
+                    Negotiable = !Negotiable;
+                    DateUpdated = DateTime.UtcNow;
+                    return Result<Listing>.Success(this);
+                }*/
+
     }
 }

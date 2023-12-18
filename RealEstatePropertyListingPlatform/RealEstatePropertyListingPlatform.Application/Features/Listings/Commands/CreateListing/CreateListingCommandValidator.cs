@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using RealEstatePropertyListingPlatform.Application.Contracts.Interfaces;
 using RealEstatePropertyListingPlatform.Application.Persistence;
 
 namespace RealEstatePropertyListingPlatform.Application.Features.Listings.Commands.CreateListing
@@ -19,9 +18,11 @@ namespace RealEstatePropertyListingPlatform.Application.Features.Listings.Comman
                 .NotNull()
                 .MaximumLength(MaxStringLength).WithMessage("{PropertyName} must not exceed {MaxLength} characters.");
 
-            RuleFor(p => p.Price.Currency).NotEmpty().WithMessage("{PropertyName} is required.")
+/*            RuleFor(p => p.Price.Currency).NotEmpty().WithMessage("{PropertyName} is required.")
                 .NotNull()
-                .MaximumLength(MaxStringLength).WithMessage("{PropertyName} must not exceed {MaxLength} characters.");
+                .MaximumLength(MaxStringLength).WithMessage("{PropertyName} must not exceed {MaxLength} characters.");*/
+            RuleFor(p => p.Price.Currency)
+                .IsInEnum().WithMessage("{PropertyName} must be a valid currency.");
             RuleFor(p=> p.Price.Value).NotEmpty().WithMessage("{PropertyName} is required.")
                 .NotNull()
                 .GreaterThanOrEqualTo(0).WithMessage("{PropertyName} must be greater than or equal to 0.");
