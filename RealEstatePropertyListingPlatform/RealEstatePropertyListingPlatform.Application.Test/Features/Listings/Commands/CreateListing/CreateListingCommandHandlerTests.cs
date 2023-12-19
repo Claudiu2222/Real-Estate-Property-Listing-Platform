@@ -17,7 +17,7 @@ namespace RealEstatePropertyListingPlatform.Application.Test.Features.Listings.C
 {
 
     
-    public class CreateListingCommandHandlerTests
+    public class CreateListingCommandHandlerTests : IDisposable
     {
         private readonly CreateListingCommandHandler _handler;
         private readonly IListingRepository _listingRepository;
@@ -49,9 +49,9 @@ namespace RealEstatePropertyListingPlatform.Application.Test.Features.Listings.C
                 Photos = new List<string> { "Test Photo" },
                 Negotiable = true
             };
-            var nullPropertyResult = Result<Property>.Failure("Property not found."); 
+            var failurePropertyResult = Result<Property>.Failure("Property not found."); 
             _propertyRepository.FindByIdAsync(Arg.Any<Guid>())
-                .Returns(Task.FromResult(nullPropertyResult)); 
+                .Returns(Task.FromResult(failurePropertyResult)); 
 
             // Act
             var result = await _handler.Handle(command, CancellationToken.None);
@@ -92,8 +92,7 @@ namespace RealEstatePropertyListingPlatform.Application.Test.Features.Listings.C
         }
 
         [Fact]
-        public async Task
-            When_CreateListingCommandHandlerIsCalled_And_PropertyIdIsValid_And_CreatorIdIsValid_And_ListingIsValid_Then_SuccessIsTrue_And_ValidationsErrorsNull_AndValueNotNull_IsReturned()
+        public async Task When_CreateListingCommandHandlerIsCalled_And_PropertyIdIsValid_And_CreatorIdIsValid_And_ListingIsValid_Then_SuccessIsTrue_And_ValidationsErrorsNull_AndValueNotNull_IsReturned()
         {
             // Arrange
             var command = new CreateListingCommand
@@ -119,6 +118,14 @@ namespace RealEstatePropertyListingPlatform.Application.Test.Features.Listings.C
             result.ValidationErrors.Should().BeNullOrEmpty();
             result.Listing.Should().NotBeNull();
         }
+
+        public void Dispose()
+        {
+            _listingRepository.ClearReceivedCalls();
+            _currentUserService.ClearReceivedCalls();
+            _propertyRepository.ClearReceivedCalls();
+        }
+
     }
 
     

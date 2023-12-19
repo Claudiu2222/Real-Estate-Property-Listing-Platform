@@ -20,7 +20,7 @@ namespace RealEstatePropertyListingPlatform.Application.Features.Listings.Querie
 
             var totalCount = await listingRepository.GetCountAsync();
 
-            if (totalCount.Value[0] < (request.PageNumber - 1) * request.PageSize)
+            if (totalCount.Value[0] <= (request.PageNumber - 1) * request.PageSize)
             {
                 return new GetPagedListingsResponse
                 {

@@ -46,7 +46,7 @@ namespace RealEstatePropertyListingPlatform.Application.Features.Listings.Querie
                 .Take(request.PageSize)
                 .ToList();
 
-            if (totalCount < (request.PageNumber - 1) * request.PageSize)
+            if (totalCount <= (request.PageNumber - 1) * request.PageSize)
             {
                 return new GetPagedListingsByIdResponse
                 {
