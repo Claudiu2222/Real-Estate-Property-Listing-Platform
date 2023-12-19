@@ -46,10 +46,12 @@
 
                             <InputText type="tel" id="inputPhoneNumber" class="form-control" placeholder="📞 PhoneNumber" @bind-Value="registerRequest.PhoneNumber" />
                             <ValidationMessage For="@(() => registerRequest.PhoneNumber)" class="custom-validation-message" />
-                            <br />
 
-                            <button class="register-button" type="submit"> Create Account</button>
-                            <button class="cancel-button" type="button" @onclick="Cancel"> Back </button>
+                            <div class="d-flex justify-content-evenly">
+                                <button class="register-button" type="submit"> Create Account</button>
+                                <button class="cancel-button" type="button" @onclick="Cancel"> Back </button>
+                            </div>
+           
 
                             <label class="text-danger">@error</label>
 
