@@ -5,27 +5,69 @@
 @inject CustomStateProvider authStateProvider
 
 <PageTitle>Home</PageTitle>
-
-<h1>Hello, Welcome to the Real Estate Listing Platform!</h1>
-<br />
+<head>
+    <link href="assets/css/home.css" rel="stylesheet">
+    <style>
+        body::before {
+            background: linear-gradient(to right, #354ea0 0%, #4c31be 100%) !important;
+    </style>
+</head>
 
 <CascadingAuthenticationState>
-<AuthorizeView>
-    
-    <Authorized>
-            <button class="btn btn-lg btn-primary btn-block"  @onclick="Logout">Logout</button>
-    </Authorized>
+    <AuthorizeView>
 
-    <NotAuthorized>
-            <button class="btn btn-lg btn-primary btn-block" @onclick="NavigateToLogin">Click here to log in</button>
-        <br />
-            <button class="btn btn-lg btn-primary btn-block" @onclick="NavigateToRegister">Click here to register</button>
-    </NotAuthorized>
+        <Authorized>
+            <section id="hero" class="d-flex align-items-center">
 
-</AuthorizeView>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-6 d-flex flex-column justify-content-center pt-4 pt-lg-0 order-2 order-lg-1" data-aos="fade-up" data-aos-delay="200">
+                            <h1>Welcome to the Real Estate Listing Platform,</h1>
+                            <h2>where dreams meet homes and possibilities flourish. Discover an array of extraordinary properties tailored to fit your unique lifestyle.</h2>
+                            <div class="d-flex justify-content-center justify-content-lg-start">
+                                <button class="btn-get-started scrollto" @onclick="Logout">Logout</button>
+                                <a href="https://www.youtube.com/watch?v=jDDaplaOz7Q" class="glightbox btn-watch-video"><i class="bi bi-play-circle"></i><span>Contact us</span></a>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 order-1 order-lg-2 hero-img" data-aos="zoom-in" data-aos-delay="200">
+                            <img src="/home_image.png" class="img-fluid animated" alt="">
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+        </Authorized>
+
+        <NotAuthorized>
+            <section id="hero" class="d-flex align-items-center">
+
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-6 d-flex flex-column justify-content-center pt-4 pt-lg-0 order-2 order-lg-1" data-aos="fade-up" data-aos-delay="200">
+                            <h1>Welcome to the Real Estate Listing Platform,</h1>
+                            <h2>where dreams meet homes and possibilities flourish. Discover an array of extraordinary properties tailored to fit your unique lifestyle.</h2>
+                            <div class="d-flex justify-content-center justify-content-lg-start">
+                                <button class="btn-get-started scrollto" @onclick="NavigateToLogin">Log In</button>
+                                <a href="https://www.youtube.com/watch?v=jDDaplaOz7Q" class="glightbox btn-watch-video"><i class="bi bi-play-circle"></i><span>Contact us</span></a>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 order-1 order-lg-2 hero-img" data-aos="zoom-in" data-aos-delay="200">
+                            <img src="/home_image.png" class="img-fluid animated" alt="">
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+            @* <button class="btn btn-lg btn-primary btn-block" @onclick="NavigateToLogin">Click here to log in</button>
+            <br />
+            <button class="btn btn-lg btn-primary btn-block" @onclick="NavigateToRegister">Click here to register</button> *@
+        </NotAuthorized>
+
+    </AuthorizeView>
 </CascadingAuthenticationState>
 
-@functions{
+@functions {
 
     [Inject]
     public NavigationManager NavigationManager { get; set; }

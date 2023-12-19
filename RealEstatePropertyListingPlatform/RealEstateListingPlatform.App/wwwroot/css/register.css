@@ -46,7 +46,7 @@
 
     .cancel-button:active {
         transform: scale(0.90);
-}
+    }
 
 a.register-button {
     font-size: 13px;
@@ -74,7 +74,6 @@ a:link {
 
 
 .card {
-
     border-radius: 20px;
     opacity: 0.95;
     width: 70%

@@ -5,8 +5,17 @@
 @inject CustomStateProvider authStateProvider
 @inject ITokenService TokenService
 @inherits LayoutComponentBase
+<head>
+    <link href="~/css/custom-navbar.css" rel="stylesheet" />
+    <link href="~/css/app.css" rel="stylesheet" />
+
+</head>
 <div class="page">
-    <div class="sidebar">
+    <button title="Navigation menu" class="sidebar custom-sidebar" @onclick="ToggleNavMenu">
+
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="sidebar" style="width: @(IsNavMenuVisible ? "250px" : "0px"); transition: width 0.3s ease;">
         <NavMenu />
     </div>
 
@@ -17,7 +26,14 @@
     </main>
 </div>
 
-@functions {
+@code {
+    public bool IsNavMenuVisible { get; set; } = false;
+
+    protected void ToggleNavMenu()
+    {
+        IsNavMenuVisible = !IsNavMenuVisible;
+    }
+
     protected override async Task OnInitializedAsync()
     {
         var token = await TokenService.GetTokenAsync();

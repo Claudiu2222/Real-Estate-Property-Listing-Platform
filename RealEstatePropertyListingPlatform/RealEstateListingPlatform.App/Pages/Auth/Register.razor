@@ -70,7 +70,7 @@
     RegisterViewModel registerRequest { get; set; } = new RegisterViewModel();
     string error { get; set; }
 
-string confirmPassword { get; set; }
+    string confirmPassword { get; set; }
 
     async Task OnSubmit()
     {
@@ -97,9 +97,9 @@ string confirmPassword { get; set; }
 
 
     void Cancel()
-	{
-		navigationManager.NavigateTo("/login");
-	}
+    {
+        navigationManager.NavigateTo("/login");
+    }
 
 }
 
