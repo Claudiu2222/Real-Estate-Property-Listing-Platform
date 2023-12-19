@@ -1,6 +1,6 @@
 ﻿.button-edit {
     margin-top: 20px;
-    margin-right: 20px;
+    margin-right: 10px;
 }
 
 .button-delete {
@@ -20,7 +20,7 @@
     transition: transform 80ms ease-in;
     margin-top: 10px;
     margin-bottom: 10px;
-    margin-right: 20px;
+    margin-left : -12rem;
 }
 
     .save-button:hover {

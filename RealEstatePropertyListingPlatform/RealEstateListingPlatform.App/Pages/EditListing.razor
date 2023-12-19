@@ -112,7 +112,7 @@
         initialPrice = ListingViewModelById.Price;
         for(int i = 0; i < ListingViewModelById.Photos.Count; i++)
         {
-            initialPhotos += ListingViewModelById.Photos[i] + "\n";
+            initialPhotos += ListingViewModelById.Photos[i] + " ";
         }
 
         negotiable = ListingViewModelById.Negotiable;
@@ -124,8 +124,8 @@
         ListingViewModelById.Price = initialPrice;
         ListingViewModelById.Photos = new List<string>();
         Console.WriteLine("Photos:" + initialPhotos);
-        string[] photos = initialPhotos.Split("\n");
-        for(int i = 0; i < photos.Length-1; i++)
+        string[] photos = initialPhotos.Split(" ");
+        for(int i = 0; i < photos.Length; i++)
         {
             ListingViewModelById.Photos.Add(photos[i]);
         }
