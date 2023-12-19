@@ -180,7 +180,7 @@ position: relative;
 
 .button-add-listing {
     position: relative;
-    width: 130px;
+    width: 40px;
     height: 40px;
     border-radius: 40px;
     border: 2px solid #26b050;
@@ -245,3 +245,30 @@ svg {
 #checkmark {
     animation: rotate 1s linear;
 }
+<<<<<<< Updated upstream
+=======
+
+a.navbar-brand{
+    font-size: 0.8rem !important;
+    margin-left: -1.3rem !important;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+a.navbar-brand:hover{
+    color: #258cfb !important;
+}
+
+img.logo-img{
+width: 2.5rem;
+    height: 2.5rem;
+    margin-left: -1rem;
+    border-radius: 50%;
+}
+
+
+
+
+
+
+
+>>>>>>> Stashed changes

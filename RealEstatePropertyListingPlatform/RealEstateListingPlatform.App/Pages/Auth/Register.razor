@@ -1,56 +1,91 @@
 ﻿@page "/register"
 @using RealEstateListingPlatform.App.Auth
 @using RealEstateListingPlatform.App.ViewModels
+@using System.ComponentModel.DataAnnotations
 
 @inject NavigationManager navigationManager
 @inject CustomStateProvider authStateProvider
 
-<h3>Register</h3>
+<head>
 
-<EditForm class="form-register" OnValidSubmit="OnSubmit" Model="registerRequest">
-    <DataAnnotationsValidator />
+    <link href="css/app.css" rel="stylesheet" />
+    <link href="css/register.css" rel="stylesheet" />
 
-    <label for="inputName" class="sr-only">Name</label>
-    <InputText id="inputName" class="form-control" placeholder="Name" @bind-Value="registerRequest.Name" />
-    <ValidationMessage For="@(() => registerRequest.Name)" />
+    <style>
+        body {
+            background: linear-gradient(to right, #6a11cb 0%, #2575fc 100%) !important;
+        }
 
-    <label for="inputUsername" class="sr-only">Username</label>
-    <InputText id="inputUsername" class="form-control" @bind-Value="registerRequest.Username" autofocus placeholder="Username" />
-    <ValidationMessage For="@(() => registerRequest.Username)" />
-
-    <label for="inputPassword" class="sr-only">Password</label>
-    <InputText type="password" id="inputPassword" class="form-control" placeholder="Password" @bind-Value="registerRequest.Password" />
-    <ValidationMessage For="@(() => registerRequest.Password)" />
-
-    <label for="inputEmail" class="sr-only">Email</label>
-    <InputText type="email" id="inputEmail" class="form-control" placeholder="Email" @bind-Value="registerRequest.Email" />
-    <ValidationMessage For="@(() => registerRequest.Email)" />
-
-    <label for="inputPhoneNumber" class="sr-only">Phone Number</label>
-    <InputText type="tel" id="inputPhoneNumber" class="form-control" placeholder="PhoneNumber" @bind-Value="registerRequest.PhoneNumber" />
-    <ValidationMessage For="@(() => registerRequest.PhoneNumber)" />
+    </style>
+</head>
 
 
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <EditForm class="form-register" OnValidSubmit="OnSubmit" Model="registerRequest">
+                            <DataAnnotationsValidator />
+                            <h1 class="h1-login">Register</h1>
+                            <InputText id="inputName" class="form-control" placeholder="👤 Name" @bind-Value="registerRequest.Name" />
+                            <ValidationMessage For="@(() => registerRequest.Name)" class="custom-validation-message" />
 
-    <br />
+                            <InputText id="inputUsername" class="form-control" @bind-Value="registerRequest.Username" autofocus placeholder="👤 Username" />
+                            <ValidationMessage For="@(() => registerRequest.Username)" class="custom-validation-message" />
 
-    <button class="btn btn-lg btn-primary btn-block" type="submit" > Create Account</button>
-    <button class="btn btn-primary" type="button" @onclick="Cancel"> Cancel </button>
+                            <InputText type="password" id="inputPassword" class="form-control" placeholder="🔒 Password" @bind-Value="registerRequest.Password" />
+                            <ValidationMessage For="@(() => registerRequest.Password)" class="custom-validation-message" />
 
-    <label class="text-danger">@error</label>
+                            <InputText type="password" id="confirmPassword" class="form-control" placeholder="🔒 Confirm passsword" @bind-Value="confirmPassword" />
+                            <ValidationMessage For="@(() => confirmPassword)" class="custom-validation-message" />
 
-</EditForm>
+                            <InputText type="email" id="inputEmail" class="form-control" placeholder="📧 Email" @bind-Value="registerRequest.Email" />
+                            <ValidationMessage For="@(() => registerRequest.Email)" class="custom-validation-message" />
+
+                            <InputText type="tel" id="inputPhoneNumber" class="form-control" placeholder="📞 PhoneNumber" @bind-Value="registerRequest.PhoneNumber" />
+                            <ValidationMessage For="@(() => registerRequest.PhoneNumber)" class="custom-validation-message" />
+                            <br />
+
+                            <button class="register-button" type="submit"> Create Account</button>
+                            <button class="cancel-button" type="button" @onclick="Cancel"> Back </button>
+
+                            <label class="text-danger">@error</label>
+
+                        </EditForm>
+                    </div>
+                    <div class="col-md-6">
+                        <!-- Aici este imaginea -->
+                        <img src="/register.png" alt="Descriere imagine" class="img-fluid" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 @code {
     RegisterViewModel registerRequest { get; set; } = new RegisterViewModel();
     string error { get; set; }
 
+string confirmPassword { get; set; }
+
     async Task OnSubmit()
     {
         error = null;
         try
         {
+
+            // Verificare dacă parolele coincid
+            if (registerRequest.Password != confirmPassword)
+            {
+                error = "The password and confirmation password do not match.";
+                return;
+            }
+
+            // Continuă înregistrarea dacă totul este valid și parolele coincid
             await authStateProvider.Register(registerRequest);
             navigationManager.NavigateTo("/login");
         }
@@ -60,11 +95,11 @@
         }
     }
 
+
     void Cancel()
 	{
 		navigationManager.NavigateTo("/login");
 	}
-
 
 }
 
