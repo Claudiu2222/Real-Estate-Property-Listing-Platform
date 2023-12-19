@@ -5,40 +5,60 @@
 @inject NavigationManager navigationManager
 @inject CustomStateProvider authStateProvider
 @inject ITokenService TokenService
+<head>
 
-<h1 class="h2 font-weight-normal login-title">
-    Login
-</h1>
+<link href="css/app.css" rel="stylesheet" />
+<link href="css/login.css" rel="stylesheet" />
 
-<EditForm class="form-signin" OnValidSubmit="OnSubmit" Model="loginRequest">
-    <DataAnnotationsValidator />
+<style>
+        body {
+            background: linear-gradient(to right, #6a11cb 0%, #2575fc 100%) !important;
+        }
 
-    <label for="inputUsername" class="sr-only">Username</label>
-    <InputText id="inputUsername" class="form-control" @bind-Value="loginRequest.Username" autofocus placeholder="Username" />
-    <ValidationMessage For="@(() => loginRequest.Username)" />
+</style>
+</head>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6"> <!-- Aici adaugi imaginea -->
+                        <img src="/background.png" alt="Descriere imagine" class="img-fluid"  />
+                    </div>
+                    <div class="col-md-6">
+                        <EditForm class="form-signin" OnValidSubmit="OnSubmit" Model="loginRequest">
+                        <DataAnnotationsValidator />
 
-    <label for="inputPassword" class="sr-only">Password</label>
-    <InputText type="password" id="inputPassword" class="form-control" placeholder="Password" @bind-Value="loginRequest.Password" />
-    <ValidationMessage For="@(() => loginRequest.Password)" />
+                        <div class="form-group">
+                            <h1 class="h1-login">Sign in</h1>
+                            <br />
+                                <InputText id="inputUsername" class="form-control" @bind-Value="loginRequest.Username" autofocus placeholder="👤 Username" />
+                                <ValidationMessage For="@(() => loginRequest.Username)" class="custom-validation-message" />
+                        </div>
 
-    <br />
+                        <div class="form-group">
+                                <InputText type="password" id="inputPassword" class="form-control" placeholder="🔒 Password" @bind-Value="loginRequest.Password" />
+                                <ValidationMessage For="@(() => loginRequest.Password)" class="custom-validation-message" />
+                        </div>
 
-    <button class="btn btn-lg btn-primary btn-block" type="submit" onclick="OnClickHandler">Sign in</button>
+                        <button class="login-button" type="submit" onclick="OnClickHandler">LOGIN</button>
+                        <span class="forgot-password">Forgot your password?</span>
 
-    <label class="text-danger">@error</label>
-
-    <NavLink href="register">
-        <h6 class="font-weight-normal text-center">Create account</h6>
-    </NavLink>
-</EditForm>
+                        <label class="text-danger">@error</label>
+                        <NavLink href="register">
+                                <h6 class="font-weight-normal text-center">Create account</h6>
+                        </NavLink>
+                        </EditForm>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 @code {
     LoginViewModel loginRequest { get; set; } = new LoginViewModel();
     string error { get; set; }
-
-}
-
-@functions{
 
     protected override async Task OnInitializedAsync()
     {

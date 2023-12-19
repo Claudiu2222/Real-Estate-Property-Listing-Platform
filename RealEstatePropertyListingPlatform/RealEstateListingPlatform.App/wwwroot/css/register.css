@@ -1,0 +1,136 @@
+﻿.register-button {
+    border-radius: 15px;
+    border: 1px solid #0f5bb7;
+    background-color: #0f5bb7; /* Fundal verde */
+    color: #FFFFFF;
+    font-size: calc(70%);
+    font-weight: bold;
+    padding: 12px 25px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: transform 80ms ease-in;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: calc(10%);
+}
+
+    .register-button:hover {
+        opacity: 0.8;
+        transform: scale(0.95);
+    }
+
+    .register-button:active {
+        transform: scale(0.90);
+    }
+
+.cancel-button {
+    border-radius: 15px;
+    border: 1px solid #de5151;
+    background-color: #de5151; /* Fundal verde */
+    color: #FFFFFF;
+    font-size: calc(70%);
+    font-weight: bold;
+    padding: 12px 25px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: transform 80ms ease-in;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: calc(15%);
+}
+
+    .cancel-button:hover {
+        opacity: 0.8;
+        transform: scale(0.95);
+    }
+
+    .cancel-button:active {
+        transform: scale(0.90);
+    }
+
+a.register-button {
+    font-size: 13px;
+    font-weight: bold;
+    padding: 12px 45px;
+    letter-spacing: 1px;
+    text-decoration: none;
+    color: black;
+    margin-left: calc(50% - 6rem);
+}
+
+.register-button:hover {
+    opacity: 0.8;
+    transform: scale(0.95);
+}
+
+.register-button:active {
+    transform: scale(0.90);
+}
+
+a:link {
+    text-decoration: none;
+}
+
+
+
+.card {
+    border-radius: 20px;
+    opacity: 0.95;
+    width: 70%
+}
+
+
+.h1-login {
+    margin-top: 2rem;
+    margin-bottom: 4rem;
+    margin-left: calc(50% - 5rem);
+    font-weight: bold; /* Face textul bold */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 2.5rem;
+}
+
+.form-control {
+    border-radius: 20px;
+    border: 1px solid #ced4da;
+    background-color: #f1f1f1;
+    font-size: 14px; /* Ajustează dimensiunea textului */
+    width: calc(80%);
+    margin-left: calc(10%);
+    margin-top: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+.card-body {
+    margin-top: calc(5%);
+    margin-bottom: 5%;
+}
+
+.forgot-password {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    margin-left: calc(50% - 4rem);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 13px;
+}
+
+.font-weight-normal {
+    margin-top: 3rem;
+    margin-bottom: -1rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 14px;
+}
+
+.custom-validation-message {
+    color: red;
+    font-size: 12px;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    margin-left: calc(50% - 4rem);
+}
+
+.img-fluid {
+    margin-top: 5rem;
+    height: 80%;
+    margin-bottom: -20rem;
+    margin-left: calc(50% - 9rem);
+}

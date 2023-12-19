@@ -17,7 +17,7 @@ a, .btn-link {
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
 .content {
@@ -158,8 +158,8 @@ code {
         transition: .3s;
     }
 
-.button-edit{
-position: relative;
+.button-edit {
+    position: relative;
     width: 40px;
     height: 40px;
     border-radius: 40px;
@@ -176,11 +176,11 @@ position: relative;
         transform: scale(1.2);
         box-shadow: 0 0 4px #111;
         transition: .3s;
-}
+    }
 
 .button-add-listing {
     position: relative;
-    width: 130px;
+    width: 40px;
     height: 40px;
     border-radius: 40px;
     border: 2px solid #26b050;
@@ -197,8 +197,9 @@ position: relative;
         transform: scale(1.1);
         box-shadow: 0 0 4px #111;
         transition: .3s;
-}
-.span-add-listing{
+    }
+
+.span-add-listing {
     font-size: 13px;
 }
 
@@ -244,4 +245,21 @@ svg {
 
 #checkmark {
     animation: rotate 1s linear;
+}
+
+a.navbar-brand {
+    font-size: 0.8rem !important;
+    margin-left: -1.3rem !important;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+    a.navbar-brand:hover {
+        color: #258cfb !important;
+    }
+
+img.logo-img {
+    width: 2.5rem;
+    height: 2.5rem;
+    margin-left: -1rem;
+    border-radius: 50%;
 }

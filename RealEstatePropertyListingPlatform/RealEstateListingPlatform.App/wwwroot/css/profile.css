@@ -1,0 +1,49 @@
+﻿.button-edit {
+    margin-top: 20px;
+    margin-right: 20px;
+}
+
+.button-delete {
+    margin-top: 20px;
+}
+
+.save-button {
+    border-radius: 20px;
+    border: 1px solid #56e625;
+    background-color: #69d32a;
+    color: #FFFFFF;
+    font-size: calc(70%);
+    font-weight: bold;
+    padding: 10px 20px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: transform 80ms ease-in;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-right: 20px;
+}
+
+    .save-button:hover {
+        background-color: #116520;
+        cursor: pointer;
+    }
+
+.cancel-button {
+    border-radius: 20px;
+    border: 1px solid #ed3939;
+    background-color: #ed3939;
+    color: #FFFFFF;
+    font-size: calc(70%);
+    font-weight: bold;
+    padding: 10px 20px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: transform 80ms ease-in;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+    .cancel-button:hover {
+        background-color: #691a1a;
+        cursor: pointer;
+    }
