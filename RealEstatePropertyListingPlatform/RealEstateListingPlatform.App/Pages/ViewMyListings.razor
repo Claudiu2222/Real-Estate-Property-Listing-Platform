@@ -17,7 +17,7 @@
             @foreach (var listing in listingsResponse.Listings)
             {
                 <div class="col-md-6 col-lg-4 mb-4">
-                    <div class="card h-100 shadow-sm" @onclick="() => OnListingClick(listing.ListingId)">
+                    <div class="card h-100 shadow-sm selectable-card" @onclick="() => OnListingClick(listing.ListingId)">
                         @if (listing.Photos.Any())
                         {
                             <img src="@listing.Photos.FirstOrDefault()" class="card-img-top" alt="Listing Image" style="height: 200px; object-fit: cover;">
@@ -97,11 +97,6 @@ else
 
     private int TotalPages() => (int)Math.Ceiling((double)listingsResponse.TotalCount / pageSize);
 
-    private void OnListingClick(string listingId)
-    {
-        OnListingSelected.InvokeAsync(listingId);
-    }
-
     private async Task LoadPage(int pageNumber)
     {
         Console.WriteLine("Loading page {pageNumber}");
@@ -142,6 +137,15 @@ else
     private void RefreshPage()
     {
         NavigationManager.NavigateTo(NavigationManager.Uri, forceLoad: true);
+    }
+    private void OnListingClick(string listingId)
+    {
+        OnListingSelected.InvokeAsync(listingId);
+        ViewListing(listingId);
+    }
+    private void ViewListing(string listing)
+    {
+        NavigationManager.NavigateTo($"/viewlisting/{listing}");
     }
 
 }

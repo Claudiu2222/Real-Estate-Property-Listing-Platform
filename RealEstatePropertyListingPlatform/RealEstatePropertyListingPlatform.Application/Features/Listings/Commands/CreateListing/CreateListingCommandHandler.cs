@@ -19,9 +19,9 @@ namespace RealEstatePropertyListingPlatform.Application.Features.Listings.Comman
 
         public async Task<CreateListingCommandResponse> Handle(CreateListingCommand request, CancellationToken cancellationToken)
         {
-            var validatorProperty = new CreateListingCommandValidator(this.propertyRepository);
+            var validatorListing = new CreateListingCommandValidator(this.propertyRepository);
 
-            var validationResult = await validatorProperty.ValidateAsync(request);
+            var validationResult = await validatorListing.ValidateAsync(request);
 
             if (!validationResult.IsValid)
             {
@@ -35,8 +35,7 @@ namespace RealEstatePropertyListingPlatform.Application.Features.Listings.Comman
             Guid creatorId;
             try
             {
-                creatorId = Guid.Parse(this.currentUserService.UserId);
-            }
+                creatorId = Guid.Parse(this.currentUserService.UserId); }
             catch (Exception)
             {
                 return new CreateListingCommandResponse

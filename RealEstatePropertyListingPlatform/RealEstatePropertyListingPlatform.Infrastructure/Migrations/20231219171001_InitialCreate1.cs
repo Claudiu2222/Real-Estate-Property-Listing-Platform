@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace RealEstatePropertyListingPlatform.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InfrastructureTOAPI : Migration
+    public partial class InitialCreate1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
