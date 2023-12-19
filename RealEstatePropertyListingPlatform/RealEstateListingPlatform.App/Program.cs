@@ -8,6 +8,7 @@ using RealEstateListingPlatform.App.Contracts;
 using RealEstateListingPlatform.App.Services;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Havit.Blazor.Components.Web;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -27,6 +28,7 @@ builder.Services.AddBlazoredLocalStorage(config =>
 
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<CustomStateProvider>();
+builder.Services.AddHxServices();
 
 //for property controller
 builder.Services.AddHttpClient<IPropertyDataService, PropertyDataService>(client =>

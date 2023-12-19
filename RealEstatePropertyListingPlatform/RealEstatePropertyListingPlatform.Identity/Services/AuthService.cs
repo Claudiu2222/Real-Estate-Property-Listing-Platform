@@ -138,6 +138,25 @@ namespace RealEstatePropertyListingPlatform.Identity.Services
 
             return (1, userModel);
         }
+        
+        public async Task<(int, UserModel)> GetBasicInfo(string id)
+        {
+            var user = await this.userManager.FindByIdAsync(id);
+
+            if (user == null)
+            {
+                return (404, null!);
+            }
+
+            var userModel = new UserModel
+            {
+                Email = user.Email,
+                Name = user.Name,
+                PhoneNumber = user.PhoneNumber,
+            };
+
+            return (1, userModel);
+        }
 
 
         public async Task<(int, UserModel)> Update(UserModel userModel)

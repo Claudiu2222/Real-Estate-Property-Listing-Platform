@@ -45,6 +45,33 @@ namespace RealEstatePropertyListingPlatform.API.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<IActionResult> GetBasicInfo(string id)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest("Invalid payload");
+                }
+                
+                var (status, user) = await _authService.GetBasicInfo(id);
+
+                return status switch
+                {
+                    0 => BadRequest(),
+                    404 => NotFound(),
+                    _ => Ok(user)
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
         [Authorize(Roles = "Admin, User")]
         [HttpPut]
         public async Task<IActionResult> Update(UserModel userModel)

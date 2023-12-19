@@ -16,7 +16,7 @@
             @foreach (var listing in listingsResponse.Listings)
             {
                 <div class="col-md-6 col-lg-4 mb-4">
-                    <div class="card h-100 shadow-sm" @onclick="() => OnListingClick(listing.ListingId)">
+                    <div class="card h-100 shadow-sm selectable-card" @onclick="() => OnListingClick(listing.ListingId)">
                         @if (listing.Photos.Any())
                         {
                             <img src="@listing.Photos.FirstOrDefault()" class="card-img-top" alt="Listing Image" style="height: 200px; object-fit: cover;">
@@ -52,14 +52,18 @@
 }
 else
 {
-    <div class="alert alert-warning" role="alert">
-        No listings available.
-    </div>
+    @* <div class="alert alert-warning" role="alert"> *@
+    @*     No listings available. *@
+    @* </div> *@
+    <HxSpinner Color="ThemeColor.Primary" />
 }
 @code {
 
     [Inject]
     public IListingDataService ListingDataService { get; set; }
+    
+    [Inject]
+    public required NavigationManager NavigationManager { get; set; }
 
     [Parameter]
     public ApiResponseListing listingsResponse { get; set; }
@@ -78,6 +82,7 @@ else
     private void OnListingClick(string listingId)
     {
         OnListingSelected.InvokeAsync(listingId);
+        ViewListing(listingId);
     }
 
     private async Task LoadPage(int pageNumber)
@@ -102,6 +107,11 @@ else
     {
         if (string.IsNullOrEmpty(description)) return description;
         return description.Length <= maxLength ? description : description.Substring(0, maxLength) + "...";
+    }
+
+    private void ViewListing(string listing)
+    {
+        NavigationManager.NavigateTo($"/viewlisting/{listing}");
     }
 
 }

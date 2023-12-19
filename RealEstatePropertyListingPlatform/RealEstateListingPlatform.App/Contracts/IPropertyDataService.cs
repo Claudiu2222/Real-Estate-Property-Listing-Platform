@@ -15,6 +15,7 @@ namespace RealEstateListingPlatform.App.Contracts
         Task<PropertyViewModelByUser> GetPropertyByIdAsync(Guid id);
 
         Task<List<PropertyViewModelByUser>> GetAllPropertiesByOwnerAsync();
-
+        
+        Task<PropertyViewModelByUser> GetBasicInfoPropertyByIdAsync(Guid id);
     }
 }
