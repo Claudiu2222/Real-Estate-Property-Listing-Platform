@@ -5,13 +5,13 @@
     color: #FFFFFF;
     font-size: calc(70%);
     font-weight: bold;
-    padding: 12px 25px;
+    padding: 12px 29px;
     letter-spacing: 1px;
     text-transform: uppercase;
     transition: transform 80ms ease-in;
     margin-top: 10px;
     margin-bottom: 10px;
-    margin-left: calc(10%);
+    width: calc(50%);
 }
 
     .register-button:hover {
@@ -30,13 +30,12 @@
     color: #FFFFFF;
     font-size: calc(70%);
     font-weight: bold;
-    padding: 12px 25px;
-    letter-spacing: 1px;
+    padding: 12px 15px !important;
     text-transform: uppercase;
     transition: transform 80ms ease-in;
     margin-top: 10px;
     margin-bottom: 10px;
-    margin-left: calc(15%);
+    width: calc(20%);
 }
 
     .cancel-button:hover {
@@ -46,7 +45,7 @@
 
     .cancel-button:active {
         transform: scale(0.90);
-    }
+}
 
 a.register-button {
     font-size: 13px;
@@ -74,6 +73,7 @@ a:link {
 
 
 .card {
+
     border-radius: 20px;
     opacity: 0.95;
     width: 70%
@@ -96,8 +96,8 @@ a:link {
     font-size: 14px; /* Ajustează dimensiunea textului */
     width: calc(80%);
     margin-left: calc(10%);
-    margin-top: 1.2rem;
-    margin-bottom: 1rem;
+
+
 }
 
 .card-body {
@@ -130,7 +130,7 @@ a:link {
 
 .img-fluid {
     margin-top: 5rem;
-    height: 80%;
+    height: 70%;
     margin-bottom: -20rem;
     margin-left: calc(50% - 9rem);
 }

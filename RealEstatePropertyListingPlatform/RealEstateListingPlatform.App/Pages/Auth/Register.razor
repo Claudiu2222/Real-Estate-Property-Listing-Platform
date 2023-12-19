@@ -43,10 +43,9 @@
 
                             <InputText type="email" id="inputEmail" class="form-control" placeholder="📧 Email" @bind-Value="registerRequest.Email"/>
                             <ValidationMessage For="@(() => registerRequest.Email)" class="custom-validation-message"/>
-
-                            <InputText type="tel" id="inputPhoneNumber" class="form-control" placeholder="📞 PhoneNumber" @bind-Value="registerRequest.PhoneNumber"/>
-                            <ValidationMessage For="@(() => registerRequest.PhoneNumber)" class="custom-validation-message"/>
-                            <br/>
+                            
+                            <InputText type="tel" id="inputPhoneNumber" class="form-control" placeholder="📞 PhoneNumber" @bind-Value="registerRequest.PhoneNumber" />
+                            <ValidationMessage For="@(() => registerRequest.PhoneNumber)" class="custom-validation-message" />
 
                             <div class="d-flex justify-content-evenly">
                                 <button class="register-button" type="submit"> Create Account</button>
