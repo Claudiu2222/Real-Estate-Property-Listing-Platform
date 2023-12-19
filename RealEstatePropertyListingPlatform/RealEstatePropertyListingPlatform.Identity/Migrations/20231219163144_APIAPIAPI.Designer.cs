@@ -12,8 +12,8 @@ using RealEstatePropertyListingPlatform.Identity;
 namespace RealEstatePropertyListingPlatform.Identity.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231210221213_SecondCreate")]
-    partial class SecondCreate
+    [Migration("20231219163144_APIAPIAPI")]
+    partial class APIAPIAPI
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

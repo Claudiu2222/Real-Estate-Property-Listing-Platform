@@ -8,8 +8,8 @@
 
 <head>
 
-    <link href="css/app.css" rel="stylesheet" />
-    <link href="css/register.css" rel="stylesheet" />
+    <link href="/css/app.css" rel="stylesheet"/>
+    <link href="/css/register.css" rel="stylesheet"/>
 
     <style>
         body {
@@ -27,29 +27,31 @@
                 <div class="row">
                     <div class="col-md-6">
                         <EditForm class="form-register" OnValidSubmit="OnSubmit" Model="registerRequest">
-                            <DataAnnotationsValidator />
+                            <DataAnnotationsValidator/>
                             <h1 class="h1-login">Register</h1>
-                            <InputText id="inputName" class="form-control" placeholder="👤 Name" @bind-Value="registerRequest.Name" />
-                            <ValidationMessage For="@(() => registerRequest.Name)" class="custom-validation-message" />
+                            <InputText id="inputName" class="form-control" placeholder="👤 Name" @bind-Value="registerRequest.Name"/>
+                            <ValidationMessage For="@(() => registerRequest.Name)" class="custom-validation-message"/>
 
-                            <InputText id="inputUsername" class="form-control" @bind-Value="registerRequest.Username" autofocus placeholder="👤 Username" />
-                            <ValidationMessage For="@(() => registerRequest.Username)" class="custom-validation-message" />
+                            <InputText id="inputUsername" class="form-control" @bind-Value="registerRequest.Username" autofocus placeholder="👤 Username"/>
+                            <ValidationMessage For="@(() => registerRequest.Username)" class="custom-validation-message"/>
 
-                            <InputText type="password" id="inputPassword" class="form-control" placeholder="🔒 Password" @bind-Value="registerRequest.Password" />
-                            <ValidationMessage For="@(() => registerRequest.Password)" class="custom-validation-message" />
+                            <InputText type="password" id="inputPassword" class="form-control" placeholder="🔒 Password" @bind-Value="registerRequest.Password"/>
+                            <ValidationMessage For="@(() => registerRequest.Password)" class="custom-validation-message"/>
 
-                            <InputText type="password" id="confirmPassword" class="form-control" placeholder="🔒 Confirm passsword" @bind-Value="confirmPassword" />
-                            <ValidationMessage For="@(() => confirmPassword)" class="custom-validation-message" />
+                            <InputText type="password" id="confirmPassword" class="form-control" placeholder="🔒 Confirm passsword" @bind-Value="confirmPassword"/>
+                            <ValidationMessage For="@(() => confirmPassword)" class="custom-validation-message"/>
 
-                            <InputText type="email" id="inputEmail" class="form-control" placeholder="📧 Email" @bind-Value="registerRequest.Email" />
-                            <ValidationMessage For="@(() => registerRequest.Email)" class="custom-validation-message" />
+                            <InputText type="email" id="inputEmail" class="form-control" placeholder="📧 Email" @bind-Value="registerRequest.Email"/>
+                            <ValidationMessage For="@(() => registerRequest.Email)" class="custom-validation-message"/>
 
-                            <InputText type="tel" id="inputPhoneNumber" class="form-control" placeholder="📞 PhoneNumber" @bind-Value="registerRequest.PhoneNumber" />
-                            <ValidationMessage For="@(() => registerRequest.PhoneNumber)" class="custom-validation-message" />
-                            <br />
+                            <InputText type="tel" id="inputPhoneNumber" class="form-control" placeholder="📞 PhoneNumber" @bind-Value="registerRequest.PhoneNumber"/>
+                            <ValidationMessage For="@(() => registerRequest.PhoneNumber)" class="custom-validation-message"/>
+                            <br/>
 
-                            <button class="register-button" type="submit"> Create Account</button>
-                            <button class="cancel-button" type="button" @onclick="Cancel"> Back </button>
+                            <div class="d-flex justify-content-evenly">
+                                <button class="register-button" type="submit"> Create Account</button>
+                                <button class="cancel-button" type="button" @onclick="Cancel"> Back </button>
+                            </div>
 
                             <label class="text-danger">@error</label>
 
@@ -57,7 +59,7 @@
                     </div>
                     <div class="col-md-6">
                         <!-- Aici este imaginea -->
-                        <img src="/register.png" alt="Descriere imagine" class="img-fluid" />
+                        <img src="/register.png" alt="Descriere imagine" class="img-fluid"/>
                     </div>
                 </div>
             </div>
@@ -77,7 +79,6 @@
         error = null;
         try
         {
-
             // Verificare dacă parolele coincid
             if (registerRequest.Password != confirmPassword)
             {
@@ -102,4 +103,3 @@
     }
 
 }
-

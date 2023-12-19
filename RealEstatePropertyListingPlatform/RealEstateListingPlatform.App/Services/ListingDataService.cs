@@ -66,8 +66,8 @@ namespace RealEstateListingPlatform.App.Services
         {
             try
             {
-                httpClient.DefaultRequestHeaders.Authorization
-                    = new AuthenticationHeaderValue("Bearer", await tokenService.GetTokenAsync());
+                // httpClient.DefaultRequestHeaders.Authorization
+                //     = new AuthenticationHeaderValue("Bearer", await tokenService.GetTokenAsync());
                 using (var result = await httpClient.GetAsync($"{RequestUri}/{id}", HttpCompletionOption.ResponseHeadersRead))
                 {
                     result.EnsureSuccessStatusCode();

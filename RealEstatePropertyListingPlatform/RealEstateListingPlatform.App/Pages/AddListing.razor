@@ -8,7 +8,7 @@
 @* idk why it doesn't work *@
 @attribute [Authorize(Roles = "User")]
 <head>
-    <link href="~/css/app.css" rel="stylesheet" />
+    <link href="css/app.css" rel="stylesheet" />
 </head>
 <h3>Add Listing</h3>
 
@@ -39,9 +39,9 @@
     <div class="row mb-3 ms-2">
         <label for="price" class="col-sm-3 form-label">Price:</label>
         <div class="col-sm-5">
-            <InputNumber id="price" class="form-control" @bind-Value="@price.Value"></InputNumber>
+            <InputNumber id="price" class="form-control" @bind-Value="@Price.Value"></InputNumber>
             <!-- Input pentru valoarea numerică -->
-            <InputSelect id="price-currency" class="form-control" @bind-Value="@price.Currency">
+            <InputSelect id="price-currency" class="form-control" @bind-Value="@Price.Currency">
 
                 @foreach (var currency in Enum.GetValues(typeof(Currency)))
                 {
@@ -49,8 +49,8 @@
                 })
 
             </InputSelect>
-            <ValidationMessage For="@(() => price.Value)" />
-            <ValidationMessage For="@(() => price.Currency)" />
+            <ValidationMessage For="@(() => Price.Value)" />
+            <ValidationMessage For="@(() => Price.Currency)" />
         </div>
     </div>
 
@@ -98,11 +98,11 @@
     [Inject]
     public NavigationManager NavigationManager { get; set; }
 
-    public PriceViewModel price { get; set; } = new PriceViewModel();
+    public PriceViewModel Price { get; set; } = new();
 
     public string photoLinks { get; set; }
 
-    public ListingViewModelCreate ListingViewModel { get; set; } = new ListingViewModelCreate();
+    public ListingViewModelCreate ListingViewModel { get; set; } = new();
 
     public string Message { get; set; }
 
@@ -114,7 +114,7 @@
     private async Task HandleValidSubmit()
     {
         ListingViewModel.PropertyId = PropertyId;
-        ListingViewModel.Price = price;
+        ListingViewModel.Price = Price;
         ListingViewModel.Photos = photoLinks.Split(" ").ToList();
         var result = await ListingDataService.CreateListingAsync(ListingViewModel);
         if (result.Success)
@@ -123,7 +123,7 @@
             _timer = new System.Threading.Timer(
             async (state) =>
             {
-                NavigationManager.NavigateTo("/");
+                NavigationManager.NavigateTo("/viewmylistings");
                 await Task.CompletedTask;
             },
             null,

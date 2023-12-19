@@ -13,8 +13,8 @@ using RealEstatePropertyListingPlatform.Infrastructure;
 namespace RealEstatePropertyListingPlatform.Infrastructure.Migrations
 {
     [DbContext(typeof(RealEstatePropertyListingPlatformContext))]
-    [Migration("20231218180324_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20231219162915_InfrastructureTOAPI")]
+    partial class InfrastructureTOAPI
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
