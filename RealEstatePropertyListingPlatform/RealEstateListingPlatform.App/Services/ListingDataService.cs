@@ -85,6 +85,25 @@ namespace RealEstateListingPlatform.App.Services
                 throw new ApplicationException("Error fetching listing", ex);
             }
         }
+        
+        public async Task<ListingViewModel> GetListingByIdAsyncNoAuth(Guid id)
+        {
+            try
+            {
+                using var result = await httpClient.GetAsync($"{RequestUri}/{id}", HttpCompletionOption.ResponseHeadersRead);
+                result.EnsureSuccessStatusCode();
+                var content = await result.Content.ReadAsStringAsync();
+
+                var responseObject = JsonSerializer.Deserialize<ApiResponseListingById>(content,
+                    new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+                return responseObject!.Listing;
+            }
+            catch (HttpRequestException ex)
+            {
+                throw new ApplicationException("Error fetching listing", ex);
+            }
+        }
 
         public async Task<ApiResponseListingById> UpdateListingAsync(ListingViewModel listingViewModel)
         {

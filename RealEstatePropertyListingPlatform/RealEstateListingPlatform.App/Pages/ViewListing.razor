@@ -1,0 +1,185 @@
+@page "/viewlisting/{ListingId}"
+@using RealEstateListingPlatform.App.ViewModels
+@using RealEstateListingPlatform.App.Contracts
+@using RealEstateListingPlatform.App.ViewModels.UserModels
+<head>
+    <link href="css/app.css"/>
+    <title>ViewListing</title>
+</head>
+
+@if (Listing != null)
+{
+    <div class="middle">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="aura">
+                        <HxCarousel Indicators="true" Controls="true">
+                            @foreach (var photo in Listing.Photos!)
+                            {
+                                <HxCarouselItem Active="photo == Listing.Photos!.FirstOrDefault()">
+                                    <div style="width: inherit; height: 400px; background-image: url('@photo'); background-size: cover; background-position: center;"> </div>
+                                </HxCarouselItem>
+                            }
+                        </HxCarousel>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        @* For Owner Details *@
+                        <div class="card-header">
+                            <h4 class="card-title">@UserInfo!.Name</h4>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">@UserInfo.Email</p>
+                            <p class="card-text">@UserInfo.PhoneNumber</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card my-4">
+                <div class="card-header">
+                    <h4 class="card-title d-flex justify-content-between">
+                        <span>@Listing.Title</span>
+                        <span>
+                            <div>
+                                @Listing.Price!.Value <span style="color: green">@Listing.Price.Currency</span>
+                            </div>
+                            <h6>
+                                @if (Listing.Negotiable)
+                                {
+                                    <HxAlert Color="ThemeColor.Success"> Negotiable </HxAlert>
+                                }
+                                else
+                                {
+                                    <HxAlert Color="ThemeColor.Danger"> Non-Negotiable </HxAlert>
+                                }
+                            </h6>
+                        </span>
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">@Listing.Description</p>
+                    <p class="card-text">@Listing.DateCreated</p>
+                </div>
+            </div>
+            <div class="card my-3">
+                <div class="card-header">
+                    <h4 class="card-title">Property Info</h4>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <HxListGroup>
+                                    <HxListGroupItem>
+                                        <div class="d-flex justify-content-between">
+                                            <span>Type..... </span>
+                                            <span>@Property!.PropertyType</span>
+                                        </div>
+                                    </HxListGroupItem>
+                                    <HxListGroupItem>
+                                        <div class="d-flex justify-content-between">
+                                            <span>Square feet..... </span>
+                                            <span>@Property!.SquareFeet</span>
+                                        </div>
+                                    </HxListGroupItem>
+                                    <HxListGroupItem>
+                                        <div class="d-flex justify-content-between">
+                                            <span>Number of floors..... </span>
+                                            <span>@Property!.NumberOfFloors</span>
+                                        </div>
+                                    </HxListGroupItem>
+                                    <HxListGroupItem>
+                                        <div class="d-flex justify-content-between">
+                                            <span>Number of rooms..... </span>
+                                            <span>@Property!.NumberOfRooms</span>
+                                        </div>
+                                    </HxListGroupItem>
+                                    <HxListGroupItem>
+                                        <div class="d-flex justify-content-between">
+                                            <span>Number of bathrooms..... </span>
+                                            <span>@Property!.NumberOfBathrooms</span>
+                                        </div>
+                                    </HxListGroupItem>
+                                </HxListGroup>
+                            </div>
+                            <div class="col-md-6">
+                                <HxListGroup>
+                                    <HxListGroupItem>
+                                        <div class="d-flex justify-content-between">
+                                            <span>Floor..... </span>
+                                            <span>@Property!.Floor</span>
+                                        </div>
+                                    </HxListGroupItem>
+                                    <HxListGroupItem>
+                                        <div class="d-flex justify-content-between">
+                                            <span>Street Name..... </span>
+                                            <span>@Property!.StreetName</span>
+                                        </div>
+                                    </HxListGroupItem>
+                                    <HxListGroupItem>
+                                        <div class="d-flex justify-content-between">
+                                            <span>Postal Code..... </span>
+                                            <span>@Property!.PostalCode</span>
+                                        </div>
+                                    </HxListGroupItem>
+                                    <HxListGroupItem>
+                                        <div class="d-flex justify-content-between">
+                                            <span>City/Region..... </span>
+                                            <span>@Property!.City/@Property!.Region</span>
+                                        </div>
+                                    </HxListGroupItem>
+                                    <HxListGroupItem>
+                                        <div class="d-flex justify-content-between">
+                                            <span>Country..... </span>
+                                            <span>@Property!.Country</span>
+                                        </div>
+                                    </HxListGroupItem>
+                                </HxListGroup>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <p>
+        <HxSpinner Color="ThemeColor.Primary"/>
+    </p>
+}
+
+@code {
+    [Parameter] public string? ListingId { get; set; }
+
+    [Inject] public required IListingDataService ListingDataService { get; set; }
+
+    [Inject] public required IPropertyDataService PropertyDataService { get; set; }
+    [Inject] public required IUserService UserService { get; set; }
+
+    private UserInfoViewModel? UserInfo { get; set; }
+
+    private PropertyViewModelByUser? Property { get; set; }
+
+    private ListingViewModel? Listing { get; set; }
+
+    private async Task LoadPage()
+    {
+        Listing = await ListingDataService.GetListingByIdAsync(Guid.Parse(ListingId!));
+        Property = await PropertyDataService.GetBasicInfoPropertyByIdAsync(Guid.Parse(Listing.PropertyId));
+        var response = await UserService.GetInfo(Listing.ListingCreatorId);
+        if (response.IsSuccess)
+        {
+            UserInfo = response.Data;
+        }
+    }
+
+    protected override Task OnInitializedAsync()
+    {
+        return LoadPage();
+    }
+
+}

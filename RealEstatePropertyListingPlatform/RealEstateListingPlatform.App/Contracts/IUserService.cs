@@ -10,7 +10,7 @@ namespace RealEstateListingPlatform.App.Contracts
         Task CreateAdmin(RegisterViewModel createAdminRequest);
         Task<ApiResponseSingleData<UserInfoViewModel>> GetInfoCurrentUser();
         Task<ApiResponseSingleData<UserInfoViewModel>> Update(UserInfoViewModel updateRequest);
-
+        Task<ApiResponseSingleData<UserInfoViewModel>> GetInfo(string id);
 
     }
 }

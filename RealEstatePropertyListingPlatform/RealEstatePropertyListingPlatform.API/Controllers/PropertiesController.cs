@@ -4,6 +4,7 @@ using RealEstatePropertyListingPlatform.Application.Features.Properties.Commands
 using RealEstatePropertyListingPlatform.Application.Features.Properties.Commands.DeleteProperty;
 using RealEstatePropertyListingPlatform.Application.Features.Properties.Commands.UpdateProperty;
 using RealEstatePropertyListingPlatform.Application.Features.Properties.Queries.GetAllProperties;
+using RealEstatePropertyListingPlatform.Application.Features.Properties.Queries.GetBasicInfoByIdProperty;
 using RealEstatePropertyListingPlatform.Application.Features.Properties.Queries.GetByIdOwner;
 using RealEstatePropertyListingPlatform.Application.Features.Properties.Queries.GetByIdProperty;
 
@@ -61,6 +62,22 @@ namespace RealEstatePropertyListingPlatform.API.Controllers
         public async Task<IActionResult> GetById(Guid id)
         {
             var result = await Mediator.Send(new GetByIdPropertyQuery(id));
+
+            if (!result.Success)
+            {
+                return NotFound(result);
+            }
+            
+            return Ok(result);
+
+        }
+        
+        [HttpGet("basicinfo/{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetBasicInfoById(Guid id)
+        {
+            var result = await Mediator.Send(new GetBasicInfoByIdPropertyQuery(id));
 
             if (!result.Success)
             {

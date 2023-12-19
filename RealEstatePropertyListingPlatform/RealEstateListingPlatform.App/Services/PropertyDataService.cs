@@ -11,6 +11,7 @@ namespace RealEstateListingPlatform.App.Services
     {
         private const string RequestUri = "api/v1/properties";
         private const string RequestUriByOwner = "api/v1/properties/owner";
+        private const string RequestBasicInfoUri = "api/v1/properties/basicinfo";
         private readonly HttpClient httpClient;
         private readonly ITokenService tokenService;
 
@@ -82,6 +83,24 @@ namespace RealEstateListingPlatform.App.Services
             //it is only one property
             Console.WriteLine($"PropertyId: {response!.Property.PropertyId}, StreetName: {response!.Property.StreetName}, City: {response!.Property.City}");
             return response!.Property;
+        }
+        
+        public async Task<PropertyViewModelByUser> GetBasicInfoPropertyByIdAsync(Guid id)
+        {
+            try
+            {
+                using var result = await httpClient.GetAsync($"{RequestBasicInfoUri}/{id}", HttpCompletionOption.ResponseHeadersRead);
+                result.EnsureSuccessStatusCode();
+                var content = await result.Content.ReadAsStringAsync();
+
+                var responseObject = JsonSerializer.Deserialize<ApiResponsePropertyById>(content,
+                    new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+                return responseObject!.Property;
+            } catch (HttpRequestException ex)
+            {
+                throw new ApplicationException("Error fetching property", ex);
+            }
         }
 
         

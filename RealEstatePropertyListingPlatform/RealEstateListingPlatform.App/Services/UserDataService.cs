@@ -2,7 +2,6 @@
 using RealEstateListingPlatform.App.Services.Responses;
 using RealEstateListingPlatform.App.ViewModels;
 using RealEstateListingPlatform.App.ViewModels.UserModels;
-using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 
@@ -52,8 +51,31 @@ namespace RealEstateListingPlatform.App.Services
                 Data = response,
                 Message = "User info retrieved successfully"
             };
+        }
+        
+        public async Task<ApiResponseSingleData<UserInfoViewModel>> GetInfo(string id)
+        {
+            var result = await httpClient.GetAsync($"{requestUriUser}/{id}");
 
+            if (!result.IsSuccessStatusCode)//if no succes code recivied from backend
+            {
+                return new ApiResponseSingleData<UserInfoViewModel>
+                {
+                    IsSuccess = false,
+                    ValidationErrors = await result.Content.ReadAsStringAsync()
+                };
+            }
 
+            //the result is successfull
+            var response = await result.Content.ReadFromJsonAsync<UserInfoViewModel>();
+
+            //response.Id = " "; //shouldn't have acces at the id
+            return new ApiResponseSingleData<UserInfoViewModel>
+            {
+                IsSuccess = true,
+                Data = response,
+                Message = "User info retrieved successfully"
+            };
         }
 
         public async Task<ApiResponseSingleData<UserInfoViewModel>> Update(UserInfoViewModel updateRequest)
