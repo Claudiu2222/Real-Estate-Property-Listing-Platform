@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FluentAssertions;
+﻿using FluentAssertions;
 using NSubstitute;
-using RealEstatePropertyListingPlatform.Application.Contracts.Interfaces;
 using RealEstatePropertyListingPlatform.Application.Features.Listings.Commands.CreateListing;
-using RealEstatePropertyListingPlatform.Application.Persistence;
 using RealEstatePropertyListingPlatform.Domain.Common;
 using RealEstatePropertyListingPlatform.Domain.Entities;
 using RealEstatePropertyListingPlatform.Domain.Enums;
@@ -25,7 +18,7 @@ namespace RealEstatePropertyListingPlatform.Application.Test.Features.Listings.C
         public CreateListingCommandHandlerTests()
         {
             _handler = new CreateListingCommandHandler(ListingRepository, CurrentUserService, PropertyRepository);
-               }
+        }
 
         [Fact]
         public async Task When_CreateListingCommandHandlerIsCalled_And_PropertyIdIsInvalid_Then_SuccessIsFalse_And_ValidationsErrorsNotNull_AndValueNull_IsReturned()

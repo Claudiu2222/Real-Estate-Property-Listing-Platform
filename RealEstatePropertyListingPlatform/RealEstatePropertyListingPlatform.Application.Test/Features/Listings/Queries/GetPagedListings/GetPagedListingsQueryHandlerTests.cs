@@ -1,10 +1,8 @@
 ﻿using FluentAssertions;
 using NSubstitute;
 using RealEstatePropertyListingPlatform.Application.Features.Listings.Queries.GetPagedListings;
-using RealEstatePropertyListingPlatform.Application.Persistence;
 using RealEstatePropertyListingPlatform.Domain.Common;
 using RealEstatePropertyListingPlatform.Domain.Entities;
-using RealEstatePropertyListingPlatform.Domain.Records;
 
 namespace RealEstatePropertyListingPlatform.Application.Test.Features.Listings.Queries.GetPagedListings
 {

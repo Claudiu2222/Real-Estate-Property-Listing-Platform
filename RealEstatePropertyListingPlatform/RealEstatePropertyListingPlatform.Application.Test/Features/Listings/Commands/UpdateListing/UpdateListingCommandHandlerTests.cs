@@ -1,11 +1,4 @@
-﻿using RealEstatePropertyListingPlatform.Application.Contracts.Interfaces;
-using RealEstatePropertyListingPlatform.Application.Persistence;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FluentAssertions;
+﻿using FluentAssertions;
 using NSubstitute;
 using RealEstatePropertyListingPlatform.Application.Features.Listings.Commands.UpdateListing;
 using RealEstatePropertyListingPlatform.Domain.Common;

@@ -1,17 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FluentAssertions;
+﻿using FluentAssertions;
 using NSubstitute;
-using RealEstatePropertyListingPlatform.Application.Features.Listings;
 using RealEstatePropertyListingPlatform.Application.Features.Listings.Queries.GetAllListings;
-using RealEstatePropertyListingPlatform.Application.Persistence;
 using RealEstatePropertyListingPlatform.Domain.Common;
 using RealEstatePropertyListingPlatform.Domain.Entities;
-using RealEstatePropertyListingPlatform.Domain.Enums;
-using RealEstatePropertyListingPlatform.Domain.Records;
 
 namespace RealEstatePropertyListingPlatform.Application.Test.Features.Listings.Queries.GetAllListings
 {
