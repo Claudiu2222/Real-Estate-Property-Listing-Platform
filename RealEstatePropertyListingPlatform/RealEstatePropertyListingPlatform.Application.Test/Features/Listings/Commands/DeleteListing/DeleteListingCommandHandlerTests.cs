@@ -13,18 +13,13 @@ using RealEstatePropertyListingPlatform.Domain.Records;
 
 namespace RealEstatePropertyListingPlatform.Application.Test.Features.Listings.Commands.DeleteListing
 {
-    public class DeleteListingCommandHandlerTests : IDisposable
+    public class DeleteListingCommandHandlerTests : TestBase
     {
-
-        private readonly IListingRepository _listingRepository;
         private readonly DeleteListingCommandHandler _handler;
-        private readonly Listing _validListing;
         public DeleteListingCommandHandlerTests()
         {
-            _listingRepository = Substitute.For<IListingRepository>();
-            _handler = new DeleteListingCommandHandler(_listingRepository);
-            _validListing = Listing.Create(Guid.NewGuid(), Guid.NewGuid(), "Test Title", new PriceInfo { Value = 100, Currency = Domain.Enums.Currency.USD }, "Test Description", new List<string> { "Test Photo" }, true).Value;
-        }
+            _handler = new DeleteListingCommandHandler(ListingRepository);
+              }
 
         [Fact]
         public async Task When_DeleteListingCommandHandlerIsCalled_And_ListingIdIsInvalid_Then_SuccessIsFalse_And_ValidationsErrorsNotNull_IsReturned()
@@ -35,7 +30,7 @@ namespace RealEstatePropertyListingPlatform.Application.Test.Features.Listings.C
                 ListingId = Guid.Empty
             };
             var failureResult = Result<Listing>.Failure("Listing not found.");
-            _listingRepository.DeleteAsync(Arg.Any<Guid>())
+            ListingRepository.DeleteAsync(Arg.Any<Guid>())
                 .Returns(Task.FromResult(failureResult));
 
             // Act
@@ -55,8 +50,8 @@ namespace RealEstatePropertyListingPlatform.Application.Test.Features.Listings.C
             {
                 ListingId = Guid.NewGuid()
             };
-            var successResult = Result<Listing>.Success(_validListing);
-            _listingRepository.DeleteAsync(Arg.Any<Guid>())
+            var successResult = Result<Listing>.Success(ValidListing1);
+            ListingRepository.DeleteAsync(Arg.Any<Guid>())
                 .Returns(Task.FromResult(successResult));
 
             // Act
@@ -67,11 +62,6 @@ namespace RealEstatePropertyListingPlatform.Application.Test.Features.Listings.C
             result.ValidationErrors.Should().BeNull();
         }
 
-
-        public void Dispose()
-        {
-            _listingRepository.ClearReceivedCalls();
-        }
     }
 
 

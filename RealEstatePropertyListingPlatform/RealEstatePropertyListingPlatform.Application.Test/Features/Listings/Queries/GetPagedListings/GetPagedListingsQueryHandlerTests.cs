@@ -8,21 +8,12 @@ using RealEstatePropertyListingPlatform.Domain.Records;
 
 namespace RealEstatePropertyListingPlatform.Application.Test.Features.Listings.Queries.GetPagedListings
 {
-    public class GetPagedListingsQueryHandlerTests : IDisposable
-    {
+    public class GetPagedListingsQueryHandlerTests : TestBase{
         private readonly GetPagedListingsQueryHandler _handler;
-        private readonly IListingRepository _listingRepository;
-        private readonly Listing _validListing;
-        private readonly Listing _validListing2;
-        private readonly Property _validProperty;
 
         public GetPagedListingsQueryHandlerTests()
         {
-            _listingRepository = Substitute.For<IListingRepository>();
-            _handler = new GetPagedListingsQueryHandler(_listingRepository);
-            _validProperty = Property.Create(Guid.NewGuid(), "Test Address", "Test Zip Code", "Test State", "Test Country", "Romania", Domain.Enums.PropertyType.Apartment, 2, 2, 2, 2, 2).Value;
-            _validListing = Listing.Create(_validProperty.OwnerId, _validProperty.PropertyId, "Test Title", new PriceInfo { Value = 100, Currency = Domain.Enums.Currency.USD }, "Test Description", new List<string> { "Test Photo" }, true).Value;
-            _validListing2= Listing.Create(_validProperty.OwnerId, _validProperty.PropertyId, "Test Title 2", new PriceInfo { Value = 300, Currency = Domain.Enums.Currency.USD }, "Test Description 2", new List<string> { "Test Photo 2" }, true).Value;
+            _handler = new GetPagedListingsQueryHandler(ListingRepository);
         }
 
         [Fact]
@@ -30,9 +21,9 @@ namespace RealEstatePropertyListingPlatform.Application.Test.Features.Listings.Q
         {
             // Arrange
             var totalCount = 2;
-            var listings = new List<Listing>() { _validListing, _validListing2 };
-            _listingRepository.GetCountAsync().Returns(Task.FromResult(Result<int[]>.Success(new[] { totalCount })));
-            _listingRepository.GetPagedReponseAsync(Arg.Any<int>(), Arg.Any<int>())
+            var listings = new List<Listing>() { ValidListing1, ValidListing2 };
+            ListingRepository.GetCountAsync().Returns(Task.FromResult(Result<int[]>.Success(new[] { totalCount })));
+            ListingRepository.GetPagedReponseAsync(Arg.Any<int>(), Arg.Any<int>())
                 .Returns(Task.FromResult(Result<IReadOnlyList<Listing>>.Success(listings)));
 
             var query = new GetPagedListingsQuery(1, 10);
@@ -51,7 +42,7 @@ namespace RealEstatePropertyListingPlatform.Application.Test.Features.Listings.Q
         {
             // Arrange
             var totalCount = 20; // Example total count
-            _listingRepository.GetCountAsync().Returns(Task.FromResult(Result<int[]>.Success(new[] { totalCount })));
+            ListingRepository.GetCountAsync().Returns(Task.FromResult(Result<int[]>.Success(new[] { totalCount })));
 
             var query = new GetPagedListingsQuery(3, 10);
 
@@ -64,11 +55,6 @@ namespace RealEstatePropertyListingPlatform.Application.Test.Features.Listings.Q
             result.TotalCount.Should().Be(totalCount);
         }
 
-
-        public void Dispose()
-        {
-            _listingRepository.ClearReceivedCalls();
-        }
     }
 
     }

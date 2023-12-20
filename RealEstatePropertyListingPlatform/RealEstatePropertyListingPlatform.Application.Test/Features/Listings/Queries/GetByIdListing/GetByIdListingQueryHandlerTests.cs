@@ -14,22 +14,15 @@ using RealEstatePropertyListingPlatform.Domain.Records;
 
 namespace RealEstatePropertyListingPlatform.Application.Test.Features.Listings.Queries.GetByIdListing
 {
-    public class GetByIdListingQueryHandlerTests : IDisposable
+    public class GetByIdListingQueryHandlerTests : TestBase
     {
-        private readonly IListingRepository _listingRepository;
         private readonly GetByIdListingQueryHandler _handler;
-        private readonly Listing _validListing;
-        private readonly Property _validProperty;
+      
 
         public GetByIdListingQueryHandlerTests()
         {
-            _listingRepository = Substitute.For<IListingRepository>();
-            _handler = new GetByIdListingQueryHandler(_listingRepository);
-            _validProperty = Property.Create(Guid.NewGuid(), "Test Address", "Test Zip Code", "Test State",
-                "Test Country", "Romania", PropertyType.Apartment, 2, 2, 2, 2, 2).Value;
-            _validListing = Listing.Create(_validProperty.OwnerId, _validProperty.PropertyId, "Test Title",
-                new PriceInfo { Value = 100, Currency = Currency.USD}, "Test Description",
-                new List<string> { "Test Photo"}, true).Value;
+            _handler = new GetByIdListingQueryHandler(ListingRepository);
+
         }
 
         [Fact]
@@ -39,7 +32,7 @@ namespace RealEstatePropertyListingPlatform.Application.Test.Features.Listings.Q
             // Arrange
             var query = new GetByIdListingQuery(Guid.Empty);
             var failureResult = Result<Listing>.Failure("Listing not found.");
-            _listingRepository.FindByIdAsync(Arg.Any<Guid>())
+            ListingRepository.FindByIdAsync(Arg.Any<Guid>())
                 .Returns(Task.FromResult(failureResult));
 
 
@@ -58,8 +51,8 @@ namespace RealEstatePropertyListingPlatform.Application.Test.Features.Listings.Q
         {
             // Arrange
             var query = new GetByIdListingQuery(Guid.NewGuid());
-            var successResult = Result<Listing>.Success(_validListing);
-            _listingRepository.FindByIdAsync(Arg.Any<Guid>())
+            var successResult = Result<Listing>.Success(ValidListing1);
+            ListingRepository.FindByIdAsync(Arg.Any<Guid>())
                 .Returns(Task.FromResult(successResult));
 
             // Act
@@ -69,10 +62,6 @@ namespace RealEstatePropertyListingPlatform.Application.Test.Features.Listings.Q
             result.Success.Should().BeTrue();
             result.ValidationErrors.Should().BeNull();
             result.Listing.Should().NotBeNull();
-        }
-        public void Dispose()
-        {
-            _listingRepository.ClearReceivedCalls();
         }
     }
 }

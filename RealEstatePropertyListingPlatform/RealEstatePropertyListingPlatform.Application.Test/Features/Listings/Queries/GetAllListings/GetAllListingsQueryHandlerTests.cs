@@ -15,19 +15,12 @@ using RealEstatePropertyListingPlatform.Domain.Records;
 
 namespace RealEstatePropertyListingPlatform.Application.Test.Features.Listings.Queries.GetAllListings
 {
-    public class GetAllListingsQueryHandlerTests : IDisposable
+    public class GetAllListingsQueryHandlerTests : TestBase
     {
-        private readonly IListingRepository _listingRepository;
         private readonly GetAllListingsQueryHandler _handler;
-        private readonly Listing _validListing;
-        private readonly Property _validProperty;
         public GetAllListingsQueryHandlerTests()
         {
-            _listingRepository = Substitute.For<IListingRepository>();
-            _handler = new GetAllListingsQueryHandler(_listingRepository);
-            _validProperty= Property.Create(Guid.NewGuid(), "Test Address", "Test Zip Code", "Test State", "Test Country", "Romania", PropertyType.Apartment, 2, 2, 2, 2, 2).Value;
-            _validListing = Listing.Create(_validProperty.OwnerId, _validProperty.PropertyId, "Test Title", new PriceInfo { Value = 100, Currency = Currency.USD }, "Test Description", new List<string> { "Test Photo" }, true).Value;
-
+           _handler = new GetAllListingsQueryHandler(ListingRepository);
         }
 
         [Fact]
@@ -37,9 +30,9 @@ namespace RealEstatePropertyListingPlatform.Application.Test.Features.Listings.Q
             var query = new GetAllListingsQuery();
             var listings = new List<Listing>
             {
-                _validListing
+                ValidListing1
             };
-            _listingRepository.GetAllAsync()
+            ListingRepository.GetAllAsync()
                 .Returns(Task.FromResult(Result<IReadOnlyList<Listing>>.Success(listings)));
 
             // Act
@@ -59,7 +52,7 @@ namespace RealEstatePropertyListingPlatform.Application.Test.Features.Listings.Q
             // Arrange
             var query = new GetAllListingsQuery();
             var listings = new List<Listing>();
-            _listingRepository.GetAllAsync()
+            ListingRepository.GetAllAsync()
                 .Returns(Task.FromResult(Result<IReadOnlyList<Listing>>.Success(listings)));
 
             // Act
@@ -69,10 +62,6 @@ namespace RealEstatePropertyListingPlatform.Application.Test.Features.Listings.Q
             result.Success.Should().BeTrue();
             result.Listings.Should().NotBeNull();
             result.Listings.Should().HaveCount(0);
-        }
-        public void Dispose()
-        {
-            _listingRepository.ClearReceivedCalls();
         }
     }
 }

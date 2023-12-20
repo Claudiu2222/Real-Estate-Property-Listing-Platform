@@ -17,24 +17,15 @@ namespace RealEstatePropertyListingPlatform.Application.Test.Features.Listings.C
 {
 
     
-    public class CreateListingCommandHandlerTests : IDisposable
+    public class CreateListingCommandHandlerTests : TestBase
     {
         private readonly CreateListingCommandHandler _handler;
-        private readonly IListingRepository _listingRepository;
-        private readonly ICurrentUserService _currentUserService;
-        private readonly IPropertyRepository _propertyRepository;
-        private readonly Property _validProperty;
 
 
         public CreateListingCommandHandlerTests()
         {
-            _listingRepository = Substitute.For<IListingRepository>();
-            _currentUserService = Substitute.For<ICurrentUserService>();
-            _propertyRepository = Substitute.For<IPropertyRepository>();
-            _handler = new CreateListingCommandHandler(_listingRepository, _currentUserService, _propertyRepository);
-
-            _validProperty = Property.Create(Guid.NewGuid(), "Test Address", "Test Zip Code", "Test State", "Test Country", "Romania", PropertyType.Apartment, 2, 2, 2, 2, 2).Value;
-        }
+            _handler = new CreateListingCommandHandler(ListingRepository, CurrentUserService, PropertyRepository);
+               }
 
         [Fact]
         public async Task When_CreateListingCommandHandlerIsCalled_And_PropertyIdIsInvalid_Then_SuccessIsFalse_And_ValidationsErrorsNotNull_AndValueNull_IsReturned()
@@ -50,7 +41,7 @@ namespace RealEstatePropertyListingPlatform.Application.Test.Features.Listings.C
                 Negotiable = true
             };
             var failurePropertyResult = Result<Property>.Failure("Property not found."); 
-            _propertyRepository.FindByIdAsync(Arg.Any<Guid>())
+            PropertyRepository.FindByIdAsync(Arg.Any<Guid>())
                 .Returns(Task.FromResult(failurePropertyResult)); 
 
             // Act
@@ -76,10 +67,10 @@ namespace RealEstatePropertyListingPlatform.Application.Test.Features.Listings.C
                 Photos = new List<string> { "Test Photo" },
                 Negotiable = true
             };
-            _currentUserService.UserId.Returns("Invalid User Id");
+            CurrentUserService.UserId.Returns("Invalid User Id");
 
-            var validPropertyResult = Result<Property>.Success(_validProperty); 
-            _propertyRepository.FindByIdAsync(Arg.Any<Guid>())
+            var validPropertyResult = Result<Property>.Success(ValidProperty); 
+            PropertyRepository.FindByIdAsync(Arg.Any<Guid>())
                 .Returns(Task.FromResult(validPropertyResult)); 
 
             // Act
@@ -104,10 +95,10 @@ namespace RealEstatePropertyListingPlatform.Application.Test.Features.Listings.C
                 Photos = new List<string> { "Test Photo" },
                 Negotiable = true
             };
-            _currentUserService.UserId.Returns(_validProperty.OwnerId.ToString());
+            CurrentUserService.UserId.Returns(ValidProperty.OwnerId.ToString());
 
-            var validPropertyResult = Result<Property>.Success(_validProperty); 
-            _propertyRepository.FindByIdAsync(Arg.Any<Guid>())
+            var validPropertyResult = Result<Property>.Success(ValidProperty); 
+            PropertyRepository.FindByIdAsync(Arg.Any<Guid>())
                 .Returns(Task.FromResult(validPropertyResult));
 
             // Act
@@ -119,12 +110,7 @@ namespace RealEstatePropertyListingPlatform.Application.Test.Features.Listings.C
             result.Listing.Should().NotBeNull();
         }
 
-        public void Dispose()
-        {
-            _listingRepository.ClearReceivedCalls();
-            _currentUserService.ClearReceivedCalls();
-            _propertyRepository.ClearReceivedCalls();
-        }
+    
 
     }
 

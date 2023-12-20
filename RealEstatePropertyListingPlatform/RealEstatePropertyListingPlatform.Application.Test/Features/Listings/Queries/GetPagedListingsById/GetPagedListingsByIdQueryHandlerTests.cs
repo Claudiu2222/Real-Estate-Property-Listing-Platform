@@ -14,24 +14,14 @@ using RealEstatePropertyListingPlatform.Domain.Records;
 
 namespace RealEstatePropertyListingPlatform.Application.Test.Features.Listings.Queries.GetPagedListingsById
 {
-    public class GetPagedListingsByIdQueryHandlerTests : IDisposable
+    public class GetPagedListingsByIdQueryHandlerTests : TestBase
     {
-        private readonly ICurrentUserService _currentUserService;
-        private readonly IListingRepository _listingRepository;
         private readonly GetPagedListingsByIdQueryHandler _handler;
-        private readonly Property _validProperty;
-        private readonly Listing _validListing;
+     
 
         public GetPagedListingsByIdQueryHandlerTests()
         {
-            _currentUserService = Substitute.For<ICurrentUserService>();
-            _listingRepository = Substitute.For<IListingRepository>();
-            _handler = new GetPagedListingsByIdQueryHandler(_listingRepository, _currentUserService);
-            _validProperty = Property.Create(Guid.NewGuid(), "Test Address", "Test Zip Code", "Test State",
-                "Test Country", "Romania", Domain.Enums.PropertyType.Apartment, 2, 2, 2, 2, 2).Value;
-            _validListing = Listing.Create(_validProperty.OwnerId, _validProperty.PropertyId, "Test Title",
-                new PriceInfo { Value = 100, Currency = Domain.Enums.Currency.USD }, "Test Description",
-                new List<string> { "Test Photo" }, true).Value;
+            _handler = new GetPagedListingsByIdQueryHandler(ListingRepository, CurrentUserService);
         }
 
         [Fact]
@@ -39,9 +29,9 @@ namespace RealEstatePropertyListingPlatform.Application.Test.Features.Listings.Q
         {
             // Arrange
             var userId = Guid.NewGuid();
-            _currentUserService.UserId.Returns(userId.ToString());
-            var listings = new List<Listing>() { _validListing };
-            _listingRepository.GetListingsByUserId(userId).Returns(listings);
+            CurrentUserService.UserId.Returns(userId.ToString());
+            var listings = new List<Listing>() { ValidListing1 };
+            ListingRepository.GetListingsByUserId(userId).Returns(listings);
 
             var query = new GetPagedListingsByIdQuery(1, 10);
 
@@ -60,7 +50,7 @@ namespace RealEstatePropertyListingPlatform.Application.Test.Features.Listings.Q
             When_GetPagedListingsByIdQueryHandlerIsCalled_And_UserIdIsInvalid_Then_SuccessIsFalse_And_ValidationErrorsNotNull_IsReturned()
         {
             // Arrange
-            _currentUserService.UserId.Returns("Invalid User Id");
+            CurrentUserService.UserId.Returns("Invalid User Id");
 
             var query = new GetPagedListingsByIdQuery(1, 10);
 
@@ -77,9 +67,9 @@ namespace RealEstatePropertyListingPlatform.Application.Test.Features.Listings.Q
                {
         // Arrange
         var userId = Guid.NewGuid();
-        _currentUserService.UserId.Returns(userId.ToString());
+        CurrentUserService.UserId.Returns(userId.ToString());
         var listings = new List<Listing>();
-        _listingRepository.GetListingsByUserId(userId).Returns(listings);
+        ListingRepository.GetListingsByUserId(userId).Returns(listings);
 
         var query = new GetPagedListingsByIdQuery(2, 10);
 
@@ -90,13 +80,6 @@ namespace RealEstatePropertyListingPlatform.Application.Test.Features.Listings.Q
         response.Success.Should().BeFalse();
         response.ValidationErrors.Should().Contain("Page number out of range");
     }
-
-    public void Dispose()
-        {
-            _currentUserService.ClearReceivedCalls();
-            _listingRepository.ClearReceivedCalls();
-        }
-
 
 
     }
