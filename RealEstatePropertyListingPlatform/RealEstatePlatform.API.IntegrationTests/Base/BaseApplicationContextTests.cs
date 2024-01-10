@@ -58,6 +58,14 @@ namespace RealEstatePlatform.API.IntegrationTests.Base
         public async ValueTask DisposeAsync()
         {
             GC.SuppressFinalize(this);
+
+            using (var scope = Application.Services.CreateScope())
+            {
+                var scopedServices = scope.ServiceProvider;
+                var db = scopedServices.GetRequiredService<RealEstatePropertyListingPlatformContext>();
+                await db.Database.EnsureDeletedAsync();
+            }
+
             await Application.DisposeAsync();
         }
     }
