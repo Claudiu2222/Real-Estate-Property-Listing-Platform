@@ -5,8 +5,10 @@ using RealEstatePropertyListingPlatform.Identity;
 using WebAPI.Services;
 using Microsoft.OpenApi.Models;
 using RealEstatePropertyListingPlatform.API.Utility;
+using RealEstatePropertyListingPlatform.Application.Models;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddCors(options =>

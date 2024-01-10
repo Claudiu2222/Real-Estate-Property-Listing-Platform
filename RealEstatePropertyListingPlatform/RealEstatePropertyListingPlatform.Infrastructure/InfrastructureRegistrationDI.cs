@@ -1,8 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using RealEstatePropertyListingPlatform.Application.Contracts;
 using RealEstatePropertyListingPlatform.Application.Persistence;
 using RealEstatePropertyListingPlatform.Infrastructure.Repositories;
+using RealEstatePropertyListingPlatform.Infrastructure.Services;
 
 namespace RealEstatePropertyListingPlatform.Infrastructure
 {
@@ -27,6 +29,8 @@ namespace RealEstatePropertyListingPlatform.Infrastructure
                 IPropertyRepository, PropertyRepository>();
             services.AddScoped<
                 IListingRepository, ListingRepository>();
+            services.AddScoped
+                <IEmailService, EmailService>();
             return services;
 
         }

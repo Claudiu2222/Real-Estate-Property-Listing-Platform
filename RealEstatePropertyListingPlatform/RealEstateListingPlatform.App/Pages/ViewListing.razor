@@ -1,4 +1,4 @@
-@page "/viewlisting/{ListingId}"
+﻿@page "/viewlisting/{ListingId}"
 @using RealEstateListingPlatform.App.ViewModels
 @using RealEstateListingPlatform.App.Contracts
 @using RealEstateListingPlatform.App.ViewModels.UserModels
@@ -32,6 +32,7 @@
                         </div>
                         <div class="card-body">
                             <p class="card-text">@UserInfo.Email</p>
+                            <button class="btn btn-primary" @onclick="SendMail">Contact</button>
                             <p class="card-text">@UserInfo.PhoneNumber</p>
                         </div>
                     </div>
@@ -157,6 +158,8 @@ else
 
     [Inject] public required IListingDataService ListingDataService { get; set; }
 
+    [Inject] public required ISendMailService SendMailService { get; set; }
+
     [Inject] public required IPropertyDataService PropertyDataService { get; set; }
     [Inject] public required IUserService UserService { get; set; }
 
@@ -174,6 +177,31 @@ else
         if (response.IsSuccess)
         {
             UserInfo = response.Data;
+        }
+    }
+
+    private async Task SendMail()
+    {
+        var response = await UserService.GetInfo(Listing.ListingCreatorId);
+        if (response.IsSuccess)
+        {
+            UserInfo = response.Data;
+        }
+        var mail =  new SendMailViewModel
+        {
+            To = "galanandy400@gmail.com",
+            ReplyTo = "galanandy400@yahoo.ro",
+            Subject = "Someone is interested in your property",
+            Body = "Someone is interested in your property. Please contact him/her at " + UserInfo!.PhoneNumber
+        };
+        var result = await SendMailService.SendMailAsync(mail);
+        if (result.isSuccess)
+        {
+            Console.WriteLine("Mail sent");
+        }
+        else
+        {
+            Console.WriteLine("Mail not sent");
         }
     }
 
