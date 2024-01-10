@@ -109,7 +109,7 @@ namespace RealEstateListingPlatform.App.Services
         {
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", await tokenService.GetTokenAsync());
 
-            var result = await httpClient.GetAsync(RequestUri, HttpCompletionOption.ResponseHeadersRead);
+            var result = await httpClient.GetAsync(RequestUriByOwner, HttpCompletionOption.ResponseHeadersRead);
             result.EnsureSuccessStatusCode();
 
             var content = await result.Content.ReadAsStringAsync();

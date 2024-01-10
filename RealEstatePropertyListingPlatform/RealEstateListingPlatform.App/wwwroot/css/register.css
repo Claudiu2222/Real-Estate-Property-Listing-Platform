@@ -134,3 +134,39 @@ a:link {
     margin-bottom: -20rem;
     margin-left: calc(50% - 9rem);
 }
+
+@media screen and (max-width: 1200px) {
+    .cancel-button{
+        padding: 12px 10px !important;
+    }
+}
+@media screen and (max-width: 1000px){
+    .col-md-6 {
+        display: block; /* Aceasta va face ca cele două div-uri să fie pe coloane atunci când ecranul este mai mic de 1500px */
+        width: 100%; /* Ocupă întreaga lățime a containerului */
+    }
+    .img-col {
+        display: none;
+        visibility: hidden;
+    }
+}
+
+@media screen and (max-width: 530px) {
+.h1-login {
+        font-size: 2rem;
+margin-left: calc(50% - 4rem);
+    }
+    .cancel-button,
+    .register-button {
+        font-size: calc(60%);
+        display: block;
+        width: 100%; /* Asigură ca butoanele să ocupe întreaga lățime disponibilă */
+        margin-bottom: 10px; /* Adaugă un spațiu între butoane pentru a le separa */
+    }
+}
+@media screen and (max-width: 330px) {
+    .h1-login {
+        font-size: 1.5rem;
+        margin-left: calc(40% - 2rem);
+    }
+}

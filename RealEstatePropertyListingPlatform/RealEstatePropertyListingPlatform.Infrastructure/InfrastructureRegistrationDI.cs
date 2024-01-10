@@ -30,7 +30,7 @@ namespace RealEstatePropertyListingPlatform.Infrastructure
             services.AddScoped<
                 IListingRepository, ListingRepository>();
             services.AddScoped
-                <IEmailService, EmailService>();
+               <IEmailService, EmailService>();
             return services;
 
         }

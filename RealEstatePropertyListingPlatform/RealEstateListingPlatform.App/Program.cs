@@ -54,7 +54,6 @@ builder.Services.AddHttpClient<IAuthenticationService, AuthenticationService>(cl
     client.BaseAddress = new Uri("https://localhost:7187/");
 });
 
-//for send email
 builder.Services.AddHttpClient<ISendMailService, SendEmailService>(client =>
 {
     client.BaseAddress = new Uri("https://localhost:7187/");
