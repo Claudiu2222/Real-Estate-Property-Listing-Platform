@@ -31,7 +31,7 @@ namespace RealEstatePlatform.API.IntegrationTests.Controllers
 
             // Assert
             propertiesArray.Should().NotBeNull();
-            propertiesArray.Count().Should().Be(4);
+            propertiesArray?.Count().Should().Be(4);
 
         }
 
@@ -64,21 +64,26 @@ namespace RealEstatePlatform.API.IntegrationTests.Controllers
             // Assert
             response.EnsureSuccessStatusCode();
             var responseString = await response.Content.ReadAsStringAsync();
-            var result = JsonConvert.DeserializeObject<PropertyDto>(responseString);
-            result?.PropertyId.Should().NotBeEmpty();
-            result?.OwnerId.Should().NotBeEmpty();
-            result?.Should().NotBeNull();
-            result?.StreetName.Should().Be(property.StreetName);
-            result?.City.Should().Be(property.City);
-            result?.Region.Should().Be(property.Region);
-            result?.PostalCode.Should().Be(property.PostalCode);
-            result?.Country.Should().Be(property.Country);
-            result?.PropertyType.Should().Be(property.PropertyType);
-            result?.NumberOfRooms.Should().Be(property.NumberOfRooms);
-            result?.NumberOfBathrooms.Should().Be(property.NumberOfBathrooms);
-            result?.Floor.Should().Be(property.Floor);
-            result?.NumberOfFloors.Should().Be(property.NumberOfFloors);
-            result?.SquareFeet.Should().Be(property.SquareFeet);
+            var result = JsonConvert.DeserializeObject<CreatePropertyCommandResponse>(responseString);
+            
+            result?.ValidationErrors.Should().BeNullOrEmpty();
+
+            var resProperty = result?.Property;
+
+            resProperty?.PropertyId.Should().NotBeEmpty();
+            resProperty?.OwnerId.Should().NotBeEmpty();
+            resProperty?.Should().NotBeNull();
+            resProperty?.StreetName.Should().Be(property.StreetName);
+            resProperty?.City.Should().Be(property.City);
+            resProperty?.Region.Should().Be(property.Region);
+            resProperty?.PostalCode.Should().Be(property.PostalCode);
+            resProperty?.Country.Should().Be(property.Country);
+            resProperty?.PropertyType.Should().Be(property.PropertyType);
+            resProperty?.NumberOfRooms.Should().Be(property.NumberOfRooms);
+            resProperty?.NumberOfBathrooms.Should().Be(property.NumberOfBathrooms);
+            resProperty?.Floor.Should().Be(property.Floor);
+            resProperty?.NumberOfFloors.Should().Be(property.NumberOfFloors);
+            resProperty?.SquareFeet.Should().Be(property.SquareFeet);
 
         }
 
@@ -87,19 +92,26 @@ namespace RealEstatePlatform.API.IntegrationTests.Controllers
         private static string CreateToken()
         {
 
-            return JwtTokenProvider.JwtSecurityTokenHandler.WriteToken(
-            new JwtSecurityToken(
-                JwtTokenProvider.Issuer,
-                JwtTokenProvider.Issuer,
-                new List<Claim> ()
-                {
-                    new Claim(ClaimTypes.Role, "User"),
-                    new ("department", "IT")
+            return JwtTokenBuilder.Create()
+                .WithRole("User")
+                .WithNameIdentifier()
+                .Build();
+
+            //return JwtTokenProvider.JwtSecurityTokenHandler.WriteToken(
+            //new JwtSecurityToken(
+            //    JwtTokenProvider.Issuer,
+            //    JwtTokenProvider.Issuer,
+            //    new List<Claim> ()
+            //    {
+            //        new Claim(ClaimTypes.Role, "User"),
                 
-                },
-                expires: DateTime.Now.AddMinutes(30),
-                signingCredentials: JwtTokenProvider.SigningCredentials
-            ));
+            //    },
+            //    expires: DateTime.Now.AddMinutes(30),
+            //    signingCredentials: JwtTokenProvider.SigningCredentials
+            //));
+
+
+
         }
     }
 }

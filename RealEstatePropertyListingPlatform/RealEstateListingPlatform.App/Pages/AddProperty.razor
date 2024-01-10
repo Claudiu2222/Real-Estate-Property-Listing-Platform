@@ -90,13 +90,18 @@
         </div>
     </div>
 
-    <div class="row mb-3 ms-2">
-        <label for="floor" class="col-sm-3 form-label">Number of floor :</label>
-        <div class="col-sm-5">
-            <InputNumber id="floor"  class="form-control" @bind-Value="@PropertyViewModel.Floor" placeholder="Enter nr floor"></InputNumber>
-            <ValidationMessage For="@(() => PropertyViewModel.Floor)" />
+    @if (PropertyViewModel.PropertyType == PropertyType.Apartment ||
+         PropertyViewModel.PropertyType == PropertyType.Condo ||
+         PropertyViewModel.PropertyType == PropertyType.Office)
+	{
+        <div class="row mb-3 ms-2">
+            <label for="floor" class="col-sm-3 form-label">Number of floor :</label>
+            <div class="col-sm-5">
+                <InputNumber id="floor" class="form-control" @bind-Value="@PropertyViewModel.Floor" placeholder="Enter nr floor"></InputNumber>
+                <ValidationMessage For="@(() => PropertyViewModel.Floor)" />
+            </div>
         </div>
-    </div>
+	}
 
     <div class="row mb-3 ms-2">
         <label for="nrfloors" class="col-sm-3 form-label">Number of total floors :</label>
@@ -125,7 +130,7 @@
     [Inject]
     public NavigationManager NavigationManager { get; set; }
 
-    public PropertyViewModel PropertyViewModel { get; set; } = new PropertyViewModel();
+    public PropertyViewModel PropertyViewModel { get; set; } = new ();
     
     public string Message { get; set; }
     
@@ -142,10 +147,9 @@
         }
         else
         {
-            Message = result.Message;
             if (!string.IsNullOrWhiteSpace(result.ValidationErrors))
             {
-                Message += result.ValidationErrors;
+                Message = result.ValidationErrors;
             }
         }
     }

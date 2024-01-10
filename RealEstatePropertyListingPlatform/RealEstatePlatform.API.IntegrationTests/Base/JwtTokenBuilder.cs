@@ -8,6 +8,13 @@ namespace RealEstatePlatform.API.IntegrationTests.Base
         public List<Claim> Claims { get; } = new();
         public int ExpiresInMinutes { get; set; } = 30;
 
+        private JwtTokenBuilder()
+        {
+        }
+        public static JwtTokenBuilder Create()
+        {
+            return new JwtTokenBuilder();
+        }
         public JwtTokenBuilder WithRole(string roleName)
         {
             Claims.Add(new Claim(ClaimTypes.Role, roleName));
@@ -35,6 +42,12 @@ namespace RealEstatePlatform.API.IntegrationTests.Base
         public JwtTokenBuilder WithExpiration(int expiresInMinutes)
         {
             ExpiresInMinutes = expiresInMinutes;
+            return this;
+        }
+
+        public JwtTokenBuilder WithNameIdentifier()
+        {
+            Claims.Add(new Claim(ClaimTypes.NameIdentifier, Guid.NewGuid().ToString()));
             return this;
         }
 
