@@ -9,6 +9,7 @@ namespace RealEstatePlatform.API.IntegrationTests.Base
     {
         public static Guid ValidPropertyId ;
         public static Guid ValidListingId ;
+
         public static void InitializeDbForTests(RealEstatePropertyListingPlatformContext context)
         {
             
