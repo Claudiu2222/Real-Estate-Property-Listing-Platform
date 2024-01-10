@@ -1,6 +1,7 @@
 ﻿using RealEstateListingPlatform.App.Contracts;
 using RealEstateListingPlatform.App.ViewModels;
 using System.Net.Http.Headers;
+using System.Net.Http.Json;
 
 namespace RealEstateListingPlatform.App.Services
 {
