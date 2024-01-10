@@ -1,10 +1,12 @@
-﻿using System.IdentityModel.Tokens.Jwt;
+﻿using Microsoft.AspNetCore.SignalR;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
 namespace RealEstatePlatform.API.IntegrationTests.Base
 {
     public class JwtTokenBuilder
     {
+        public static Guid UserId = Guid.NewGuid();
         public List<Claim> Claims { get; } = new();
         public int ExpiresInMinutes { get; set; } = 30;
 
@@ -47,7 +49,7 @@ namespace RealEstatePlatform.API.IntegrationTests.Base
 
         public JwtTokenBuilder WithNameIdentifier()
         {
-            Claims.Add(new Claim(ClaimTypes.NameIdentifier, Guid.NewGuid().ToString()));
+            Claims.Add(new Claim(ClaimTypes.NameIdentifier, UserId.ToString()));
             return this;
         }
 

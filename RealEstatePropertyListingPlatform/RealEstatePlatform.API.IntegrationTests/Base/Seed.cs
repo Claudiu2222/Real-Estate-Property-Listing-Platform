@@ -1,11 +1,14 @@
 ﻿using RealEstatePropertyListingPlatform.Domain.Entities;
 using RealEstatePropertyListingPlatform.Domain.Enums;
+using RealEstatePropertyListingPlatform.Domain.Records;
 using RealEstatePropertyListingPlatform.Infrastructure;
 
 namespace RealEstatePlatform.API.IntegrationTests.Base
 {
     public class Seed
     {
+        public static Guid ValidPropertyId ;
+        public static Guid ValidListingId ;
         public static void InitializeDbForTests(RealEstatePropertyListingPlatformContext context)
         {
             
@@ -18,10 +21,40 @@ namespace RealEstatePlatform.API.IntegrationTests.Base
             };
 
             context.Properties.AddRange(properties);
+
+            PriceInfo price1 = new() { Value = 1000, Currency = Currency.RON };
+            PriceInfo price2 = new() { Value = 100, Currency = Currency.EUR };
+            PriceInfo price3 = new() { Value = 399.99M, Currency = Currency.USD };
+
+            var listings = new List<Listing>
+            {
+
+            Listing.Create(properties[0].OwnerId, properties[0].PropertyId,
+            "Listing Title Test - 1", price1, "Description Test 1", ["photo-1/1", "photo/2"],
+            false).Value,
+
+            Listing.Create(properties[1].OwnerId, properties[1].PropertyId,
+            "Listing Title Test - 2", price2, "Description Test 2", ["photo-2/1", "photo/2"],
+            false).Value,
+
+            Listing.Create(properties[2].OwnerId, properties[2].PropertyId,
+            "Listing Title Test - 3", price3, "Description Test 3", ["photo-3/1", "photo/2"],
+            false).Value
+
+            };
+
+            context.Listings.AddRange(listings);
             context.SaveChanges();
+
+            ValidPropertyId = properties[0].PropertyId;
+            ValidListingId = listings[0].ListingId;
 
             var propertyCount = context.Properties.Count();
             Console.WriteLine($"Number of properties in the DbSet: {propertyCount}");
+
+
+            var listingCount = context.Listings.Count();
+            Console.WriteLine($"Number of listings in the DbSet: {listingCount}");
 
         }
     }
