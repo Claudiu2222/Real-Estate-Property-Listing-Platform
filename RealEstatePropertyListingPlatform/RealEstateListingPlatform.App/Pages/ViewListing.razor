@@ -41,6 +41,7 @@
                             {
                                 <div class="modal" tabindex="-1" role="dialog" style="display: block;">
                                     <div class="modal-dialog" role="document">
+                                
                                         <div class="modal-content">
                                             <div class="modal-header">
                                                 <h5 class="modal-title">Contact Owner</h5>
@@ -49,6 +50,17 @@
                                                 </button>
                                             </div>
                                             <div class="modal-body">
+                                                <div class="@GetAlertClass() mb-3 ms-2" style="display: @(string.IsNullOrWhiteSpace(Message) ? "none" : "block");">
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="me-2">
+                                                            <svg id="checkmark" xmlns="http://www.w3.org/2000/svg" style="width: 24px; height: 24px; transform-origin: center; transition: transform 0.3s ease-in-out;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                                                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                                                            </svg>
+                                                        </div>
+                                                        <div>@Message</div>
+                                                    </div>
+                                                </div>
                                                 <label for="emailInput">✉️Your email:</label>
                                                 <input type="email" class="form-control" id="emailInput" @bind="@emailInput" />
 
@@ -206,6 +218,8 @@ else
     private string emailInput = "";
     private string messageInput = "";
 
+    public string Message { get; set; }
+
     private bool showContactDialog = false;
 
     private void ShowContactDialog()
@@ -241,12 +255,22 @@ else
         var result = await SendMailService.SendMailAsync(mail);
         if (result.isSuccess)
         {
-            Console.WriteLine("Mail sent");
+            Message = "Mail sent successfully";
         }
         else
         {
-            Console.WriteLine("Mail not sent");
+            Message = "Mail not sent";
         }
+    }
+
+    private string GetAlertClass()
+    {
+        if (string.IsNullOrWhiteSpace(Message))
+        {
+            return "alert alert-info"; // sau o altă clasă pentru alerte informative
+        }
+
+        return Message.StartsWith("Mail sent successfully") ? "alert alert-success" : "alert alert-danger";
     }
 
     private async Task LoadPage()
