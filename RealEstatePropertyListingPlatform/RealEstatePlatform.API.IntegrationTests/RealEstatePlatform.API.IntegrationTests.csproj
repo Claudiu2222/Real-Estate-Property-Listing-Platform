@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+	<LangVersion>latest</LangVersion>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+
+    <IsPackable>false</IsPackable>
+	<PreserveCompilationContext>true</PreserveCompilationContext>
+    <IsTestProject>true</IsTestProject>
+    <BaseOutputPath>bin\</BaseOutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentAssertions" Version="6.12.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.1" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.0" />
+    <PackageReference Include="xunit" Version="2.4.2" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="coverlet.collector" Version="6.0.0">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\RealEstateListingPlatform.App\RealEstateListingPlatform.App.csproj" />
+    <ProjectReference Include="..\RealEstatePropertyListingPlatform.API\RealEstatePropertyListingPlatform.API.csproj" />
+    <ProjectReference Include="..\RealEstatePropertyListingPlatform.Infrastructure\RealEstatePropertyListingPlatform.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>
