@@ -1,4 +1,5 @@
 ﻿@page "/viewlisting/{ListingId}"
+@using RealEstateListingPlatform.App.Services
 @using RealEstateListingPlatform.App.ViewModels
 @using RealEstateListingPlatform.App.Contracts
 @using RealEstateListingPlatform.App.ViewModels.UserModels
@@ -31,9 +32,41 @@
                             <h4 class="card-title">@UserInfo!.Name</h4>
                         </div>
                         <div class="card-body">
-                            <p class="card-text">@UserInfo.Email</p>
-                            <button class="btn btn-primary" @onclick="SendMail">Contact</button>
-                            <p class="card-text">@UserInfo.PhoneNumber</p>
+                            <p class="card-text">✉️@UserInfo.Email
+                            
+                            </p>
+
+                            <p class="card-text">📞@UserInfo.PhoneNumber</p>
+                            @if (showContactDialog)
+                            {
+                                <div class="modal" tabindex="-1" role="dialog" style="display: block;">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Contact Owner</h5>
+                                                <button type="button" class="close" @onclick="CloseContactDialog" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <label for="emailInput">✉️Your email:</label>
+                                                <input type="email" class="form-control" id="emailInput" @bind="@emailInput" />
+
+                                                <label for="messageInput">🗨️Message:</label>
+                                                <textarea class="form-control" id="messageInput" rows="3" @bind="@messageInput"></textarea>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary cancel" @onclick="CloseContactDialog">Close</button>
+                                                <button type="button" class="btn btn-primary send" @onclick="SendMail">Send</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <button class="button-contact" @onclick="ShowContactDialog">Contact</button>
+                            }
                         </div>
                     </div>
                 </div>
@@ -145,6 +178,7 @@
             </div>
         </div>
     </div>
+    
 }
 else
 {
@@ -169,15 +203,19 @@ else
 
     private ListingViewModel? Listing { get; set; }
 
-    private async Task LoadPage()
+    private string emailInput = "";
+    private string messageInput = "";
+
+    private bool showContactDialog = false;
+
+    private void ShowContactDialog()
     {
-        Listing = await ListingDataService.GetListingByIdAsync(Guid.Parse(ListingId!));
-        Property = await PropertyDataService.GetBasicInfoPropertyByIdAsync(Guid.Parse(Listing.PropertyId));
-        var response = await UserService.GetInfo(Listing.ListingCreatorId);
-        if (response.IsSuccess)
-        {
-            UserInfo = response.Data;
-        }
+        showContactDialog = true;
+    }
+
+    private void CloseContactDialog()
+    {
+        showContactDialog = false;
     }
 
     private async Task SendMail()
@@ -187,13 +225,19 @@ else
         {
             UserInfo = response.Data;
         }
-        var mail =  new SendMailViewModel
-        {
-            To = "galanandy400@gmail.com",
-            ReplyTo = "galanandy400@yahoo.ro",
-            Subject = "Someone is interested in your property",
-            Body = "Someone is interested in your property. Please contact him/her at " + UserInfo!.PhoneNumber
-        };
+
+        string body = "Someone is interested in your property. Please contact him/her replying to this email or at " + UserInfo!.PhoneNumber + ".\n Here is the message: " + messageInput;
+
+        Console.WriteLine(emailInput);
+        var mail = new SendMailViewModel
+            {
+                To = UserInfo!.Email,
+                ReplyTo = emailInput,
+                Subject = "Someone is interested in your property " + Listing.Title,
+                Body = body
+            };
+
+        Console.WriteLine(mail);
         var result = await SendMailService.SendMailAsync(mail);
         if (result.isSuccess)
         {
@@ -202,6 +246,17 @@ else
         else
         {
             Console.WriteLine("Mail not sent");
+        }
+    }
+
+    private async Task LoadPage()
+    {
+        Listing = await ListingDataService.GetListingByIdAsync(Guid.Parse(ListingId!));
+        Property = await PropertyDataService.GetBasicInfoPropertyByIdAsync(Guid.Parse(Listing.PropertyId));
+        var response = await UserService.GetInfo(Listing.ListingCreatorId);
+        if (response.IsSuccess)
+        {
+            UserInfo = response.Data;
         }
     }
 

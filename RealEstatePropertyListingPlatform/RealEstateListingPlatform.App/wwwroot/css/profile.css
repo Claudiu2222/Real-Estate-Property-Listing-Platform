@@ -20,7 +20,7 @@
     transition: transform 80ms ease-in;
     margin-top: 10px;
     margin-bottom: 10px;
-    margin-left : -12rem;
+    margin-left : -30%;
 }
 
     .save-button:hover {
@@ -47,3 +47,9 @@
         background-color: #691a1a;
         cursor: pointer;
     }
+
+@media screen and (max-width: 2000px) {
+    .save-button {
+        margin-left: -20%;
+    }
+}

@@ -283,3 +283,54 @@ img.logo-img {
     margin-left: -1rem;
     border-radius: 50%;
 }
+
+.button-contact{
+position: relative;
+    width: 5rem;
+    height: 2rem;
+    border-radius: 5px;
+    border: 2px solid #1861ac;
+    background-color: #1861ac;
+    cursor: pointer;
+    box-shadow: 0 0 2px #333;
+    overflow: hidden;
+    transition: .3s;
+    margin-left: 1rem;
+    color: #fff;
+    font-size: 1rem;
+}
+
+.button-contact:hover {
+    background-color: #212ac7;
+    transform: scale(1.2);
+    box-shadow: 0 0 4px #111;
+    transition: .3s;
+}
+.modal-header{
+background-color: #1861ac;
+    color: #fff;
+}
+
+.cancel{
+    background-color: #963b3b;
+    color: #fff;
+    border: #6d2a2a;
+}
+
+.cancel:hover{
+    background-color: #6d2a2a;
+    color: #fff;
+    border: #6d2a2a;
+}
+
+.send{
+    background-color: #1861ac;
+    color: #fff;
+    border: #1861ac;
+}
+
+.send:hover{
+    background-color: #258cfb;
+    color: #fff;
+    border: #1861ac;
+}
