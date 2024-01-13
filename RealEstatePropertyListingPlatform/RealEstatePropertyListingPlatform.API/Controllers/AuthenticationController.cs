@@ -110,7 +110,7 @@ namespace RealEstatePropertyListingPlatform.API.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = $"{UserRole.Admin}, {UserRole.User}")]
+        //[Authorize(Roles = $"{UserRole.Admin}, {UserRole.User}")]
         [Route("logout")]
         public async Task<IActionResult> Logout()
         {
