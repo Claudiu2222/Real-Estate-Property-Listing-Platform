@@ -68,7 +68,7 @@
         <label for="propertyType" class="col-sm-3 form-label"> Property Type :</label>
 
         <div class="col-sm-5">
-            <InputSelect id="propertyType" class="form-control" @bind-Value="@PropertyViewModelUser.PropertyType">
+            <InputSelect id="propertyType" class="form-control" @bind-Value="@PropertyViewModelUser.PropertyType" @oninput="HandlePropertyTypeChange">
 
                 @foreach (var propertyType in Enum.GetValues(typeof(PropertyType)))
                 {
@@ -81,38 +81,52 @@
         </div>
     </div>
 
-    <div class="row mb-3 ms-2">
-        <label for="nrRooms" class="col-sm-3 form-label">Number of rooms :</label>
-        <div class="col-sm-5">
-            <InputNumber id="nrRooms" class="form-control" @bind-Value="@PropertyViewModelUser.NumberOfRooms" placeholder="@PropertyViewModelUser.NumberOfRooms" />
-            
-            <ValidationMessage For="@(() => PropertyViewModelUser.NumberOfRooms)" />
-        </div>
-    </div>
+    @if (PropertyViewModelUser.PropertyType != PropertyType.Land) //Land doesn't have nr of rooms
+    {
+        <div class="row mb-3 ms-2">
+            <label for="nrRooms" class="col-sm-3 form-label">Number of rooms :</label>
+            <div class="col-sm-5">
+                <InputNumber id="nrRooms" class="form-control" @bind-Value="@PropertyViewModelUser.NumberOfRooms" placeholder="@PropertyViewModelUser.NumberOfRooms" />
 
-    <div class="row mb-3 ms-2">
-        <label for="nrBathrooms" class="col-sm-3 form-label">Number of Bathrooms :</label>
-        <div class="col-sm-5">
-            <InputNumber id="nrBathrooms" class="form-control" @bind-Value="@PropertyViewModelUser.NumberOfBathrooms" placeholder="@PropertyViewModelUser.NumberOfBathrooms"></InputNumber>
-            <ValidationMessage For="@(() => PropertyViewModelUser.NumberOfBathrooms)" />
+                <ValidationMessage For="@(() => PropertyViewModelUser.NumberOfRooms)" />
+            </div>
         </div>
-    </div>
-
-    <div class="row mb-3 ms-2">
-        <label for="floor" class="col-sm-3 form-label">Number of floor :</label>
-        <div class="col-sm-5">
-            <InputNumber id="floor" class="form-control" @bind-Value="@PropertyViewModelUser.Floor" placeholder="@PropertyViewModelUser.Floor"></InputNumber>
-            <ValidationMessage For="@(() => PropertyViewModelUser.Floor)" />
+    }
+    @if (PropertyViewModelUser.PropertyType != PropertyType.Land &&
+    PropertyViewModelUser.PropertyType != PropertyType.Garage) //Land and Garage don't have nr of bathrooms
+    {
+        <div class="row mb-3 ms-2">
+            <label for="nrBathrooms" class="col-sm-3 form-label">Number of Bathrooms :</label>
+            <div class="col-sm-5">
+                <InputNumber id="nrBathrooms" class="form-control" @bind-Value="@PropertyViewModelUser.NumberOfBathrooms" placeholder="@PropertyViewModelUser.NumberOfBathrooms"></InputNumber>
+                <ValidationMessage For="@(() => PropertyViewModelUser.NumberOfBathrooms)" />
+            </div>
         </div>
-    </div>
-
-    <div class="row mb-3 ms-2">
-        <label for="nrfloors" class="col-sm-3 form-label">Number of total floors :</label>
-        <div class="col-sm-5">
-            <InputNumber id="nrfloors" class="form-control" @bind-Value="@PropertyViewModelUser.NumberOfFloors" placeholder="@PropertyViewModelUser.NumberOfFloors"></InputNumber>
-            <ValidationMessage For="@(() => PropertyViewModelUser.NumberOfFloors)" />
+    }
+    @if (PropertyViewModelUser.PropertyType == PropertyType.Apartment ||
+    PropertyViewModelUser.PropertyType == PropertyType.Condo ||
+    PropertyViewModelUser.PropertyType == PropertyType.Office)
+    {
+        <div class="row mb-3 ms-2">
+            <label for="floor" class="col-sm-3 form-label">Number of floor :</label>
+            <div class="col-sm-5">
+                <InputNumber id="floor" class="form-control" @bind-Value="@PropertyViewModelUser.Floor" placeholder="@PropertyViewModelUser.Floor"></InputNumber>
+                <ValidationMessage For="@(() => PropertyViewModelUser.Floor)" />
+            </div>
         </div>
-    </div>
+    }
+    @if (PropertyViewModelUser.PropertyType != PropertyType.Land &&
+    PropertyViewModelUser.PropertyType != PropertyType.Farm &&
+    PropertyViewModelUser.PropertyType != PropertyType.Garage) //Land, Farm and Garage don't have nr of total floors
+    {
+        <div class="row mb-3 ms-2">
+            <label for="nrfloors" class="col-sm-3 form-label">Number of total floors :</label>
+            <div class="col-sm-5">
+                <InputNumber id="nrfloors" class="form-control" @bind-Value="@PropertyViewModelUser.NumberOfFloors" placeholder="@PropertyViewModelUser.NumberOfFloors"></InputNumber>
+                <ValidationMessage For="@(() => PropertyViewModelUser.NumberOfFloors)" />
+            </div>
+        </div>
+    }
 
     <div class="row mb-3 ms-2">
         <label for="squarefeet" class="col-sm-3 form-label">Number of squarefeet :</label>
@@ -142,7 +156,6 @@
 
     public PropertyViewModelByUser PropertyViewModelUser { get; set; } = new PropertyViewModelByUser();
 
-    public PropertyViewModel PropertyViewModel { get; set; } = new PropertyViewModel();
 
     public string Message { get; set; }
 
@@ -154,6 +167,15 @@
 }
 
 @functions {
+    private void HandlePropertyTypeChange(ChangeEventArgs e)
+    {
+        PropertyViewModelUser.NumberOfFloors = 0;
+        PropertyViewModelUser.NumberOfBathrooms = 0;
+        PropertyViewModelUser.NumberOfFloors = 0;
+        PropertyViewModelUser.Floor = 0;
+        PropertyViewModelUser.NumberOfRooms = 0;
+        PropertyViewModelUser.SquareFeet = 0;
+    }
     private async Task HandleValidSubmit()
     {
             Message = string.Empty;
@@ -161,6 +183,9 @@
             if (result.Success)
             {
                 Message = "Property updated successfully";
+                StateHasChanged();
+                await Task.Delay(2500); //wait for the message to be displayed
+                NavigationManager.NavigateTo("/viewproperties");
             }
             else
             {
@@ -184,7 +209,7 @@
 
     private void Cancel()
     {
-        NavigationManager.NavigateTo("/");
+        NavigationManager.NavigateTo("/viewproperties");
     }
 
 }

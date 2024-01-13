@@ -109,10 +109,12 @@
         Guid guid = Guid.Parse(ListingId);
         ListingViewModelById = await ListingDataService.GetListingByIdAsync(guid);
         initialPrice = ListingViewModelById.Price;
-        for(int i = 0; i < ListingViewModelById.Photos.Count; i++)
+        for(int i = 0; i < ListingViewModelById.Photos.Count - 1; i++)
         {
             initialPhotos += ListingViewModelById.Photos[i] + " ";
         }
+
+        initialPhotos += ListingViewModelById.Photos[ListingViewModelById.Photos.Count - 1]; // after the last link, won't have a space
 
         negotiable = ListingViewModelById.Negotiable;
 

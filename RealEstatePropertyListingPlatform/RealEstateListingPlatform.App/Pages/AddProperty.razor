@@ -9,12 +9,23 @@
 @* idk why it doesn't work *@
 @attribute [Authorize(Roles = "User")] 
 
-<h3>New Property</h3>
+<h3>Add a new Property</h3>
+
+<div class="@GetAlertClass() mb-3 ms-2" style="display: @(string.IsNullOrWhiteSpace(Message) ? "none" : "block");">
+    <div class="d-flex align-items-center">
+        <div class="me-2">
+            <svg id="checkmark" xmlns="http://www.w3.org/2000/svg" style="width: 24px; height: 24px; transform-origin: center; transition: transform 0.3s ease-in-out;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </svg>
+        </div>
+        <div>@Message</div>
+    </div>
+</div>
 
 <EditForm Model="@PropertyViewModel" OnValidSubmit="@HandleValidSubmit">
 
     <DataAnnotationsValidator />
-    <ValidationSummary></ValidationSummary>
 
     <div class="row mb-3 ms-2">
         <label for="streetname" class="col-sm-3 form-label">Street name:</label>
@@ -60,7 +71,7 @@
         <label for="propertyType" class="col-sm-3 form-label"> Property Type :</label>
 
         <div class="col-sm-5">
-            <InputSelect id="propertyType" class="form-control" @bind-Value="@PropertyViewModel.PropertyType">
+            <InputSelect id="propertyType" class="form-control" @bind-Value="@PropertyViewModel.PropertyType" @oninput="HandlePropertyTypeChange">
 
                 @foreach (var propertyType in Enum.GetValues(typeof(PropertyType)))
                 {
@@ -74,21 +85,29 @@
         </div>
     </div>
 
-    <div class="row mb-3 ms-2">
-        <label for="nrRooms" class="col-sm-3 form-label">Number of rooms :</label>
-        <div class="col-sm-5">
-            <InputNumber id="nrRooms"  class="form-control" @bind-Value="@PropertyViewModel.NumberOfRooms" placeholder="Enter nr. of rooms"></InputNumber>
-            <ValidationMessage For="@(() => PropertyViewModel.NumberOfRooms)" />
+    @if(PropertyViewModel.PropertyType != PropertyType.Land) //Land doesn't have nr of rooms
+    {
+        <div class="row mb-3 ms-2">
+            <label for="nrRooms" class="col-sm-3 form-label">Number of rooms :</label>
+            <div class="col-sm-5">
+                <InputNumber id="nrRooms" class="form-control" @bind-Value="@PropertyViewModel.NumberOfRooms" placeholder="Enter nr. of rooms"></InputNumber>
+                <ValidationMessage For="@(() => PropertyViewModel.NumberOfRooms)" />
+            </div>
         </div>
-    </div>
 
-    <div class="row mb-3 ms-2">
-        <label for="nrBathrooms" class="col-sm-3 form-label">Number of Bathrooms :</label>
-        <div class="col-sm-5">
-            <InputNumber id="nrBathrooms"  class="form-control" @bind-Value="@PropertyViewModel.NumberOfBathrooms" placeholder="Enter nr. of bathrooms"></InputNumber>
-            <ValidationMessage For="@(() => PropertyViewModel.NumberOfBathrooms)" />
+    }
+
+    @if (PropertyViewModel.PropertyType != PropertyType.Land &&
+                  PropertyViewModel.PropertyType != PropertyType.Garage) //Land and Garage don't have nr of bathrooms
+    {
+        <div class="row mb-3 ms-2">
+            <label for="nrBathrooms" class="col-sm-3 form-label">Number of Bathrooms :</label>
+            <div class="col-sm-5">
+                <InputNumber id="nrBathrooms"  class="form-control" @bind-Value="@PropertyViewModel.NumberOfBathrooms" placeholder="Enter nr. of bathrooms"></InputNumber>
+                <ValidationMessage For="@(() => PropertyViewModel.NumberOfBathrooms)" />
+            </div>
         </div>
-    </div>
+    }
 
     @if (PropertyViewModel.PropertyType == PropertyType.Apartment ||
          PropertyViewModel.PropertyType == PropertyType.Condo ||
@@ -103,13 +122,18 @@
         </div>
 	}
 
-    <div class="row mb-3 ms-2">
-        <label for="nrfloors" class="col-sm-3 form-label">Number of total floors :</label>
-        <div class="col-sm-5">
-            <InputNumber id="nrfloors"  class="form-control" @bind-Value="@PropertyViewModel.NumberOfFloors" placeholder="Enter nr of total floors"></InputNumber>
-            <ValidationMessage For="@(() => PropertyViewModel.NumberOfFloors)" />
+    @if (PropertyViewModel.PropertyType != PropertyType.Land &&
+                  PropertyViewModel.PropertyType != PropertyType.Farm &&
+                  PropertyViewModel.PropertyType != PropertyType.Garage) //Land, Farm and Garage don't have nr of total floors
+    {
+        <div class="row mb-3 ms-2">
+            <label for="nrfloors" class="col-sm-3 form-label">Number of total floors :</label>
+            <div class="col-sm-5">
+                <InputNumber id="nrfloors"  class="form-control" @bind-Value="@PropertyViewModel.NumberOfFloors" placeholder="Enter nr of total floors"></InputNumber>
+                <ValidationMessage For="@(() => PropertyViewModel.NumberOfFloors)" />
+            </div>
         </div>
-    </div>
+    }
 
     <div class="row mb-3 ms-2">
         <label for="squarefeet" class="col-sm-3 form-label">Number of squarefeet :</label>
@@ -124,39 +148,62 @@
 </EditForm>
 
 @code {
-    [Inject]
-    public IPropertyDataService PropertyDataService { get; set; }
+	[Inject]
+	public IPropertyDataService PropertyDataService { get; set; }
 
-    [Inject]
-    public NavigationManager NavigationManager { get; set; }
+	[Inject]
+	public NavigationManager NavigationManager { get; set; }
 
-    public PropertyViewModel PropertyViewModel { get; set; } = new ();
-    
-    public string Message { get; set; }
-    
+	public PropertyViewModel PropertyViewModel { get; set; } = new ();
+
+	public string Message { get; set; }
+   
 }
 
 @functions {
+
+    private void HandlePropertyTypeChange(ChangeEventArgs e)
+    {
+        PropertyViewModel.NumberOfFloors = 0;
+        PropertyViewModel.NumberOfBathrooms = 0;
+        PropertyViewModel.NumberOfFloors = 0;
+        PropertyViewModel.Floor = 0;
+        PropertyViewModel.NumberOfRooms = 0;
+        PropertyViewModel.SquareFeet = 0;
+    }
     private async Task HandleValidSubmit()
     {
         var result = await PropertyDataService.CreatePropertyAsync(PropertyViewModel);
-        if (result.IsSuccess)
+        if (result.Success)
         {
             Message = "Property created successfully";
+            StateHasChanged();
+            await Task.Delay(2500);
+
             NavigationManager.NavigateTo("/viewproperties");
         }
         else
         {
-            if (!string.IsNullOrWhiteSpace(result.ValidationErrors))
+            if (result.ValidationErrors.Count != 0)
             {
-                Message = result.ValidationErrors;
+                Message = result.ValidationErrors[0];
             }
         }
     }
 
+    private string GetAlertClass()
+    {
+        if (string.IsNullOrWhiteSpace(Message))
+        {
+            return "alert alert-info"; // sau o altă clasă pentru alerte informative
+        }
+
+        return Message.StartsWith("Property created successfully") ? "alert alert-success" : "alert alert-danger";
+    }
+
     private void Cancel()
     {
-        NavigationManager.NavigateTo("/");
+        NavigationManager.NavigateTo("/viewproperties");
     }
 
 }

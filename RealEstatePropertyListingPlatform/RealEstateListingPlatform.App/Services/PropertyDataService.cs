@@ -21,16 +21,16 @@ namespace RealEstateListingPlatform.App.Services
             this.tokenService = tokenService;
         }
 
-        public async Task<ApiResponse<PropertyViewModel>> CreatePropertyAsync(PropertyViewModel categoryViewModel)
+        public async Task<ApiResponsePropertyById> CreatePropertyAsync(PropertyViewModel categoryViewModel)
         {
             httpClient.DefaultRequestHeaders.Authorization
                 = new AuthenticationHeaderValue("Bearer", await tokenService.GetTokenAsync());
 
             var result = await httpClient.PostAsJsonAsync(RequestUri, categoryViewModel);
-            result.EnsureSuccessStatusCode();
-            var response = await result.Content.ReadFromJsonAsync<ApiResponse<PropertyViewModel>>();
-            response!.IsSuccess = result.IsSuccessStatusCode;
-            return response!;
+            //result.EnsureSuccessStatusCode();
+            var response = await result.Content.ReadFromJsonAsync<ApiResponsePropertyById>();
+            response!.Success = result.IsSuccessStatusCode;
+            return response;
         }
 
         public async Task<ApiResponse<PropertyViewModel>> DeletePropertyAsync(Guid id)
@@ -39,7 +39,7 @@ namespace RealEstateListingPlatform.App.Services
                 = new AuthenticationHeaderValue("Bearer", await tokenService.GetTokenAsync());
 
             var result = await httpClient.DeleteAsync($"{RequestUri}/{id}");
-            result.EnsureSuccessStatusCode();
+            //result.EnsureSuccessStatusCode();
             var response = await result.Content.ReadFromJsonAsync<ApiResponse<PropertyViewModel>>();
             response!.IsSuccess = result.IsSuccessStatusCode;
             return response!;
@@ -74,7 +74,7 @@ namespace RealEstateListingPlatform.App.Services
                 = new AuthenticationHeaderValue("Bearer", await tokenService.GetTokenAsync());
 
             var result = await httpClient.GetAsync($"{RequestUri}/{id}");
-            result.EnsureSuccessStatusCode();
+            //result.EnsureSuccessStatusCode();
             var content = await result.Content.ReadAsStringAsync();
             Console.WriteLine(content);
 

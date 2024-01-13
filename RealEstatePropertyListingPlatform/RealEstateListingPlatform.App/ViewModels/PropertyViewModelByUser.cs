@@ -1,4 +1,5 @@
-﻿using RealEstatePropertyListingPlatform.Domain.Enums;
+﻿using RealEstateListingPlatform.App.ViewModels.Validation;
+using RealEstatePropertyListingPlatform.Domain.Enums;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
@@ -38,27 +39,27 @@ namespace RealEstateListingPlatform.App.ViewModels
 
         [JsonPropertyName("numberOfRooms")]
         [Required(ErrorMessage = "Number of rooms is required")]
-        [Range(1, 20)]
+        [ValidateInteger(0, 20)]
         public int NumberOfRooms { get; set; }
 
         [JsonPropertyName("numberOfBathrooms")]
         [Required(ErrorMessage = "Number of bathrooms is required")]
-        [Range(1, 20)]
+        [ValidateInteger(0, 20)]
         public int NumberOfBathrooms { get; set; }
 
         [JsonPropertyName("floor")]
         [Required(ErrorMessage = "Floor is required")]
-        [Range(1, 100)]
+        [ValidateInteger(0, 100)]
         public int Floor { get; set; }
 
         [JsonPropertyName("numberOfFloors")]
         [Required(ErrorMessage = "Number of floors is required")]
-        [Range(1, 100)]
+        [ValidateInteger(0, 100)]
         public int NumberOfFloors { get; set; }
 
         [JsonPropertyName("squareFeet")]
         [Required(ErrorMessage = "Square feet is required")]
-        [Range(1, 10_000)]
+        [ValidateInteger(0, 1_000)]
         public int SquareFeet { get; set; }
     }
 }
