@@ -34,7 +34,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RealEstatePropertyListingPl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RealEstatePropertyListingPlatform.Application.Test", "RealEstatePropertyListingPlatform.Application.Test\RealEstatePropertyListingPlatform.Application.Test.csproj", "{606066ED-E242-4CF1-AA6A-00AFC7AE4FC2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RealEstatePlatform.API.IntegrationTests", "RealEstatePlatform.API.IntegrationTests\RealEstatePlatform.API.IntegrationTests.csproj", "{E7D85097-2BDA-42E3-9B68-228FC99BBDA2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RealEstatePlatform.API.IntegrationTests", "RealEstatePlatform.API.IntegrationTests\RealEstatePlatform.API.IntegrationTests.csproj", "{E7D85097-2BDA-42E3-9B68-228FC99BBDA2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

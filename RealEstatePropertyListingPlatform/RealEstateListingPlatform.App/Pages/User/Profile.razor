@@ -1,5 +1,6 @@
 ﻿@page "/profile"
 @using RealEstateListingPlatform.App.Contracts
+@using RealEstateListingPlatform.App.ViewModels
 @using RealEstateListingPlatform.App.ViewModels.UserModels
 
 <h3 class="mb-4">My Profile</h3>
@@ -35,7 +36,11 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M19.553 21.281l-1.834-1.833" />
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M18.719 16.594l-1.833-1.833" />
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6.5l-8 8" />
+
                             </svg>
+                        </button>
+                        <button @onclick="ChangePassword" class="button-edit">
+                            🔐
                         </button>
                     </div>
                 </div>
@@ -44,10 +49,10 @@
         <div class="col-lg-8">
             <div class="card mb-4">
                 <div class="card-body">
-                    <h5 class="card-title">User Information</h5>
 
-                    @if (!editMode)
+                    @if (!editMode && changePassword == false)
                     {
+                        <h5 class="card-title">User Information</h5>
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item"><strong>👤 Username:</strong> <span class="text-muted mb-0">@userViewModel.Username</span></li>
                             <li class="list-group-item"><strong>👤 Name:</strong> <span class="text-muted mb-0">@userViewModel.Name</span></li>
@@ -57,13 +62,56 @@
 
                         
                     }
+                    else @if (changePassword)
+                    {
+                       <h5 class="card-title">Change Password</h5>
+
+                        <EditForm Model="@changePasswordViewModel">
+
+
+                            <DataAnnotationsValidator />
+                            @if (error)
+                            {
+                                <div class="alert alert-danger" role="alert">
+                                    @errorMessage
+                                </div>
+                            }
+                       <div class="row mb-3 ms-2">
+                          <label for="password" class="col-sm-3 form-label">🔒 Current password:</label>
+                            <div class="col-sm-5">
+                                <InputText type="password" id="oldpassword" class="form-control" @bind-Value="@changePasswordViewModel.CurrentPassword"></InputText>
+                                <ValidationMessage For="@(() => changePasswordViewModel.CurrentPassword)" />
+                          </div>
+                       </div>
+
+                       <div class="row mb-3 ms-2">
+                           <label for="password" class="col-sm-3 form-label">🔒 New password:</label>
+                            <div class="col-sm-5">
+                                  <InputText type="password" id="newpassword" class="form-control" @bind-Value="@changePasswordViewModel.NewPassword"></InputText>
+                                  <ValidationMessage For="@(() => changePasswordViewModel.NewPassword)" />
+                             </div>
+                       </div>
+
+                       <div class="row mb-3 ms-2">
+                             <label for="password" class="col-sm-3 form-label">🔒 Confirm password:</label>
+                                 <div class="col-sm-5">
+                                    <InputText type="password" id="confirmpassword" class="form-control" @bind-Value="@confirmPassword"></InputText>
+                                    <ValidationMessage For="@(() => changePasswordViewModel.NewPassword)" />
+                                 </div>
+                       </div>
+                       <div class="d-flex justify-content-evenly">
+                                <button type="submit" class="save-button" @onclick="SavePassword">Save Changes</button>
+                            <button class="cancel-button" @onclick="CancelEdit">Cancel</button>
+                       </div>
+
+                       </EditForm>
+                    }
                     else
                     {
-
+                        <h5 class="card-title">User Information</h5>
                         <EditForm Model="@editedUser" OnValidSubmit="@SaveChanges">
 
                             <DataAnnotationsValidator />
-                            <ValidationSummary></ValidationSummary>
 
 
                             <div class="row mb-3 ms-2">
@@ -106,6 +154,7 @@
                 </div>
             </div>
         </div>
+        
     </div>
 
 
@@ -120,11 +169,21 @@ else
     [Inject]
     public IUserService userService { get; set; }
 
+    [Inject]
+    public IChangePasswordService changePasswordService { get; set; }
+
+    ChangePasswordViewModel changePasswordViewModel = new ChangePasswordViewModel();
     private UserInfoViewModel? userViewModel;
     private UserInfoViewModel? editedUser;
     private bool editMode = false;
+    private bool changePassword = false;
+    private string oldpassword = string.Empty;
+    private string newpassword = string.Empty;
+    private string confirmPassword { get; set;}
 
     public string Message { get; set; } = string.Empty;
+    public bool error = false;
+    public string errorMessage = string.Empty;
 
 
     protected override async Task OnInitializedAsync()
@@ -149,6 +208,7 @@ else
     {
         // Set editMode to true to switch to edit mode
         editMode = true;
+        changePassword = false;
     }
 
     private async void SaveChanges()
@@ -178,6 +238,7 @@ else
     {
         Message = string.Empty;
         editMode = false;
+        changePassword = false; 
     }
 
     private string GetAlertClass()
@@ -186,7 +247,42 @@ else
         {
             return "alert alert-info";
         }
+        return Message.StartsWith("Profile updated successfully") || Message.StartsWith("Password changed successfully") ? "alert alert-success" : "alert alert-danger";
+    }
 
-        return Message.StartsWith("Profile updated successfully") ? "alert alert-success" : "alert alert-danger";
+    private void ChangePassword()
+    {
+        changePassword = true;
+    }
+
+    private async void SavePassword()
+    {
+        Message = string.Empty;
+        changePasswordViewModel.Id = userViewModel.Id;
+        var response = await changePasswordService.ChangePasswordAsync(changePasswordViewModel);
+
+        
+        if(changePasswordViewModel.NewPassword != confirmPassword)
+        {
+            errorMessage = "Passwords do not match!";
+            error = true;
+            StateHasChanged();
+            return;
+        }
+
+        if (response.isSuccess)
+        {
+            error = false;
+            Message = "Password changed successfully";
+            StateHasChanged();
+        }
+        else
+        {
+            Message = "Password change failed";
+            errorMessage = response.Message;
+            Console.WriteLine(errorMessage);
+            error = true;
+            StateHasChanged();
+        }
     }
 }

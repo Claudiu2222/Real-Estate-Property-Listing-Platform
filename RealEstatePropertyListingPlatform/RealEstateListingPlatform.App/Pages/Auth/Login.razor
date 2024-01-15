@@ -42,7 +42,7 @@
                         </div>
 
                         <button class="login-button" type="submit" onclick="OnClickHandler">LOGIN</button>
-                        <span class="forgot-password">Forgot your password?</span>
+                        <span class="forgot-password" type="submit" @onclick="NavigateToForgotPassword">Forgot password?</span>
 
                         <label class="text-danger">@error</label>
                         <NavLink href="register">
@@ -79,7 +79,12 @@
         }
         catch (Exception ex)
         {
-            error = ex.Message;
+            error = "Invalid credentials";
         }
+    }
+
+void NavigateToForgotPassword()
+    {
+        navigationManager.NavigateTo("/changepassword");
     }
 }
