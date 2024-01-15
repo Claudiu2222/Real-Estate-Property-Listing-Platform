@@ -59,6 +59,15 @@ builder.Services.AddHttpClient<ISendMailService, SendEmailService>(client =>
     client.BaseAddress = new Uri("https://localhost:7187/");
 });
 
+builder.Services.AddHttpClient<IAzureBlobService, AzureBlobService>(client =>
+{
+    client.BaseAddress = new Uri("https://localhost:7187/");
+});
+
+builder.Services.AddHttpClient<IChangePasswordService, ChangePasswordService>(client =>
+{
+    client.BaseAddress = new Uri("https://localhost:7187/");
+});
 //builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
 await builder.Build().RunAsync();

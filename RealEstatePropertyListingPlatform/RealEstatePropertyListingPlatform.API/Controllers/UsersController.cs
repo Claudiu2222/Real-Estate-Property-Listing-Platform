@@ -99,6 +99,101 @@ namespace RealEstatePropertyListingPlatform.API.Controllers
             }
         }
 
+        //change password
+        [Authorize(Roles = "Admin, User")]
+        [HttpPut]
+        [Route("changepassword")]
+        public async Task<IActionResult> ChangePassword(ChangePasswordModel changePasswordModel)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest("Invalid payload");
+                }
+
+                var (status, message) = await _authService.ChangePassword(changePasswordModel);
+
+                if (status == 0)
+                {
+                    return BadRequest(new { IsSuccess = false, message = message });
+                }
+                else if (status == 404)
+                {
+                    return NotFound(new { IsSuccess = false, message = message });
+                }
+
+                return Ok(new { IsSuccess = true, message = message });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpPut]
+        [Route("resetpasswordnotconnected")]
+        public async Task<IActionResult> ResetPassword(ChangePasswordNotConnectedModel resetPasswordModel)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest("Invalid payload");
+                }
+
+                var (status, message) = await _authService.ChangePasswordNotConnected(resetPasswordModel);
+
+                if (status == 0)
+                {
+                    return BadRequest(new { IsSuccess = false, message = "Invalid payload" });
+                }
+                else if (status == 404)
+                {
+                    return BadRequest(new { IsSuccess = false, message = "User not found" });
+                }
+
+                return Ok(new {IsSuccess = true, message = "Password changed successfully"});
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("isvalidemail")]
+        public async Task<IActionResult> IsValidEmail(string email)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest("Invalid payload");
+                }
+
+                var (status, message) = await _authService.IsValidMail(email);
+
+                if (status == 0)
+                {
+                    return BadRequest(new { IsSuccess = false, message = "Invalid payload" });
+                }
+                else if (status == 404)
+                {
+                    return BadRequest(new { IsSuccess = false, message = "User not found" });
+                }
+
+                return Ok(new { IsSuccess = true, message = "Email is valid" });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+
+        }
 
         [Authorize(Roles = "Admin")]
         [HttpGet]
@@ -160,6 +255,7 @@ namespace RealEstatePropertyListingPlatform.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
+
 
     }
 }

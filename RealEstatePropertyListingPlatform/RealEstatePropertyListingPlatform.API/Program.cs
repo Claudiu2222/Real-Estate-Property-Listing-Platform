@@ -6,6 +6,7 @@ using WebAPI.Services;
 using Microsoft.OpenApi.Models;
 using RealEstatePropertyListingPlatform.API.Utility;
 using RealEstatePropertyListingPlatform.Application.Models;
+using RealEstatePropertyListingPlatform.API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
@@ -28,6 +29,7 @@ builder.Services.AddInfrastructureToDI(
 builder.Services.AddInfrastrutureIdentityToDI(builder.Configuration);
 builder.Services.AddApplicationServices();
 builder.Services.AddControllers();
+builder.Services.AddScoped<AzureBlobService>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>

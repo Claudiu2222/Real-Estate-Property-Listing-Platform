@@ -230,6 +230,70 @@ namespace RealEstatePropertyListingPlatform.Identity.Services
 
         }
 
+        public async Task<(int, string)> ChangePassword(ChangePasswordModel model)
+        {
+            var user = await this.userManager.FindByIdAsync(this.currentUserService.UserId);
+
+            if (user == null)
+            {
+                return (404, "User not found");
+            }
+
+            var result = await this.userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
+
+            if (result.Succeeded)
+            {
+                return (1, "Password changed successfully");
+            }
+
+            //password validation errors
+            var errors = result.Errors.Select(e => e.Description).ToList();
+            if (errors.Count > 0)
+            {
+                return (0, string.Join("", errors));
+            }
+
+            return (0, "Password couldn't be changed");
+        }
+
+        public async Task<(int, string)> ChangePasswordNotConnected(ChangePasswordNotConnectedModel model)
+        {
+            var user =  await this.userManager.FindByEmailAsync(model.Email);
+
+            if (user == null)
+            {
+                return (404, "Email not found");
+            }
+
+            var token = await this.userManager.GeneratePasswordResetTokenAsync(user);
+            var result = await this.userManager.ResetPasswordAsync(user, token, model.NewPassword);
+
+            if (result.Succeeded)
+            {
+                return (1, "Password changed successfully");
+            }
+
+            var errors = result.Errors.Select(e => e.Description).ToList();
+            if (errors.Count > 0)
+            {
+                return (0, string.Join("", errors));
+            }
+
+            return (0, "Password couldn't be changed");
+        }
+
+        public async Task<(int, string)> IsValidMail(string email)
+        {
+            var user = await this.userManager.FindByEmailAsync(email);
+
+            if (user == null)
+            {
+                return (404, "Email not found");
+            }
+
+            return (1, "Email found");
+        }
+
         public async Task<(int, string)> Logout()
         {
             await signInManager.SignOutAsync();
