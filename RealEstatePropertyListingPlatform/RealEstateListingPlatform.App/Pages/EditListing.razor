@@ -138,6 +138,11 @@
         if (result.Success)
         {
             Message = "Listing updated successfully";
+
+            StateHasChanged();
+            await Task.Delay(2500); //wait for the message to be displayed
+            NavigationManager.NavigateTo("/viewmylistings");
+
         }
         else
         {
