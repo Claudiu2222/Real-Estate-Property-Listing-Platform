@@ -19,6 +19,8 @@ namespace RealEstatePropertyListingPlatform.Infrastructure.Repositories
                 .AsNoTracking()
                 .ToListAsync();
         }
+
+
         public async Task<IReadOnlyList<Listing>> GetListingsByUserId(Guid userId)
         {
             return await context.Listings
