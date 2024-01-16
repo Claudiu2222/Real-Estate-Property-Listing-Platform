@@ -32,18 +32,17 @@ namespace RealEstatePropertyListingPlatform.Application.Features.Listings.Comman
                 };
             }
 
-            Guid creatorId;
-            try
-            {
-                creatorId = Guid.Parse(this.currentUserService.UserId); }
-            catch (Exception)
+
+            if (!UserdIdIsValid(currentUserService.UserId))
             {
                 return new CreateListingCommandResponse
                 {
                     Success = false,
-                    ValidationErrors = new List<string>() { "Invalid user id." }
+                    ValidationErrors = new List<string>() { "The user id is not valid." }
                 };
             }
+
+            var creatorId = Guid.Parse(currentUserService.UserId);
 
 
             var listing = Listing.Create(creatorId, request.PropertyId, request.Title, request.Price, request.Description, request.Photos, request.Negotiable);
@@ -82,6 +81,21 @@ namespace RealEstatePropertyListingPlatform.Application.Features.Listings.Comman
             };
 
         }
+
+
+        private bool UserdIdIsValid(string userId)
+        {
+            try
+            {
+                Guid.Parse(userId);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
     }
     
 }
