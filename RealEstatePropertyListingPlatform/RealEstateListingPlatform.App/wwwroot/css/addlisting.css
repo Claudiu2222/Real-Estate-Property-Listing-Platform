@@ -1,0 +1,116 @@
+﻿.img-fluid {
+    width: 90%;
+}
+.col-md-6{
+margin-top: 20px;
+    margin-bottom: 20px;
+    margin-bottom: -20px;
+    border-radius: 50px;
+}
+
+.card{
+border-radius: 30px;
+box-shadow: 0 0 10px rgba(0,0,0,1);
+}
+
+.form-control{
+width: 170%;
+}
+
+.form-text{
+width: 170%;
+}
+
+.title-container {
+    padding: 20px; /* Spatiu interior pentru conținut */
+    border-radius: 8px; /* Colțuri rotunjite */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Umbră pentru aspectul tridimensional */
+    background: linear-gradient(to right, #4c31be 0%, #354ea0 100%) !important;
+    color: #dde5eb;
+    margin-bottom: 20px;
+}
+
+.btn-primary {
+    border-radius: 15px;
+    background-color: #276f80;
+    border-color: #276f80;
+    box-shadow: 0 0 5px rgba(0,0,0,1);
+}
+
+.save{
+    width:25%;
+    margin-right: 6rem;
+    background-color: #21d461;
+border-color: #21d461;
+box-shadow: 0 0 5px rgba(0,0,0,1);
+}
+
+.cancel{
+    width:15%;
+background-color: #d42121;
+}
+
+@media screen and (max-width: 1300px) {
+
+    .col-md-6 {
+        display: block; /* Aceasta va face ca cele două div-uri să fie pe coloane atunci când ecranul este mai mic de 1500px */
+        width: 100%; /* Ocupă întreaga lățime a containerului */
+    }
+    .img-col {
+        display: none;
+        visibility: hidden;
+    }
+}
+
+@media screen and (max-width: 780px) {
+
+
+    .save{
+width: 30%;
+        margin-right: 6rem;
+    }
+
+    .cancel {
+width: 30%;
+    }
+}
+
+@media screen and (max-width: 580px) {
+    .form-control{
+        width: 100%;
+    
+    }
+.form-text{
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 380px) {
+
+
+    .save {
+        width: 30%;
+        margin-right: 5rem;
+        font-size: 12px;
+    }
+
+    .cancel {
+        width: 30%;
+        font-size: 12px;
+    }
+}
+
+@media screen and (max-width: 310px) {
+
+
+    .save {
+        width: 40%;
+        margin-right: 2rem;
+        font-size: 12px;
+    }
+
+    .cancel {
+        width: 40%;
+        font-size: 12px;
+    }
+}

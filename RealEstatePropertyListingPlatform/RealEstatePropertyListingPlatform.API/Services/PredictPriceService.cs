@@ -43,8 +43,6 @@ namespace RealEstatePropertyListingPlatform.API.Services
             var predictions = _model.Transform(testData);
             var metrics = _mlContext.Regression.Evaluate(predictions, labelColumnName: "Label", scoreColumnName: "Score");
 
-            System.Diagnostics.Debug.WriteLine("R^2: " + metrics.RSquared);
-            System.Diagnostics.Debug.WriteLine("RMS error: " + metrics.RootMeanSquaredError);
         }
 
 

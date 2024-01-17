@@ -3,10 +3,13 @@
 @using RealEstateListingPlatform.App.Services.Responses
 <head>
     <link href="css/app.css"/>
+    <link href="/css/editproperty.css" rel="stylesheet" />
 </head>
 
 
-<h3 class="mb-4 text-center text-primary">Listing Overview</h3>
+<div class="title-container">
+    <h3 class="mb-4 text-center">Listing Overview</h3>
+</div>
 
 @if (listingsResponse?.Success == true && listingsResponse.Listings.Any())
 {
