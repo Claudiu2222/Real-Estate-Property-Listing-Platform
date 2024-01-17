@@ -43,10 +43,28 @@
     margin-bottom: 10px;
 }
 
+h3 {
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
     .cancel-button:hover {
         background-color: #691a1a;
         cursor: pointer;
     }
+
+.profile-container {
+    border: 1px solid #ddd; /* Un contur subțire pentru vizualizare */
+    padding: 20px; /* Spatiu interior pentru conținut */
+    border-radius: 8px; /* Colțuri rotunjite */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Umbră pentru aspectul tridimensional */
+    background: linear-gradient(to right, #4c31be 0%, #354ea0 100%) !important;
+    color: #dde5eb;
+    margin-bottom: 20px;
+}
+
 
 @media screen and (max-width: 2000px) {
     .save-button {

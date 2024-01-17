@@ -79,4 +79,15 @@ builder.Services.AddHttpClient<IChangePasswordService, ChangePasswordService>(cl
     client.BaseAddress = new Uri("https://localhost:7187/");
 });
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7187/") });
+
+builder.Services.AddHttpClient<IPredictPriceService, PredictPriceService>(client =>
+{
+    client.BaseAddress = new Uri("https://localhost:7187/");
+});
+
+builder.Services.AddHttpClient<ICurrencyConverterService, CurrencyConverterService>(client =>
+{
+    client.BaseAddress = new Uri("https://localhost:7187/");
+});
+
 await builder.Build().RunAsync();

@@ -32,12 +32,7 @@ namespace RealEstatePropertyListingPlatform.Application.Features.Properties.Comm
                 };
             }
 
-            Guid ownerId;
-            try
-            { 
-               ownerId = Guid.Parse(currentUserService.UserId);
-            }
-            catch (Exception)
+            if (!UserdIdIsValid(currentUserService.UserId))
             {
                 return new CreatePropertyCommandResponse
                 {
@@ -46,6 +41,7 @@ namespace RealEstatePropertyListingPlatform.Application.Features.Properties.Comm
                 };
             }
 
+            var ownerId = Guid.Parse(currentUserService.UserId);
 
             var property = Property.Create(ownerId, request.StreetName, request.City, request.Region, request.PostalCode,
                                            request.Country, request.PropertyType, request.NumberOfRooms, request.NumberOfBathrooms,
@@ -87,6 +83,20 @@ namespace RealEstatePropertyListingPlatform.Application.Features.Properties.Comm
             };
 
         }
+
+        private bool UserdIdIsValid(string userId)
+        {
+            try
+            {
+                Guid.Parse(userId);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
     }
     
 }

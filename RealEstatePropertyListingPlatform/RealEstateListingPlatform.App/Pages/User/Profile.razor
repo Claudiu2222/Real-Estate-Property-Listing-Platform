@@ -3,10 +3,12 @@
 @using RealEstateListingPlatform.App.ViewModels
 @using RealEstateListingPlatform.App.ViewModels.UserModels
 
-<h3 class="mb-4">My Profile</h3>
 <head>
-<link href="css/profile.css" rel="stylesheet" />
+    <link href="css/profile.css" rel="stylesheet" />
 </head>
+<div class="profile-container">
+    <h3 class="mb-4 text-center">👤My Profile</h3>
+</div>
 <div class="@GetAlertClass() mb-3 ms-2" style="display: @(string.IsNullOrWhiteSpace(Message) ? "none" : "block");">
     <div class="d-flex align-items-center">
         <div class="me-2">
