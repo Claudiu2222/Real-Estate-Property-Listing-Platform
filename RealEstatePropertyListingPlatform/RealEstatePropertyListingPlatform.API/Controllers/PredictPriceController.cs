@@ -16,7 +16,7 @@ namespace RealEstatePropertyListingPlatform.API.Controllers
             _predictPriceService = predictPriceService;
         }
 
-        [HttpPost("predict")]
+        [HttpPost]
         public IActionResult PredictPrice([FromBody] ModelInput propertyDetails)
         {
             try
@@ -25,7 +25,7 @@ namespace RealEstatePropertyListingPlatform.API.Controllers
                 var predictedPrice = _predictPriceService.PredictPrice(propertyDetails);
 
                 // Returnează rezultatul
-                return Ok(new { PredictedPrice = predictedPrice });
+                return Ok(new { PredictedPrice = predictedPrice, Succes = "true" });
             }
             catch (Exception ex)
             {

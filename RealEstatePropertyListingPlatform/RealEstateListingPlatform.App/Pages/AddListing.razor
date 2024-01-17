@@ -9,8 +9,17 @@
 @attribute [Authorize(Roles = "User")]
 <head>
     <link href="css/app.css" rel="stylesheet" />
+    <link href="css/addlisting.css" rel="stylesheet" />
+    <style>
+        body {
+            background: linear-gradient(to right, #6a11cb 0%, #2575fc 100%) !important;
+        }
+
+    </style>
 </head>
-<h3>Add Listing</h3>
+<div class="title-container">
+    <h3 class="mb-4 text-center">Add listing</h3>
+</div>
 
 <div class="@GetAlertClass() mb-3 ms-2" style="display: @(string.IsNullOrWhiteSpace(Message) ? "none" : "block");">
     <div class="d-flex align-items-center">
@@ -24,70 +33,121 @@
     </div>
 </div>
 
-<EditForm Model="@ListingViewModel" OnValidSubmit="@HandleValidSubmit">
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                    <EditForm Model="@ListingViewModel" OnValidSubmit="@HandleValidSubmit">
 
-    <DataAnnotationsValidator />
+                        <DataAnnotationsValidator />
 
-     <div class="row mb-3 ms-2">
-        <label for="streetname" class="col-sm-3 form-label">Title:</label>
-        <div class="col-sm-5">
-            <InputText id="title" class="form-control" @bind-Value="@ListingViewModel.Title" placeholder="Enter title"></InputText>
-            <ValidationMessage For="@(() => ListingViewModel.Title)" />
-        </div>
-    </div>
+                         <div class="row mb-3 ms-2">
+                            <label for="streetname" class="col-sm-3 form-label">Title:</label>
+                            <div class="col-sm-5">
+                                <InputText id="title" class="form-control" @bind-Value="@ListingViewModel.Title" placeholder="Enter title"></InputText>
+                                <ValidationMessage For="@(() => ListingViewModel.Title)" />
+                            </div>
+                        </div>
 
-    <div class="row mb-3 ms-2">
-        <label for="price" class="col-sm-3 form-label">Price:</label>
-        <div class="col-sm-5">
-            <InputNumber id="price" class="form-control" @bind-Value="@Price.Value"></InputNumber>
-            <!-- Input pentru valoarea numerică -->
-            <InputSelect id="price-currency" class="form-control" @bind-Value="@Price.Currency">
+                        <div class="row mb-3 ms-2">
+                            <label for="price" class="col-sm-3 form-label">Price:</label>
+                            <div class="col-sm-5">
+            
+                                <InputNumber id="price" class="form-control" @bind-Value="@Price.Value"></InputNumber>
+                                <!-- Input pentru valoarea numerică -->
+                                <InputSelect id="price-currency" class="form-control" @bind-Value="@Price.Currency">
 
-                @foreach (var currency in Enum.GetValues(typeof(Currency)))
-                {
-                    <option value="@currency">@currency</option>
-                })
+                                    @foreach (var currency in Enum.GetValues(typeof(Currency)))
+                                    {
+                                        <option value="@currency">@currency</option>
+                                    })
 
-            </InputSelect>
-            <ValidationMessage For="@(() => Price.Value)" />
-            <ValidationMessage For="@(() => Price.Currency)" />
-        </div>
-    </div>
+                                </InputSelect>
+                                <ValidationMessage For="@(() => Price.Value)" />
+                                <ValidationMessage For="@(() => Price.Currency)" />
+                                <p class="form-text">Consider the market trends and the unique features of your property. Accurate pricing is key to attracting potential buyers and maximizing the value of your listing. We recomment you to use our price prediction tool.</p>
+                                <!-- Buton pentru a face predicția -->
+                                <button type="button" class="btn btn-primary mt-2" @onclick="PredictPrice" disabled="@isPredicting">
+                                    <span style="display: @(isPredicting ? "inline-block" : "none")" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                    <span style="display: @(isPredicting ? "none" : "inline-block")">Predict Price</span>
+                                </button>
 
-    <div class="row mb-3 ms-2">
-            <label for="description" class="col-sm-3 form-label">Description:</label>
-            <div class="col-sm-5">
-                <InputTextArea id="description" class="form-control" @bind-Value="@ListingViewModel.Description" placeholder="Enter description"></InputTextArea>
-                <ValidationMessage For="@(() => ListingViewModel.Description)" />
+                                @if(predictedPrice != 0)
+                                {
+                                    @if(predictedPrice == -1)
+                                    {
+                                        <div class="mt-2">
+                                            <strong>Predicted Price:</strong> Could not predict price
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="mt-2">
+                                           @if(Price.Currency == Currency.USD)
+                                           {
+                                                <p><strong>Predicted Price:</strong> @predictedPriceUSD @Price.Currency</p>
+                                           }
+                                           else if(Price.Currency == Currency.RON)
+                                           {
+                                                <p><strong>Predicted Price:</strong> @predictedPriceRON  @Price.Currency</p>
+                                           }
+                                           else
+                                           {
+                                                <p><strong>Predicted Price:</strong> @predictedPrice  @Price.Currency</p>
+                                           }
+                                        </div>
+                                    }
+                                }
+                            </div>
+                        </div>
+
+                        <div class="row mb-3 ms-2">
+                                <label for="description" class="col-sm-3 form-label">Description:</label>
+                                <div class="col-sm-5">
+                                    <InputTextArea id="description" class="form-control" @bind-Value="@ListingViewModel.Description" placeholder="Enter description"></InputTextArea>
+                                    <ValidationMessage For="@(() => ListingViewModel.Description)" />
+                                </div>
+
+                        </div>
+                        <div class="row mb-3 ms-2">
+                            <label for="photos" class="col-sm-3 form-label">Photos:</label>
+                            <div class="col-sm-5">
+                                <InputTextArea id="photos" class="form-control" @bind-Value="@photoLinks" placeholder="Enter links to photos"></InputTextArea>
+                                <ValidationMessage For="@(() => photoLinks)" />
+                            </div>
+                        </div>
+
+                        <div class="row mb-3 ms-2">
+                            <label for="negotiable" class="col-sm-3 form-label">Negotiable:</label>
+                            <div class="col-sm-5">
+                                <div class="form-check">
+                                    <InputCheckbox id="negotiable" class="form-check-input" @bind-Value="@ListingViewModel.Negotiable"></InputCheckbox>
+                                    <label class="form-check-label" for="negotiable">Negotiable</label>
+                                </div>
+                                <ValidationMessage For="@(() => ListingViewModel.Negotiable)" />
+                            </div>
+                        </div>
+
+
+
+
+                        <div class="row mb-3 ms-2">
+                            <button type="submit" class="btn btn-primary save">Save listing</button>
+                            <button class="btn btn-primary cancel" @onclick="Cancel">Cancel</button>
+                        </div>
+                    </EditForm>
+                    </div>
+                    <div class="col-md-6 img-col">
+                        <!-- Aici este imaginea -->
+                        <img src="/updateproperty.png" alt="Descriere imagine" class="img-fluid" />
+                    </div>
+                </div>
             </div>
-
-    </div>
-    <div class="row mb-3 ms-2">
-        <label for="photos" class="col-sm-3 form-label">Photos:</label>
-        <div class="col-sm-5">
-            <InputTextArea id="photos" class="form-control" @bind-Value="@photoLinks" placeholder="Enter links to photos"></InputTextArea>
-            <ValidationMessage For="@(() => photoLinks)" />
         </div>
     </div>
-
-    <div class="row mb-3 ms-2">
-        <label for="negotiable" class="col-sm-3 form-label">Negotiable:</label>
-        <div class="col-sm-5">
-            <div class="form-check">
-                <InputCheckbox id="negotiable" class="form-check-input" @bind-Value="@ListingViewModel.Negotiable"></InputCheckbox>
-                <label class="form-check-label" for="negotiable">Negotiable</label>
-            </div>
-            <ValidationMessage For="@(() => ListingViewModel.Negotiable)" />
-        </div>
-    </div>
-
-
-
-
-    <button type="submit" class="btn btn-primary">Save listing</button>
-    <button class="btn btn-primary" @onclick="Cancel">Cancel</button>
-</EditForm>
-
+</div>
 @code {
     [Parameter]
     public string PropertyId { get; set; }
@@ -98,18 +158,60 @@
     [Inject]
     public NavigationManager NavigationManager { get; set; }
 
+    [Inject]
+    public IPropertyDataService PropertyDataService { get; set; }
+
+    [Inject]
+    public IPredictPriceService PredictPriceService { get; set; }
+
+    [Inject]
+    public ICurrencyConverterService currencyConverterService { get; set; }
+
     public PriceViewModel Price { get; set; } = new();
 
     public string photoLinks { get; set; }
 
     public ListingViewModelCreate ListingViewModel { get; set; } = new();
 
+    public PropertyViewModelByUser propertyViewModelByUser { get; set; } = new();
+
+    public PredictPriceViewModel predictPriceViewModel { get; set; } = new();
+
     public string Message { get; set; }
 
-    private bool showMessage = true; // Folosit pentru a arăta sau ascunde div-ul
+    private bool showMessage = true; 
 
     private System.Threading.Timer _timer;
 
+    private bool IsPropertyTypeApartment = false;
+
+    private List<string> judete = new List<string>
+    {
+        "Alba", "Arad", "Bacau", "Bihor", "Bistrita-Nasaud", "Botosani", "Braila", "Brasov", "Buzau", "Bucuresti",
+        "Cluj", "Constanta", "Galati", "Giurgiu", "Iasi", "Ilfov", "Maramures", "Mures", "Neamt", "Prahova",
+        "Satu Mare", "Sibiu", "Suceava", "Teleorman", "Timis", "Tulcea", "Vrancea"
+    };
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            Guid guid = Guid.Parse(PropertyId);
+            propertyViewModelByUser = await PropertyDataService.GetPropertyByIdAsync(guid);
+
+            if(propertyViewModelByUser.PropertyType == PropertyType.Apartment)
+            {
+                IsPropertyTypeApartment = true;
+            }
+
+            Price.Currency = Currency.USD;
+
+        }
+        catch (Exception ex)
+        {
+            Message = ex.Message;
+        }
+    }
 
     private async Task HandleValidSubmit()
     {
@@ -153,5 +255,60 @@
     private void Cancel()
     {
         NavigationManager.NavigateTo("/viewmylistings");
+    }
+
+    private float predictedPrice;
+
+    private double predictedPriceUSD;
+
+    private double predictedPriceRON;
+
+    private bool isPredicting;
+
+    private async Task PredictPrice()
+    {
+        try
+        {
+            isPredicting = true;
+
+            int cityIndex = judete.IndexOf(propertyViewModelByUser.City);
+
+            predictPriceViewModel.Suprafata = propertyViewModelByUser.SquareFeet;
+            predictPriceViewModel.Nr_Camere = propertyViewModelByUser.NumberOfRooms;
+            predictPriceViewModel.Etaj = propertyViewModelByUser.Floor;
+            predictPriceViewModel.Total_Etaje = propertyViewModelByUser.NumberOfFloors;
+            predictPriceViewModel.City = cityIndex;
+            predictPriceViewModel.Pret = 0;
+
+            var result = await PredictPriceService.PredictPriceAsync(predictPriceViewModel);
+
+            if (result.Success)
+            {
+                predictedPrice = result.predictedPrice;
+
+                int auxPredictedPrice = (int)predictedPrice / 100;
+
+                predictedPrice = auxPredictedPrice * 100;
+
+                var convertedPriceUSD = await currencyConverterService.ConvertToUSD(predictedPrice);
+
+                var convertedPriceRON = await currencyConverterService.ConvertToRON(predictedPrice);
+
+                predictedPriceUSD = (int) convertedPriceUSD / 100;
+                predictedPriceRON = (int) convertedPriceRON / 100;
+
+                predictedPriceUSD = predictedPriceUSD * 100;
+                predictedPriceRON = predictedPriceRON * 100;
+
+            }
+            else
+            {
+                predictedPrice = -1;
+            }
+        }
+        finally
+        {
+            isPredicting = false;
+        }
     }
 }
