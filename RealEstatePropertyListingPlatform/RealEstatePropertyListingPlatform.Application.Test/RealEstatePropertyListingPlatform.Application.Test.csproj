@@ -28,4 +28,8 @@
     <ProjectReference Include="..\RealEstatePropertyListingPlatform.Application\RealEstatePropertyListingPlatform.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Features\Properties\" />
+  </ItemGroup>
+
 </Project>

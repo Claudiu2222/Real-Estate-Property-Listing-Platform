@@ -10,10 +10,19 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using Havit.Blazor.Components.Web;
 
+
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
-
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("MyCorsPolicy", builder =>
+    {
+        builder.AllowAnyOrigin() // Specify the origin you want to allow
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
 builder.Services.AddAuthorizationCore();
 builder.Services.AddBlazoredLocalStorage(config =>
 {
@@ -29,6 +38,7 @@ builder.Services.AddBlazoredLocalStorage(config =>
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<CustomStateProvider>();
 builder.Services.AddHxServices();
+
 
 //for property controller
 builder.Services.AddHttpClient<IPropertyDataService, PropertyDataService>(client =>
@@ -68,6 +78,5 @@ builder.Services.AddHttpClient<IChangePasswordService, ChangePasswordService>(cl
 {
     client.BaseAddress = new Uri("https://localhost:7187/");
 });
-//builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
-
+builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7187/") });
 await builder.Build().RunAsync();

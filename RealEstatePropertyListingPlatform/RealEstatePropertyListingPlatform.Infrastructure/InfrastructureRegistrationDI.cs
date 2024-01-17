@@ -31,6 +31,7 @@ namespace RealEstatePropertyListingPlatform.Infrastructure
                 IListingRepository, ListingRepository>();
             services.AddScoped
                <IEmailService, EmailService>();
+            services.AddScoped<IImageStorageService, FirebaseStorageService>();
             return services;
 
         }

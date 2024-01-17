@@ -4,8 +4,9 @@
 @using RealEstateListingPlatform.App.Contracts
 @using RealEstateListingPlatform.App.ViewModels
 @using RealEstatePropertyListingPlatform.Domain.Enums
+@using System.Net
 @inject AuthenticationStateProvider AuthStateProvider
-@* idk why it doesn't work *@
+@inject HttpClient Http
 @attribute [Authorize(Roles = "User")]
 <head>
     <link href="css/app.css" rel="stylesheet" />
@@ -64,9 +65,20 @@
     </div>
     <div class="row mb-3 ms-2">
         <label for="photos" class="col-sm-3 form-label">Photos:</label>
-        <div class="col-sm-5">
-            <InputTextArea id="photos" class="form-control" @bind-Value="@photoLinks" placeholder="Enter links to photos"></InputTextArea>
-            <ValidationMessage For="@(() => photoLinks)" />
+        <div class="col-sm-9">
+            <InputFile OnChange="HandleFileSelected" multiple />
+            @if (uploadedImageUrls.Any())
+            {
+                <div>
+                    <h3>Uploaded Images</h3>
+                    <ul>
+                        @foreach (var imageUrl in uploadedImageUrls)
+                        {
+                            <li><img src="@imageUrl" style="width:100px; height:100px;" /></li>
+                        }
+                    </ul>
+                </div>
+            }
         </div>
     </div>
 
@@ -100,8 +112,6 @@
 
     public PriceViewModel Price { get; set; } = new();
 
-    public string photoLinks { get; set; }
-
     public ListingViewModelCreate ListingViewModel { get; set; } = new();
 
     public string Message { get; set; }
@@ -110,12 +120,43 @@
 
     private System.Threading.Timer _timer;
 
+    private int maxFileSize = 1024 * 1024 * 10; //10mb
+    private string bucket_url = "https://firebasestorage.googleapis.com/v0/b/dot-net-test-20d14.appspot.com";
+
+    
+    List<string> uploadedImageUrls = new List<string>();
+
+    private async Task HandleFileSelected(InputFileChangeEventArgs e)
+    {
+        foreach (var file in e.GetMultipleFiles())
+        {
+
+            var filename = $"{Guid.NewGuid()}{Path.GetExtension(file.Name)}";
+            var response = await Http.GetFromJsonAsync<UrlResponse>($"api/Upload/generate-upload-url?filePath={filename}");
+            if (response != null)                                           
+            {
+                var preSignedUrl = response.Url;
+                using var content = new StreamContent(file.OpenReadStream(maxFileSize));
+                var uploadResponse = await Http.PutAsync(preSignedUrl, content);
+                if (uploadResponse.IsSuccessStatusCode)
+                {
+                    var imageUrl = $"{bucket_url}/o/{Uri.EscapeDataString(filename)}?alt=media";
+                    uploadedImageUrls.Add(imageUrl);
+                    System.Diagnostics.Debug.WriteLine(imageUrl);
+                }
+
+            }
+        }
+    }
+
+   
 
     private async Task HandleValidSubmit()
     {
         ListingViewModel.PropertyId = PropertyId;
         ListingViewModel.Price = Price;
-        ListingViewModel.Photos = photoLinks.Split(" ").ToList();
+        ListingViewModel.Photos = uploadedImageUrls;
+
         var result = await ListingDataService.CreateListingAsync(ListingViewModel);
         if (result.Success)
         {
@@ -153,5 +194,10 @@
     private void Cancel()
     {
         NavigationManager.NavigateTo("/viewmylistings");
+    }
+
+    public class UrlResponse
+    {
+        public string Url { get; set; }
     }
 }
