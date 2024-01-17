@@ -104,9 +104,9 @@
                             </div>
                         </div>
 
-    </div>
+  
     <div class="row mb-3 ms-2">
-        <label for="photos" class="col-sm-3 form-label">Photos:</label>
+                        <label for="photos" class="col-sm-3 form-label">📸Photos:</label>
         <div class="col-sm-9">
             <InputFile OnChange="HandleFileSelected" multiple />
             @if (uploadedImageUrls.Any())
@@ -131,13 +131,7 @@
                                 </div>
 
                         </div>
-                        <div class="row mb-3 ms-2">
-                                <label for="photos" class="col-sm-3 form-label">📸Photos:</label>
-                            <div class="col-sm-5">
-                                <InputTextArea id="photos" class="form-control" @bind-Value="@photoLinks" placeholder="Enter links to photos"></InputTextArea>
-                                <ValidationMessage For="@(() => photoLinks)" />
-                            </div>
-                        </div>
+                      
 
                         <div class="row mb-3 ms-2">
                                 <label for="negotiable" class="col-sm-3 form-label">🤝🏻Negotiable:</label>
@@ -178,28 +172,82 @@
     [Inject]
     public NavigationManager NavigationManager { get; set; }
 
+    public PriceViewModel Price { get; set; } = new();
     [Inject]
     public IPropertyDataService PropertyDataService { get; set; }
 
     [Inject]
     public IPredictPriceService PredictPriceService { get; set; }
-
     [Inject]
     public ICurrencyConverterService currencyConverterService { get; set; }
-
-    public PriceViewModel Price { get; set; } = new();
-
-    public ListingViewModelCreate ListingViewModel { get; set; } = new();
-
     public PropertyViewModelByUser propertyViewModelByUser { get; set; } = new();
 
     public PredictPriceViewModel predictPriceViewModel { get; set; } = new();
 
+    public ListingViewModelCreate ListingViewModel { get; set; } = new();
+
     public string Message { get; set; }
 
-    private bool showMessage = true; 
+    private bool showMessage = true; // Folosit pentru a arăta sau ascunde div-ul
 
     private System.Threading.Timer _timer;
+    private bool IsPropertyTypeApartment = false;
+    private List<string> judete = new List<string>
+    {
+        "Alba", "Arad", "Bacau", "Bihor", "Bistrita-Nasaud", "Botosani", "Braila", "Brasov", "Buzau", "Bucuresti",
+        "Cluj", "Constanta", "Galati", "Giurgiu", "Iasi", "Ilfov", "Maramures", "Mures", "Neamt", "Prahova",
+        "Satu Mare", "Sibiu", "Suceava", "Teleorman", "Timis", "Tulcea", "Vrancea"
+    };
+
+    private int maxFileSize = 1024 * 1024 * 10; //10mb
+    private string bucket_url = "https://firebasestorage.googleapis.com/v0/b/dot-net-test-20d14.appspot.com";
+
+
+    List<string> uploadedImageUrls = new List<string>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            Guid guid = Guid.Parse(PropertyId);
+            propertyViewModelByUser = await PropertyDataService.GetPropertyByIdAsync(guid);
+
+            if(propertyViewModelByUser.PropertyType == PropertyType.Apartment)
+            {
+                IsPropertyTypeApartment = true;
+            }
+
+            Price.Currency = Currency.USD;
+
+        }
+        catch (Exception ex)
+        {
+            Message = ex.Message;
+        }
+    }
+    private async Task HandleFileSelected(InputFileChangeEventArgs e)
+    {
+        foreach (var file in e.GetMultipleFiles())
+        {
+
+            var filename = $"{Guid.NewGuid()}{Path.GetExtension(file.Name)}";
+            var response = await Http.GetFromJsonAsync<UrlResponse>($"api/Upload/generate-upload-url?filePath={filename}");
+            if (response != null)
+            {
+                var preSignedUrl = response.Url;
+                using var content = new StreamContent(file.OpenReadStream(maxFileSize));
+                var uploadResponse = await Http.PutAsync(preSignedUrl, content);
+                if (uploadResponse.IsSuccessStatusCode)
+                {
+                    var imageUrl = $"{bucket_url}/o/{Uri.EscapeDataString(filename)}?alt=media";
+                    uploadedImageUrls.Add(imageUrl);
+                    System.Diagnostics.Debug.WriteLine(imageUrl);
+                }
+
+            }
+        }
+    }
+
 
 
     private async Task HandleValidSubmit()
@@ -220,12 +268,12 @@
             },
             null,
             1000,
-            System.Threading.Timeout.Infinite 
+            System.Threading.Timeout.Infinite
         );
         }
         else
         {
-            for(int i = 0; i < result.ValidationErrors.Count; i++)
+            for (int i = 0; i < result.ValidationErrors.Count; i++)
             {
                 Message += result.ValidationErrors[i] + " ";
             }
@@ -246,4 +294,64 @@
     {
         NavigationManager.NavigateTo("/viewmylistings");
     }
+
+    public class UrlResponse
+    {
+        public string Url { get; set; }
+    }
+    private float predictedPrice;
+
+    private double predictedPriceUSD;
+
+    private double predictedPriceRON;
+
+    private bool isPredicting;
+
+    private async Task PredictPrice()
+    {
+        try
+        {
+            isPredicting = true;
+
+            int cityIndex = judete.IndexOf(propertyViewModelByUser.City);
+
+            predictPriceViewModel.Suprafata = propertyViewModelByUser.SquareFeet;
+            predictPriceViewModel.Nr_Camere = propertyViewModelByUser.NumberOfRooms;
+            predictPriceViewModel.Etaj = propertyViewModelByUser.Floor;
+            predictPriceViewModel.Total_Etaje = propertyViewModelByUser.NumberOfFloors;
+            predictPriceViewModel.City = cityIndex;
+            predictPriceViewModel.Pret = 0;
+
+            var result = await PredictPriceService.PredictPriceAsync(predictPriceViewModel);
+
+            if (result.Success)
+            {
+                predictedPrice = result.predictedPrice;
+
+                int auxPredictedPrice = (int)predictedPrice / 100;
+
+                predictedPrice = auxPredictedPrice * 100;
+
+                var convertedPriceUSD = await currencyConverterService.ConvertToUSD(predictedPrice);
+
+                var convertedPriceRON = await currencyConverterService.ConvertToRON(predictedPrice);
+
+                predictedPriceUSD = (int) convertedPriceUSD / 100;
+                predictedPriceRON = (int) convertedPriceRON / 100;
+
+                predictedPriceUSD = predictedPriceUSD * 100;
+                predictedPriceRON = predictedPriceRON * 100;
+
+            }
+            else
+            {
+                predictedPrice = -1;
+            }
+        }
+        finally
+        {
+            isPredicting = false;
+        }
+    }
 }
+
