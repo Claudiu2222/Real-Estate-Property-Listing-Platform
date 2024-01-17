@@ -61,6 +61,17 @@ box-shadow: 0 0 5px rgba(0,0,0,1);
 background-color: #d42121;
 }
 
+.choosefile {
+    color: white;
+    background: linear-gradient(to right, #6a11cb 0%, #2575fc 100%) !important;
+    border-color: #007bff;
+    padding: 8px;
+    border-radius: 5px;
+    cursor: pointer;
+    /* Adăugăm overflow:hidden pentru a evita afectarea textului din jur */
+    overflow: hidden;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 @media screen and (max-width: 1300px) {
 
     .col-md-6 {
@@ -73,6 +84,11 @@ background-color: #d42121;
     }
 }
 
+@media screen and (max-width: 900px) {
+    .choosefile {
+        width: 150%;
+    }
+}
 @media screen and (max-width: 780px) {
 
 
@@ -96,6 +112,10 @@ width: 30%;
     }
 
    .form-label{
+        width: 100%;
+    }
+
+   .choosefile{
         width: 100%;
     }
 }

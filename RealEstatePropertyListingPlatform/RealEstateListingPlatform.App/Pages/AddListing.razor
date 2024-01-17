@@ -107,12 +107,12 @@
   
     <div class="row mb-3 ms-2">
                         <label for="photos" class="col-sm-3 form-label">📸Photos:</label>
-        <div class="col-sm-9">
-            <InputFile OnChange="HandleFileSelected" multiple />
+        <div class="col-sm-5">
+            <InputFile class="choosefile" OnChange="HandleFileSelected" multiple  />
             @if (uploadedImageUrls.Any())
             {
                 <div>
-                    <h3>Uploaded Images</h3>
+                    <p class="uplloadedimages">Uploaded images:</p>
                     <ul>
                         @foreach (var imageUrl in uploadedImageUrls)
                         {
