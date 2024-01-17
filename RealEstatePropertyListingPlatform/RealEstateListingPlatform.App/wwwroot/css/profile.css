@@ -43,6 +43,13 @@
     margin-bottom: 10px;
 }
 
+h3 {
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
     .cancel-button:hover {
         background-color: #691a1a;
         cursor: pointer;

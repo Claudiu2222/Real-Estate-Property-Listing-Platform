@@ -22,7 +22,7 @@
     <DataAnnotationsValidator />
 
     <div class="row mb-3 ms-2">
-        <label for="streetname" class="col-sm-3 form-label">Title:</label>
+        <label for="streetname" class="col-sm-3 form-label">🔖Title:</label>
         <div class="col-sm-5">
             <InputText id="title" class="form-control" @bind-Value="@ListingViewModelById.Title" placeholder="@ListingViewModelById.Title"></InputText>
             <ValidationMessage For="@(() => ListingViewModelById.Title)" />
@@ -30,7 +30,7 @@
     </div>
 
     <div class="row mb-3 ms-2">
-        <label for="price" class="col-sm-3 form-label">Price:</label>
+        <label for="price" class="col-sm-3 form-label">💲Price:</label>
         <div class="col-sm-5">
             <InputNumber id="price" class="form-control" @bind-Value="@initialPrice.Value" placeholder="Value"></InputNumber>
             <!-- Input pentru valoarea numerică -->
@@ -48,7 +48,7 @@
     </div>
 
     <div class="row mb-3 ms-2">
-        <label for="description" class="col-sm-3 form-label">Description:</label>
+        <label for="description" class="col-sm-3 form-label">📝Description:</label>
         <div class="col-sm-5">
             <InputTextArea id="description" class="form-control" @bind-Value="@ListingViewModelById.Description" placeholder="@ListingViewModelById.Description"></InputTextArea>
             <ValidationMessage For="@(() => ListingViewModelById.Description)" />
@@ -56,7 +56,7 @@
 
     </div>
     <div class="row mb-3 ms-2">
-        <label for="photos" class="col-sm-3 form-label">Photos:</label>
+        <label for="photos" class="col-sm-3 form-label">📸Photos:</label>
         <div class="col-sm-5">
             <div>
                     <InputTextArea id="photos" class="form-control" @bind-Value="@initialPhotos" placeholder="Enter photo URL"></InputTextArea>
@@ -66,7 +66,7 @@
     </div>
 
     <div class="row mb-3 ms-2">
-        <label for="negotiable" class="col-sm-3 form-label">Negotiable:</label>
+        <label for="negotiable" class="col-sm-3 form-label">🤝🏻Negotiable:</label>
         <div class="col-sm-5">
             <div class="form-check">
                 <InputCheckbox id="negotiable" class="form-check-input" type="checkbox" @bind-Value="@negotiable" />

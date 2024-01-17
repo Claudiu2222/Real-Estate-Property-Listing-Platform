@@ -18,7 +18,7 @@
     </style>
 </head>
 <div class="title-container">
-    <h3 class="mb-4 text-center">Add listing</h3>
+    <h3 class="mb-4 text-center">➕Add listing</h3>
 </div>
 
 <div class="@GetAlertClass() mb-3 ms-2" style="display: @(string.IsNullOrWhiteSpace(Message) ? "none" : "block");">
@@ -44,7 +44,7 @@
                         <DataAnnotationsValidator />
 
                          <div class="row mb-3 ms-2">
-                            <label for="streetname" class="col-sm-3 form-label">Title:</label>
+                                <label for="streetname" class="col-sm-3 form-label">🔖Title:</label>
                             <div class="col-sm-5">
                                 <InputText id="title" class="form-control" @bind-Value="@ListingViewModel.Title" placeholder="Enter title"></InputText>
                                 <ValidationMessage For="@(() => ListingViewModel.Title)" />
@@ -52,7 +52,7 @@
                         </div>
 
                         <div class="row mb-3 ms-2">
-                            <label for="price" class="col-sm-3 form-label">Price:</label>
+                                <label for="price" class="col-sm-3 form-label">💲Price:</label>
                             <div class="col-sm-5">
             
                                 <InputNumber id="price" class="form-control" @bind-Value="@Price.Value"></InputNumber>
@@ -104,7 +104,7 @@
                         </div>
 
                         <div class="row mb-3 ms-2">
-                                <label for="description" class="col-sm-3 form-label">Description:</label>
+                                <label for="description" class="col-sm-3 form-label">📝Description:</label>
                                 <div class="col-sm-5">
                                     <InputTextArea id="description" class="form-control" @bind-Value="@ListingViewModel.Description" placeholder="Enter description"></InputTextArea>
                                     <ValidationMessage For="@(() => ListingViewModel.Description)" />
@@ -112,7 +112,7 @@
 
                         </div>
                         <div class="row mb-3 ms-2">
-                            <label for="photos" class="col-sm-3 form-label">Photos:</label>
+                                <label for="photos" class="col-sm-3 form-label">📸Photos:</label>
                             <div class="col-sm-5">
                                 <InputTextArea id="photos" class="form-control" @bind-Value="@photoLinks" placeholder="Enter links to photos"></InputTextArea>
                                 <ValidationMessage For="@(() => photoLinks)" />
@@ -120,7 +120,7 @@
                         </div>
 
                         <div class="row mb-3 ms-2">
-                            <label for="negotiable" class="col-sm-3 form-label">Negotiable:</label>
+                                <label for="negotiable" class="col-sm-3 form-label">🤝🏻Negotiable:</label>
                             <div class="col-sm-5">
                                 <div class="form-check">
                                     <InputCheckbox id="negotiable" class="form-check-input" @bind-Value="@ListingViewModel.Negotiable"></InputCheckbox>

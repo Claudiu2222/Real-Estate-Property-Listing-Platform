@@ -1,4 +1,4 @@
-@using Microsoft.AspNetCore.Components.Authorization
+﻿@using Microsoft.AspNetCore.Components.Authorization
 @using Microsoft.AspNetCore.Authorization
 @using System.Security.Claims
 <head>
@@ -27,7 +27,7 @@
             <AuthorizeView>
                 <div class="nav-item px-3">
                     <NavLink class="nav-link" href="profile">
-                        <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> My Profile
+                        <span class="bi bi-person-fill big-icon" aria-hidden="true"></span> My Profile
                     </NavLink>
                 </div>
             </AuthorizeView>
@@ -50,7 +50,7 @@
             <AuthorizeView Roles="User">
                 <div class="nav-item px-3">
                     <NavLink class="nav-link" href="addproperty">
-                        <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Add Property
+                        <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Add Property
                     </NavLink>
                 </div>
             </AuthorizeView>

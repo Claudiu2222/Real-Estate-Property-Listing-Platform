@@ -14,7 +14,7 @@
 </head>
 
 <div class="title-container">
-    <h3 class="mb-4 text-center">Update Property</h3>
+    <h3 class="mb-4 text-center">✏️Update Property</h3>
 </div>
 <div class="@GetAlertClass() mb-3 ms-2" style="display: @(string.IsNullOrWhiteSpace(Message) ? "none" : "block");">
     <div class="d-flex align-items-center">
@@ -40,7 +40,7 @@
                         <DataAnnotationsValidator />
 
                         <div class="row mb-3 ms-2">
-                            <label for="streetname" class="col-sm-3 form-label">Street name:</label>
+                                <label for="streetname" class="col-sm-3 form-label">📫Street name:</label>
                             <div class="col-sm-5">
                                 <InputText id="streetname" class="form-control" @bind-Value="@PropertyViewModelUser.StreetName" placeholder="@PropertyViewModelUser.StreetName"></InputText>
                                 <ValidationMessage For="@(() => PropertyViewModelUser.StreetName)" />
@@ -49,14 +49,14 @@
 
 
                         <div class="row mb-3 ms-2">
-                            <label for="city" class="col-sm-3 form-label">City name:</label>
+                                <label for="city" class="col-sm-3 form-label">🏢City name:</label>
                             <div class="col-sm-5">
                                 <InputText id="city" class="form-control" @bind-Value="@PropertyViewModelUser.City" placeholder="@PropertyViewModelUser.City"></InputText>
                                 <ValidationMessage For="@(() => PropertyViewModelUser.City)" />
                             </div>
                         </div>
                         <div class="row mb-3 ms-2">
-                            <label for="region" class="col-sm-3 form-label">Region name:</label>
+                                <label for="region" class="col-sm-3 form-label">📍Region name:</label>
                             <div class="col-sm-5">
                                 <div class="input-group">
                                     <InputSelect id="region" class="form-control" @bind-Value="@PropertyViewModelUser.Region">
@@ -74,7 +74,7 @@
                         </div>
 
                         <div class="row mb-3 ms-2">
-                            <label for="postalcode" class="col-sm-3 form-label">Postal code:</label>
+                                <label for="postalcode" class="col-sm-3 form-label">📮Postal code:</label>
                             <div class="col-sm-5">
                                 <InputText id="postalcode" class="form-control" @bind-Value="@PropertyViewModelUser.PostalCode" placeholder="@PropertyViewModelUser.PostalCode"></InputText>
                                 <ValidationMessage For="@(() => PropertyViewModelUser.PostalCode)" />
@@ -82,7 +82,7 @@
                         </div>
 
                         <div class="row mb-3 ms-2">
-                            <label for="country" class="col-sm-3 form-label">Country :</label>
+                                <label for="country" class="col-sm-3 form-label">🌎Country :</label>
                             <div class="col-sm-5">
                                 <InputText id="country" class="form-control" @bind-Value="@PropertyViewModelUser.Country" placeholder="@PropertyViewModelUser.Country"></InputText>
                                 <ValidationMessage For="@(() => PropertyViewModelUser.Country)" />
@@ -90,7 +90,7 @@
                         </div>
 
                         <div class="row mb-3 ms-2">
-                            <label for="propertyType" class="col-sm-3 form-label"> Property Type :</label>
+                                <label for="propertyType" class="col-sm-3 form-label">🏠Property Type :</label>
 
                             <div class="col-sm-5">
                                 <InputSelect id="propertyType" class="form-control" @bind-Value="@PropertyViewModelUser.PropertyType" @oninput="HandlePropertyTypeChange">
@@ -109,7 +109,7 @@
                         @if (PropertyViewModelUser.PropertyType != PropertyType.Land) //Land doesn't have nr of rooms
                         {
                             <div class="row mb-3 ms-2">
-                                <label for="nrRooms" class="col-sm-3 form-label">Number of rooms :</label>
+                                    <label for="nrRooms" class="col-sm-3 form-label">🚪Number of rooms :</label>
                                 <div class="col-sm-5">
                                     <InputNumber id="nrRooms" class="form-control" @bind-Value="@PropertyViewModelUser.NumberOfRooms" placeholder="@PropertyViewModelUser.NumberOfRooms" />
 
@@ -121,7 +121,7 @@
                         PropertyViewModelUser.PropertyType != PropertyType.Garage) //Land and Garage don't have nr of bathrooms
                         {
                             <div class="row mb-3 ms-2">
-                                <label for="nrBathrooms" class="col-sm-3 form-label">Number of Bathrooms :</label>
+                                    <label for="nrBathrooms" class="col-sm-3 form-label">🚽Number of Bathrooms :</label>
                                 <div class="col-sm-5">
                                     <InputNumber id="nrBathrooms" class="form-control" @bind-Value="@PropertyViewModelUser.NumberOfBathrooms" placeholder="@PropertyViewModelUser.NumberOfBathrooms"></InputNumber>
                                     <ValidationMessage For="@(() => PropertyViewModelUser.NumberOfBathrooms)" />
@@ -133,7 +133,7 @@
                         PropertyViewModelUser.PropertyType == PropertyType.Office)
                         {
                             <div class="row mb-3 ms-2">
-                                <label for="floor" class="col-sm-3 form-label">Number of floor :</label>
+                                    <label for="floor" class="col-sm-3 form-label">🪜Number of floor :</label>
                                 <div class="col-sm-5">
                                     <InputNumber id="floor" class="form-control" @bind-Value="@PropertyViewModelUser.Floor" placeholder="@PropertyViewModelUser.Floor"></InputNumber>
                                     <ValidationMessage For="@(() => PropertyViewModelUser.Floor)" />
@@ -145,7 +145,7 @@
                         PropertyViewModelUser.PropertyType != PropertyType.Garage) //Land, Farm and Garage don't have nr of total floors
                         {
                             <div class="row mb-3 ms-2">
-                                <label for="nrfloors" class="col-sm-3 form-label">Number of total floors :</label>
+                                    <label for="nrfloors" class="col-sm-3 form-label">🪜Number of total floors :</label>
                                 <div class="col-sm-5">
                                     <InputNumber id="nrfloors" class="form-control" @bind-Value="@PropertyViewModelUser.NumberOfFloors" placeholder="@PropertyViewModelUser.NumberOfFloors"></InputNumber>
                                     <ValidationMessage For="@(() => PropertyViewModelUser.NumberOfFloors)" />
@@ -154,7 +154,7 @@
                         }
 
                         <div class="row mb-3 ms-2">
-                            <label for="squarefeet" class="col-sm-3 form-label">Number of squarefeet :</label>
+                                <label for="squarefeet" class="col-sm-3 form-label">📏Number of squarefeet :</label>
                             <div class="col-sm-5">
                                 <InputNumber id="squarefeet" class="form-control" @bind-Value="@PropertyViewModelUser.SquareFeet" placeholder="@PropertyViewModelUser.SquareFeet"></InputNumber>
                                 <ValidationMessage For="@(() => PropertyViewModelUser.SquareFeet)" />
