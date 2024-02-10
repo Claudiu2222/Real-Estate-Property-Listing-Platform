@@ -25,13 +25,13 @@ namespace RealEstatePropertyListingPlatform.Application.Test.Features
             CurrentUserService = Substitute.For<ICurrentUserService>();
 
             ValidProperty = Property.Create(Guid.NewGuid(), "Test Address", "Test Zip Code", "Test State",
-                               "Test Country", "Romania", Domain.Enums.PropertyType.Apartment, 2, 2, 2, 2, 2).Value;
+                               "Test Country", "Romania", Domain.Enums.PropertyType.Apartment, 2, 2, 2, 2, 2, Longitude: "123", Latitude: "123").Value;
             ValidListing1 = Listing.Create(ValidProperty.OwnerId, ValidProperty.PropertyId, "Test listing 1",
                                new Domain.Records.PriceInfo { Value = 100, Currency = Domain.Enums.Currency.USD }, "Test Description",
-                                              new List<string> { "Test Photo" }, true).Value;
+                                              new List<string> { "Test Photo" }, true, true).Value;
             ValidListing2 = Listing.Create(ValidProperty.OwnerId, ValidProperty.PropertyId, "Test listing 2", 
                                new Domain.Records.PriceInfo { Value = 100, Currency = Domain.Enums.Currency.USD }, "Test Description",
-                                              new List<string> { "Test Photo" }, true).Value;
+                                              new List<string> { "Test Photo" }, true, true).Value;
         }
 
         public void Dispose()

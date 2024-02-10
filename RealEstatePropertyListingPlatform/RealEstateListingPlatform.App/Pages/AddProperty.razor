@@ -4,6 +4,8 @@
 @using RealEstateListingPlatform.App.Contracts
 @using RealEstateListingPlatform.App.ViewModels
 @using RealEstatePropertyListingPlatform.Domain.Enums
+@inject IJSRuntime JSRuntime
+
 
 @inject AuthenticationStateProvider AuthStateProvider
 @* idk why it doesn't work *@
@@ -12,6 +14,39 @@
     <link href="/css/app.css" rel="stylesheet" />
     <link href="/css/editproperty.css" rel="stylesheet" />
     <link href="/css/addproperty.css" rel="stylesheet" />
+    <script>
+        var map;
+        var marker; // Variabilă pentru a stoca marker-ul curent
+
+        function initialize() {
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat: 46.090336, lng: 25.178616 },
+                zoom: 6
+            });
+
+            google.maps.event.addListener(map, 'click', function (event) {
+                // Verificăm dacă marker-ul există deja, și-l ștergem dacă da
+                if (marker && marker.setMap) {
+                    marker.setMap(null);
+                }
+                // Creăm un nou marker
+                marker = new google.maps.Marker({
+                    position: event.latLng,
+                    map: map,
+                });
+
+                // Actualizăm valorile Latitudinii și Longitudinii în ViewModel
+                var latitudeInput = document.getElementById("latitude");
+                var longitudeInput = document.getElementById("longitude");
+                latitudeInput.value = event.latLng.lat().toString();
+                longitudeInput.value = event.latLng.lng().toString();
+                DotNet.invokeMethodAsync('NotifyChanges');
+
+            });
+        }
+    </script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyCJGNELETRarTh8XctiWzsHND25SawIV1g&callback=initialize"></script>
+    
     <style>
         body {
             background: linear-gradient(to right, #6a11cb 0%, #2575fc 100%) !important;
@@ -19,6 +54,7 @@
 
     </style>
 </head>
+
 
 <div class="title-container">
     <h3 class="mb-4 text-center">🏠Add a new Property</h3>
@@ -168,6 +204,22 @@
                                 <ValidationMessage For="@(() => PropertyViewModel.SquareFeet)" />
                             </div>
                         </div>
+                        <div id="map" style="height: 400px;"></div>
+                            <div class="row mb-3 ms-2">
+                                <label for="latitude" class="col-sm-3 form-label">Latitude:</label>
+                                <div class="col-sm-5">
+                                    <InputText id="latitude" class="form-control" @bind-Value="@PropertyViewModel.Latitude" placeholder="Enter latitude"></InputText>
+                                    <ValidationMessage For="@(() => PropertyViewModel.Latitude)" />
+                                </div>
+                            </div>
+                            <div class="row mb-3 ms-2">
+                                <label for="longitude" class="col-sm-3 form-label">Longitude:</label>
+                                <div class="col-sm-5">
+                                    <InputText id="longitude" class="form-control" @bind-Value="@PropertyViewModel.Longitude" placeholder="Enter longitude"></InputText>
+                                    <ValidationMessage For="@(() => PropertyViewModel.Longitude)" />
+                                </div>
+                            </div>
+
                         <div class="row mb-3 ms-2">
                             <button type="submit" class="btn btn-primary save">Save property</button>
                             <button class="btn btn-primary cancel" @onclick="Cancel">Cancel</button>
@@ -184,16 +236,22 @@
     </div>
 </div>
 @code {
-	[Inject]
-	public IPropertyDataService PropertyDataService { get; set; }
+    [Inject]
+    public IPropertyDataService PropertyDataService { get; set; }
 
-	[Inject]
-	public NavigationManager NavigationManager { get; set; }
+    [Inject]
+    public NavigationManager NavigationManager { get; set; }
 
-	public PropertyViewModel PropertyViewModel { get; set; } = new ();
+    public PropertyViewModel PropertyViewModel { get; set; } = new PropertyViewModel();
 
-	public string Message { get; set; }
-   
+    public string Message { get; set; }
+
+    [JSInvokable]
+    public async Task NotifyChanges()
+    {
+        await InvokeAsync(StateHasChanged);
+    }
+
 }
 
 @functions {
@@ -216,6 +274,7 @@
     }
     private async Task HandleValidSubmit()
     {
+        // adaug in PropertyViewModel latitudinea si longitudinea din InputText-uri din id-urile "latitude" si "longitude"
         var result = await PropertyDataService.CreatePropertyAsync(PropertyViewModel);
         if (result.Success)
         {

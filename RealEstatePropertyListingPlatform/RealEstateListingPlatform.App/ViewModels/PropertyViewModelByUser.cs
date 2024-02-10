@@ -61,5 +61,15 @@ namespace RealEstateListingPlatform.App.ViewModels
         [Required(ErrorMessage = "Square feet is required")]
         [ValidateInteger(0, 1_000)]
         public int SquareFeet { get; set; }
+
+        [JsonPropertyName("longitude")]
+        [Required(ErrorMessage = "Longitude is required")]
+        [Range(-180, 180)]
+        public string Longitude { get; set; } = default!;
+
+        [JsonPropertyName("latitude")]
+        [Required(ErrorMessage = "Latitude is required")]
+        [Range(-90, 90)]
+        public string Latitude { get; set; } = default!;
     }
 }

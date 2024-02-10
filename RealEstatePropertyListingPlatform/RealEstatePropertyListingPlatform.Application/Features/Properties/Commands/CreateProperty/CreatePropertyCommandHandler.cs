@@ -45,7 +45,7 @@ namespace RealEstatePropertyListingPlatform.Application.Features.Properties.Comm
 
             var property = Property.Create(ownerId, request.StreetName, request.City, request.Region, request.PostalCode,
                                            request.Country, request.PropertyType, request.NumberOfRooms, request.NumberOfBathrooms,
-                                           request.Floor, request.NumberOfFloors, request.SquareFeet);
+                                           request.Floor, request.NumberOfFloors, request.SquareFeet, request.Longitude, request.Latitude);
 
             if (!property.IsSuccess)
             {

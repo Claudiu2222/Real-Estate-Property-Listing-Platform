@@ -15,7 +15,7 @@ namespace RealEstatePropertyListingPlatform.Domain.Test.ListingTests
         {
             // Arrange & Act
             var result = Listing.Create(validListingCreatorId, validPropertyId, validTitle, validPrice,
-                emptyDescription, validPhotos, validNegotiable);
+                emptyDescription, validPhotos, IsRent, validNegotiable);
             // Assert
             result.IsSuccess.Should().BeFalse();
             result.Error.Should().NotBeNull();
@@ -28,7 +28,7 @@ namespace RealEstatePropertyListingPlatform.Domain.Test.ListingTests
         {
             // Arrange & Act
             var result = Listing.Create(validListingCreatorId, validPropertyId, validTitle, validPrice,
-                nullDescription, validPhotos, validNegotiable);
+                nullDescription, validPhotos, IsRent, validNegotiable);
             // Assert
             result.IsSuccess.Should().BeFalse();
             result.Error.Should().NotBeNull();
@@ -41,7 +41,7 @@ namespace RealEstatePropertyListingPlatform.Domain.Test.ListingTests
         {
             // Arrange & Act
             var result = Listing.Create(validListingCreatorId, validPropertyId, validTitle, validPrice,
-                tooLongDescription, validPhotos, validNegotiable);
+                tooLongDescription, validPhotos, IsRent, validNegotiable);
             // Assert
             result.IsSuccess.Should().BeFalse();
             result.Error.Should().NotBeNull();

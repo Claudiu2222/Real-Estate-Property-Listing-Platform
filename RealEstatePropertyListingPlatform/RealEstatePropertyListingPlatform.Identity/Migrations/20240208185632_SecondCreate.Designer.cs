@@ -12,7 +12,7 @@ using RealEstatePropertyListingPlatform.Identity;
 namespace RealEstatePropertyListingPlatform.Identity.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231219171206_SecondCreate")]
+    [Migration("20240208185632_SecondCreate")]
     partial class SecondCreate
     {
         /// <inheritdoc />
@@ -211,6 +211,9 @@ namespace RealEstatePropertyListingPlatform.Identity.Migrations
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
+
+                    b.Property<string>("ValidationCode")
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 

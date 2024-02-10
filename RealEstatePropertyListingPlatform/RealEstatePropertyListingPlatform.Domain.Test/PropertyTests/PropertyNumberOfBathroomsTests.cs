@@ -23,7 +23,7 @@ namespace RealEstatePropertyListingPlatform.Domain.Test.PropertyTests
             // Arrange & Act
             var result = Property.Create(ValidOwnerId, ValidStreetName,
                 ValidCity, ValidRegion, ValidPostalCode, ValidCountry, ValidPropertyType,
-                ValidNumberOfRooms, negativeNumberOfBathrooms, ValidFloor, ValidNumberOfFloors, ValidSquareFeet);
+                ValidNumberOfRooms, negativeNumberOfBathrooms, ValidFloor, ValidNumberOfFloors, ValidSquareFeet, ValidLongitude, ValidLatitude);
             // Assert
             result.IsSuccess.Should().BeFalse();
             result.Error.Should().NotBeNull();
@@ -39,7 +39,7 @@ namespace RealEstatePropertyListingPlatform.Domain.Test.PropertyTests
                 ValidCity, ValidRegion, ValidPostalCode, ValidCountry, PropertyType.Land,
                 validNumberOfRoomsInCombinationWithLand, invalidNumberOfBathroomsInCombinationWithLandOrGarage,
                 validFloorInCombinationWithLandOrGarage, validNumberOfFloorsInCombinationWithLandOrGarage,
-                ValidSquareFeet);
+                ValidSquareFeet, ValidLongitude, ValidLatitude);
             // Assert
             result.IsSuccess.Should().BeFalse();
             result.Error.Should().NotBeNull();
@@ -55,7 +55,7 @@ namespace RealEstatePropertyListingPlatform.Domain.Test.PropertyTests
                 ValidCity, ValidRegion, ValidPostalCode, ValidCountry, PropertyType.Garage,
                 validNumberOfRoomsInCombinationWithGarage, invalidNumberOfBathroomsInCombinationWithLandOrGarage,
                 validFloorInCombinationWithLandOrGarage, validNumberOfFloorsInCombinationWithLandOrGarage,
-                ValidSquareFeet);
+                ValidSquareFeet, ValidLongitude, ValidLatitude);
             // Assert
             result.IsSuccess.Should().BeFalse();
             result.Error.Should().NotBeNull();
@@ -71,7 +71,7 @@ namespace RealEstatePropertyListingPlatform.Domain.Test.PropertyTests
                 ValidCity, ValidRegion, ValidPostalCode, ValidCountry, PropertyType.Land,
                 validNumberOfRoomsInCombinationWithLand, validNumberOfBathroomsInCombinationWithLandOrGarage,
                 validFloorInCombinationWithLandOrGarage, validNumberOfFloorsInCombinationWithLandOrGarage,
-                ValidSquareFeet);
+                ValidSquareFeet, ValidLongitude, ValidLatitude);
             // Assert
             result.IsSuccess.Should().BeTrue();
             result.Error.Should().BeNull();
@@ -87,7 +87,7 @@ namespace RealEstatePropertyListingPlatform.Domain.Test.PropertyTests
                 ValidCity, ValidRegion, ValidPostalCode, ValidCountry, PropertyType.Garage,
                 validNumberOfRoomsInCombinationWithGarage, validNumberOfBathroomsInCombinationWithLandOrGarage,
                 validFloorInCombinationWithLandOrGarage, validNumberOfFloorsInCombinationWithLandOrGarage,
-                ValidSquareFeet);
+                ValidSquareFeet, ValidLongitude, ValidLatitude);
 
             // Assert
             result.IsSuccess.Should().BeTrue();

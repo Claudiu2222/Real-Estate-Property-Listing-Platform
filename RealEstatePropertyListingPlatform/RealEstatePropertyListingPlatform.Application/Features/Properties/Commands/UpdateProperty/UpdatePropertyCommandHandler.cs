@@ -47,7 +47,7 @@ namespace RealEstatePropertyListingPlatform.Application.Features.Properties.Comm
 
             property.Value.Update(request.StreetName, request.City, request.Region, request.PostalCode,
                                     request.Country, request.PropertyType, request.NumberOfRooms, request.NumberOfBathrooms,
-                                    request.Floor, request.NumberOfFloors, request.SquareFeet);
+                                    request.Floor, request.NumberOfFloors, request.SquareFeet, request.Longitude, request.Latitude);
 
 
             await propertyRepository.UpdateAsync(property.Value);

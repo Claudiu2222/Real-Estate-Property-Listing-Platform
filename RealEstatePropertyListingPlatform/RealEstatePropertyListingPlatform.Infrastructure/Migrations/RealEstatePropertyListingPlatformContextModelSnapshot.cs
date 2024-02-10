@@ -44,6 +44,9 @@ namespace RealEstatePropertyListingPlatform.Infrastructure.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
+                    b.Property<bool>("IsRent")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("text");
 
@@ -98,6 +101,14 @@ namespace RealEstatePropertyListingPlatform.Infrastructure.Migrations
 
                     b.Property<DateTime>("LastModifiedDate")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Latitude")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Longitude")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<int>("NumberOfBathrooms")
                         .HasColumnType("integer");

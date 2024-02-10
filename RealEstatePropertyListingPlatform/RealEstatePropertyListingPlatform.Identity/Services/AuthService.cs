@@ -33,7 +33,7 @@ namespace RealEstatePropertyListingPlatform.Identity.Services
         }
         public async Task<(int, string)> Registeration(RegistrationModel model, string role)
         {
-
+            model.ValidationCode = "";
             var userExists = await userManager.FindByNameAsync(model.Username);
             if (userExists != null)
                 return (0, "User already exists");
@@ -48,7 +48,9 @@ namespace RealEstatePropertyListingPlatform.Identity.Services
                 SecurityStamp = Guid.NewGuid().ToString(),
                 UserName = model.Username,
                 Name = model.Name,
-                PhoneNumber = model.PhoneNumber
+                PhoneNumber = model.PhoneNumber,
+                ValidationCode = ""
+                
             };
 
             var psswdValidators = new PasswordValidator<ApplicationUser>();

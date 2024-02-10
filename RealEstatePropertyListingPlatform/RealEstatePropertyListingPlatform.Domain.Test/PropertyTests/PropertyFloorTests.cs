@@ -29,7 +29,7 @@ namespace RealEstatePropertyListingPlatform.Domain.Test.PropertyTests
                 ValidCity, ValidRegion, ValidPostalCode, ValidCountry, PropertyType.Land,
                 validNumberOfRoomsForWithLand, validNumberOfBathroomsForLandOrGarage,
                 negativeFloor, validNumberOfFloorsForLandOrFarmOrGarage,
-                ValidSquareFeet);
+                ValidSquareFeet, ValidLongitude, ValidLatitude);
             // Assert
             result.IsSuccess.Should().BeFalse();
             result.Error.Should().NotBeNull();
@@ -43,7 +43,7 @@ namespace RealEstatePropertyListingPlatform.Domain.Test.PropertyTests
             // Arrange & Act
             var result = Property.Create(ValidOwnerId, ValidStreetName,
                 ValidCity, ValidRegion, ValidPostalCode, ValidCountry, PropertyType.Farm,
-                ValidNumberOfRooms, ValidNumberOfBathrooms, negativeFloor, validNumberOfFloorsForLandOrFarmOrGarage, ValidSquareFeet);
+                ValidNumberOfRooms, ValidNumberOfBathrooms, negativeFloor, validNumberOfFloorsForLandOrFarmOrGarage, ValidSquareFeet, ValidLongitude, ValidLatitude);
             // Assert
             result.IsSuccess.Should().BeFalse();
             result.Error.Should().NotBeNull();
@@ -59,7 +59,7 @@ namespace RealEstatePropertyListingPlatform.Domain.Test.PropertyTests
                 ValidCity, ValidRegion, ValidPostalCode, ValidCountry, PropertyType.Garage,
                 ValidNumberOfRooms, validNumberOfBathroomsForLandOrGarage,
                 negativeFloor, validNumberOfFloorsForLandOrFarmOrGarage,
-                ValidSquareFeet);
+                ValidSquareFeet, ValidLongitude, ValidLatitude);
             // Assert
             result.IsSuccess.Should().BeFalse();
             result.Error.Should().NotBeNull();
@@ -75,7 +75,7 @@ namespace RealEstatePropertyListingPlatform.Domain.Test.PropertyTests
                 ValidCity, ValidRegion, ValidPostalCode, ValidCountry, PropertyType.Land,
                 validNumberOfRoomsForWithLand, validNumberOfBathroomsForLandOrGarage,
                 positiveFloor, validNumberOfFloorsForLandOrFarmOrGarage,
-                ValidSquareFeet);
+                ValidSquareFeet, ValidLongitude, ValidLatitude);
             // Assert
             result.IsSuccess.Should().BeFalse();
             result.Error.Should().NotBeNull();
@@ -89,7 +89,7 @@ namespace RealEstatePropertyListingPlatform.Domain.Test.PropertyTests
             // Arrange & Act
             var result = Property.Create(ValidOwnerId, ValidStreetName,
                 ValidCity, ValidRegion, ValidPostalCode, ValidCountry, PropertyType.Farm,
-                ValidNumberOfRooms, ValidNumberOfBathrooms, positiveFloor, validNumberOfFloorsForLandOrFarmOrGarage, ValidSquareFeet);
+                ValidNumberOfRooms, ValidNumberOfBathrooms, positiveFloor, validNumberOfFloorsForLandOrFarmOrGarage, ValidSquareFeet, ValidLongitude, ValidLatitude);
             // Assert
             result.IsSuccess.Should().BeFalse();
             result.Error.Should().NotBeNull();
@@ -105,7 +105,7 @@ namespace RealEstatePropertyListingPlatform.Domain.Test.PropertyTests
                 ValidCity, ValidRegion, ValidPostalCode, ValidCountry, PropertyType.Garage,
                 ValidNumberOfRooms, validNumberOfBathroomsForLandOrGarage,
                 positiveFloor, validNumberOfFloorsForLandOrFarmOrGarage,
-                ValidSquareFeet);
+                ValidSquareFeet, ValidLongitude, ValidLatitude);
             // Assert
             result.IsSuccess.Should().BeFalse();
             result.Error.Should().NotBeNull();
@@ -122,7 +122,7 @@ namespace RealEstatePropertyListingPlatform.Domain.Test.PropertyTests
             // Arrange & Act
             var result = Property.Create(ValidOwnerId, ValidStreetName,
                 ValidCity, ValidRegion, ValidPostalCode, ValidCountry, PropertyType.Villa,
-                ValidNumberOfRooms, ValidNumberOfBathrooms, negativeFloor, validNumberOfFloorsForVillaOrHouseOrTownhouse, ValidSquareFeet);
+                ValidNumberOfRooms, ValidNumberOfBathrooms, negativeFloor, validNumberOfFloorsForVillaOrHouseOrTownhouse, ValidSquareFeet, ValidLongitude, ValidLatitude);
             // Assert
             result.IsSuccess.Should().BeFalse();
             result.Error.Should().NotBeNull();
@@ -138,7 +138,7 @@ namespace RealEstatePropertyListingPlatform.Domain.Test.PropertyTests
                 ValidCity, ValidRegion, ValidPostalCode, ValidCountry, PropertyType.House,
                 ValidNumberOfRooms, ValidNumberOfBathrooms,
                 negativeFloor, validNumberOfFloorsForVillaOrHouseOrTownhouse,
-                ValidSquareFeet);
+                ValidSquareFeet, ValidLongitude, ValidLatitude);
             // Assert
             result.IsSuccess.Should().BeFalse();
             result.Error.Should().NotBeNull();
@@ -152,7 +152,7 @@ namespace RealEstatePropertyListingPlatform.Domain.Test.PropertyTests
             // Arrange & Act
             var result = Property.Create(ValidOwnerId, ValidStreetName,
                 ValidCity, ValidRegion, ValidPostalCode, ValidCountry, PropertyType.Townhouse,
-                ValidNumberOfRooms, ValidNumberOfBathrooms, negativeFloor, validNumberOfFloorsForVillaOrHouseOrTownhouse, ValidSquareFeet);
+                ValidNumberOfRooms, ValidNumberOfBathrooms, negativeFloor, validNumberOfFloorsForVillaOrHouseOrTownhouse, ValidSquareFeet, ValidLongitude, ValidLatitude);
             // Assert
             result.IsSuccess.Should().BeFalse();
             result.Error.Should().NotBeNull();
@@ -166,7 +166,7 @@ namespace RealEstatePropertyListingPlatform.Domain.Test.PropertyTests
             // Arrange & Act
             var result = Property.Create(ValidOwnerId, ValidStreetName,
                 ValidCity, ValidRegion, ValidPostalCode, ValidCountry, PropertyType.Villa,
-                ValidNumberOfRooms, ValidNumberOfBathrooms, positiveFloor, validNumberOfFloorsForVillaOrHouseOrTownhouse, ValidSquareFeet);
+                ValidNumberOfRooms, ValidNumberOfBathrooms, positiveFloor, validNumberOfFloorsForVillaOrHouseOrTownhouse, ValidSquareFeet, ValidLongitude, ValidLatitude);
             // Assert
             result.IsSuccess.Should().BeFalse();
             result.Error.Should().NotBeNull();
@@ -182,7 +182,7 @@ namespace RealEstatePropertyListingPlatform.Domain.Test.PropertyTests
                 ValidCity, ValidRegion, ValidPostalCode, ValidCountry, PropertyType.House,
                 ValidNumberOfRooms, ValidNumberOfBathrooms,
                 positiveFloor, validNumberOfFloorsForVillaOrHouseOrTownhouse,
-                ValidSquareFeet);
+                ValidSquareFeet, ValidLongitude, ValidLatitude);
             // Assert
             result.IsSuccess.Should().BeFalse();
             result.Error.Should().NotBeNull();
@@ -196,7 +196,7 @@ namespace RealEstatePropertyListingPlatform.Domain.Test.PropertyTests
             // Arrange & Act
             var result = Property.Create(ValidOwnerId, ValidStreetName,
                 ValidCity, ValidRegion, ValidPostalCode, ValidCountry, PropertyType.Townhouse,
-                ValidNumberOfRooms, ValidNumberOfBathrooms, positiveFloor, validNumberOfFloorsForVillaOrHouseOrTownhouse, ValidSquareFeet);
+                ValidNumberOfRooms, ValidNumberOfBathrooms, positiveFloor, validNumberOfFloorsForVillaOrHouseOrTownhouse, ValidSquareFeet, ValidLongitude, ValidLatitude);
             // Assert
             result.IsSuccess.Should().BeFalse();
             result.Error.Should().NotBeNull();
@@ -211,7 +211,7 @@ namespace RealEstatePropertyListingPlatform.Domain.Test.PropertyTests
             var result = Property.Create(ValidOwnerId, ValidStreetName,
                 ValidCity, ValidRegion, ValidPostalCode, ValidCountry, PropertyType.Townhouse,
                 ValidNumberOfRooms, ValidNumberOfBathrooms, validFloorForLandOrFarmOrGarageOrHouseOrTownHouseOrVilla,
-                validNumberOfFloorsForVillaOrHouseOrTownhouse, ValidSquareFeet);
+                validNumberOfFloorsForVillaOrHouseOrTownhouse, ValidSquareFeet, ValidLongitude, ValidLatitude);
             // Assert
             result.IsSuccess.Should().BeTrue();
             result.Error.Should().BeNull();
@@ -228,7 +228,7 @@ namespace RealEstatePropertyListingPlatform.Domain.Test.PropertyTests
             // Arrange & Act
             var result = Property.Create(ValidOwnerId, ValidStreetName,
                 ValidCity, ValidRegion, ValidPostalCode, ValidCountry, PropertyType.Apartment,
-                ValidNumberOfRooms, ValidNumberOfBathrooms, negativeFloor, ValidNumberOfFloors, ValidSquareFeet);
+                ValidNumberOfRooms, ValidNumberOfBathrooms, negativeFloor, ValidNumberOfFloors, ValidSquareFeet, ValidLongitude, ValidLatitude);
             // Assert
             result.IsSuccess.Should().BeFalse();
             result.Error.Should().NotBeNull();
@@ -242,7 +242,7 @@ namespace RealEstatePropertyListingPlatform.Domain.Test.PropertyTests
             // Arrange & Act
             var result = Property.Create(ValidOwnerId, ValidStreetName,
                 ValidCity, ValidRegion, ValidPostalCode, ValidCountry, PropertyType.Condo,
-                ValidNumberOfRooms, ValidNumberOfBathrooms, negativeFloor, ValidNumberOfFloors, ValidSquareFeet);
+                ValidNumberOfRooms, ValidNumberOfBathrooms, negativeFloor, ValidNumberOfFloors, ValidSquareFeet, ValidLongitude, ValidLatitude);
             // Assert
             result.IsSuccess.Should().BeFalse();
             result.Error.Should().NotBeNull();
@@ -256,7 +256,7 @@ namespace RealEstatePropertyListingPlatform.Domain.Test.PropertyTests
             // Arrange & Act
             var result = Property.Create(ValidOwnerId, ValidStreetName,
                 ValidCity, ValidRegion, ValidPostalCode, ValidCountry, PropertyType.Office,
-                ValidNumberOfRooms, ValidNumberOfBathrooms, negativeFloor, ValidNumberOfFloors, ValidSquareFeet);
+                ValidNumberOfRooms, ValidNumberOfBathrooms, negativeFloor, ValidNumberOfFloors, ValidSquareFeet, ValidLongitude, ValidLatitude);
             // Assert
             result.IsSuccess.Should().BeFalse();
             result.Error.Should().NotBeNull();
