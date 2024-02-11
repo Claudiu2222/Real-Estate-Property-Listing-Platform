@@ -40,9 +40,15 @@
                 var longitudeInput = document.getElementById("longitude");
                 latitudeInput.value = event.latLng.lat().toString();
                 longitudeInput.value = event.latLng.lng().toString();
-                DotNet.invokeMethodAsync('NotifyChanges');
-
             });
+        }
+
+        window.getPropertyValue = function (elementId) {
+            var element = document.getElementById(elementId);
+            if (element) {
+                return element.value;
+            }
+            return null;
         }
     </script>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyCJGNELETRarTh8XctiWzsHND25SawIV1g&callback=initialize"></script>
@@ -204,24 +210,24 @@
                                 <ValidationMessage For="@(() => PropertyViewModel.SquareFeet)" />
                             </div>
                         </div>
-                        <div id="map" style="height: 400px;"></div>
-                            <div class="row mb-3 ms-2">
+                            <div id="map" style="height: 400px; border-radius: 5px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);"></div>
+
+
+                            <div class="row mb-3 ms-2" style="display: none;">
                                 <label for="latitude" class="col-sm-3 form-label">Latitude:</label>
                                 <div class="col-sm-5">
-                                    <InputText id="latitude" class="form-control" @bind-Value="@PropertyViewModel.Latitude" placeholder="Enter latitude"></InputText>
-                                    <ValidationMessage For="@(() => PropertyViewModel.Latitude)" />
+                                    <input id="latitude" class="form-control" placeholder="Enter latitude">
                                 </div>
                             </div>
-                            <div class="row mb-3 ms-2">
+                            <div class="row mb-3 ms-2" style="display: none;">
                                 <label for="longitude" class="col-sm-3 form-label">Longitude:</label>
                                 <div class="col-sm-5">
-                                    <InputText id="longitude" class="form-control" @bind-Value="@PropertyViewModel.Longitude" placeholder="Enter longitude"></InputText>
-                                    <ValidationMessage For="@(() => PropertyViewModel.Longitude)" />
+                                    <input id="longitude" class="form-control" placeholder="Enter longitude">
                                 </div>
                             </div>
 
                         <div class="row mb-3 ms-2">
-                            <button type="submit" class="btn btn-primary save">Save property</button>
+                            <button type="submit" class="btn btn-primary save" @onclick="HandleValidSubmit">Save</button>
                             <button class="btn btn-primary cancel" @onclick="Cancel">Cancel</button>
                         </div>
                     </EditForm>
@@ -246,11 +252,6 @@
 
     public string Message { get; set; }
 
-    [JSInvokable]
-    public async Task NotifyChanges()
-    {
-        await InvokeAsync(StateHasChanged);
-    }
 
 }
 
@@ -274,23 +275,45 @@
     }
     private async Task HandleValidSubmit()
     {
-        // adaug in PropertyViewModel latitudinea si longitudinea din InputText-uri din id-urile "latitude" si "longitude"
+        Console.WriteLine("Submit"); // Verificăm dacă metoda este apelată corect
+
+        // Resetăm mesajul de eroare
+        Message = null;
+
+        // Adăugăm latitudinea și longitudinea în PropertyViewModel folosind JavaScript
+        PropertyViewModel.Latitude = await JSRuntime.InvokeAsync<string>("getPropertyValue", "latitude");
+        PropertyViewModel.Longitude = await JSRuntime.InvokeAsync<string>("getPropertyValue", "longitude");
+
         var result = await PropertyDataService.CreatePropertyAsync(PropertyViewModel);
         if (result.Success)
         {
+            // Mesaj de succes
             Message = "Property created successfully";
-            StateHasChanged();
-            await Task.Delay(2500);
 
+            // Resetăm starea formularului și a componentei
+            PropertyViewModel = new PropertyViewModel(); // Resetăm ViewModel-ul
+            StateHasChanged(); // Actualizăm starea componentei pentru a reprezenta modificările
+
+            // Navigăm la o altă pagină după o scurtă întârziere
+            await Task.Delay(2500);
             NavigationManager.NavigateTo("/viewproperties");
         }
         else
         {
+            // Dacă există erori de validare, afișăm prima eroare
             if (result.ValidationErrors.Count != 0)
             {
                 Message = result.ValidationErrors[0];
             }
+            else
+            {
+                // Dacă există alte tipuri de erori, afișăm un mesaj generic
+                Message = "An error occurred while processing your request.";
+            }
         }
+
+        // Actualizăm starea componentei pentru a reflecta schimbările
+        StateHasChanged();
     }
 
     private string GetAlertClass()

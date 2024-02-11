@@ -2,9 +2,56 @@
 @using RealEstateListingPlatform.App.Contracts
 @using RealEstateListingPlatform.App.ViewModels
 @using RealEstatePropertyListingPlatform.Domain.Enums
+@inject IJSRuntime JSRuntime
 <head>
     <link href="/css/app.css" rel="stylesheet" />
     <link href="/css/editproperty.css" rel="stylesheet" />
+    <script>
+        // Initialize and add the map and pin location from longitude and latitude
+function initialize() {
+            //timer to wait for the map to load
+            setTimeout(function () {
+                var latitude = document.getElementById('latitude').value;
+                var longitude = document.getElementById('longitude').value;
+                var myLatLng = { lat: parseFloat(latitude), lng: parseFloat(longitude) };
+                var map = new google.maps.Map(document.getElementById('map'), {
+                    zoom: 15,
+                    center: myLatLng
+                });
+                var marker = new google.maps.Marker({
+                    position: myLatLng,
+                    map: map,
+                    title: 'Property location'
+                });
+                google.maps.event.addListener(map, 'click', function (event) {
+                // Verificăm dacă marker-ul există deja, și-l ștergem dacă da
+                if (marker && marker.setMap) {
+                    marker.setMap(null);
+                }
+                // Creăm un nou marker
+                marker = new google.maps.Marker({
+                    position: event.latLng,
+                    map: map,
+                });
+
+                // Actualizăm valorile Latitudinii și Longitudinii în ViewModel
+                var latitudeInput = document.getElementById("latitude");
+                var longitudeInput = document.getElementById("longitude");
+                latitudeInput.value = event.latLng.lat().toString();
+                longitudeInput.value = event.latLng.lng().toString();
+            });
+            }, 1000);
+        }
+        window.getPropertyValue = function (elementId) {
+            var element = document.getElementById(elementId);
+            if (element) {
+                return element.value;
+            }
+            return null;
+        }
+    </script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyCJGNELETRarTh8XctiWzsHND25SawIV1g&callback=initialize"></script>
+    
     <style>
         body {
             background: linear-gradient(to right, #6a11cb 0%, #2575fc 100%) !important;
@@ -160,8 +207,22 @@
                                 <ValidationMessage For="@(() => PropertyViewModelUser.SquareFeet)" />
                             </div>
                         </div>
+                            <div id="map" style="height: 400px;"></div>
+
+                            <div class="row mb-3 ms-2" style="display: none;">
+                                <label for="latitude" class="col-sm-3 form-label">Latitude:</label>
+                                <div class="col-sm-5">
+                                    <InputText id="latitude" class="form-control" @bind-Value="@PropertyViewModelUser.Latitude" placeholder="@PropertyViewModelUser.Latitude"></InputText>
+                                </div>
+                            </div>
+                            <div class="row mb-3 ms-2" style="display: none;">
+                                <label for="longitude" class="col-sm-3 form-label">Longitude:</label>
+                                <div class="col-sm-5">
+                                    <InputText id="longitude" class="form-control" @bind-Value="@PropertyViewModelUser.Longitude" placeholder="@PropertyViewModelUser.Longitude"></InputText>
+                                </div>
+                            </div>
                         <div class="row mb-3 ms-2">
-                            <button type="submit" class="btn btn-primary save">Update property</button>
+                            <button type="submit" class="btn btn-primary save" @onclick="HandleValidSubmit">Update property</button>
                             <button class="btn btn-primary cancel" @onclick="Cancel">Cancel</button>
                         </div>
                     </EditForm>
@@ -205,6 +266,7 @@
     {
         Guid guid = Guid.Parse(PropertyId);
         PropertyViewModelUser = await PropertyDataService.GetPropertyByIdAsync(guid);
+        Console.WriteLine(PropertyViewModelUser);
     }
 }
 
@@ -220,6 +282,10 @@
     }
     private async Task HandleValidSubmit()
     {
+        PropertyViewModelUser.Longitude = await JSRuntime.InvokeAsync<string>("getPropertyValue", "longitude");
+        PropertyViewModelUser.Latitude = await JSRuntime.InvokeAsync<string>("getPropertyValue", "latitude");
+        Console.WriteLine(PropertyViewModelUser.Longitude);
+Console.WriteLine(PropertyViewModelUser.Latitude);
             Message = string.Empty;
             var result = await PropertyDataService.UpdatePropertyAsync(PropertyViewModelUser, PropertyViewModelUser.PropertyId);
             if (result.Success)

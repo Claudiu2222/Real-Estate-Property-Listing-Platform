@@ -52,6 +52,18 @@
                             </div>
                         </div>
 
+                            <div class="row mb-3 ms-2">
+                                <label for="streetname" class="col-sm-3 form-label">🔖Rent/Sale:</label>
+                                    <div class="col-sm-5">
+                                        <InputSelect id="rentorsale" class="form-control" @bind-Value="IsRent">
+                                        <option value="true">Rent</option>
+                                        <option value="false">Sale</option>
+                                        </InputSelect>
+                                        <ValidationMessage For="@(() => ListingViewModel.IsRent)" />
+                                    </div>
+                            </div>
+                          
+
                         <div class="row mb-3 ms-2">
                                 <label for="price" class="col-sm-3 form-label">💲Price:</label>
                             <div class="col-sm-5">
@@ -166,6 +178,8 @@
     [Parameter]
     public string PropertyId { get; set; }
 
+    public string IsRent { get; set; } = "true";
+
     [Inject]
     public IListingDataService ListingDataService { get; set; }
 
@@ -255,6 +269,7 @@
         ListingViewModel.PropertyId = PropertyId;
         ListingViewModel.Price = Price;
         ListingViewModel.Photos = uploadedImageUrls;
+        ListingViewModel.IsRent = IsRent == "true" ? true : false;
 
         var result = await ListingDataService.CreateListingAsync(ListingViewModel);
         if (result.Success)
@@ -341,6 +356,21 @@
 
                 predictedPriceUSD = predictedPriceUSD * 100;
                 predictedPriceRON = predictedPriceRON * 100;
+
+                if(IsRent == "true")
+                {
+                    predictedPrice = predictedPrice / 150;
+                    predictedPriceUSD = predictedPriceUSD / 150;
+                    predictedPriceRON = predictedPriceRON / 150;
+
+                    predictedPrice = (int)predictedPrice / 100;
+                    predictedPriceUSD = (int)predictedPriceUSD / 100;
+                    predictedPriceRON = (int)predictedPriceRON / 100;
+
+                    predictedPrice = predictedPrice * 100;
+                    predictedPriceUSD = predictedPriceUSD * 100;
+                    predictedPriceRON = predictedPriceRON * 100;
+                }
 
             }
             else

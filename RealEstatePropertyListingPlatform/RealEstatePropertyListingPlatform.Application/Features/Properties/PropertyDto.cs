@@ -17,5 +17,7 @@ namespace RealEstatePropertyListingPlatform.Application.Features.Properties
         public int Floor { get; set; }
         public int NumberOfFloors { get; set; }
         public int SquareFeet { get; set; }
+        public string Longitude { get; set; } = default!;
+        public string Latitude { get; set; } = default!;
     }
 }

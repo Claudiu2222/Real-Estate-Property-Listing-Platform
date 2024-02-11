@@ -36,6 +36,8 @@ namespace RealEstatePropertyListingPlatform.Application.Features.Properties.Quer
                     NumberOfBathrooms = x.NumberOfBathrooms,
                     Floor = x.Floor,
                     NumberOfFloors = x.NumberOfFloors,
+                    Longitude = x.Longitude,
+                    Latitude = x.Latitude,
                     SquareFeet = x.SquareFeet
                 }).ToList();
 

@@ -91,6 +91,8 @@ namespace RealEstatePlatform.API.IntegrationTests.Controllers
             resProperty?.NumberOfBathrooms.Should().Be(numberOfBathrooms);
             resProperty?.Floor.Should().Be(floor);
             resProperty?.NumberOfFloors.Should().Be(numberOfFloors);
+            resProperty?.Longitude.Should().Be(Longitude);
+            resProperty?.Latitude.Should().Be(Latitude);
             resProperty?.SquareFeet.Should().Be(squareFeet);
 
         }

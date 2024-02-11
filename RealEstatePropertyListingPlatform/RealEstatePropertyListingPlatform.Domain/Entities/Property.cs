@@ -59,7 +59,7 @@ namespace RealEstatePropertyListingPlatform.Domain.Entities
 
         /*[ExcludeFromCodeCoverage]*/
         public void Update(string streetName, string city, string region, string postalCode,
-                       string country, PropertyType propertyType, int numberOfRooms, int numberOfBathrooms, int floor, int numberOfFloors, int squareFeet, string Longitude, string Latitude)
+                       string country, PropertyType propertyType, int numberOfRooms, int numberOfBathrooms, int floor, int numberOfFloors, int squareFeet, string longitude, string latitude)
         {   
             StreetName = streetName;
             City = city;
@@ -72,8 +72,8 @@ namespace RealEstatePropertyListingPlatform.Domain.Entities
             Floor = floor;
             NumberOfFloors = numberOfFloors;
             SquareFeet = squareFeet;
-            Longitude = Longitude;
-            Latitude = Latitude;
+            Longitude = longitude;
+            Latitude = latitude;
         }
 
         //public Result<Property> UpdateStreetName(string streetName)

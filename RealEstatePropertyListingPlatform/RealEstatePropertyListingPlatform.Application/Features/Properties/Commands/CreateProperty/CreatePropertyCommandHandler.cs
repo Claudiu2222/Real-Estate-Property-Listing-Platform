@@ -78,6 +78,8 @@ namespace RealEstatePropertyListingPlatform.Application.Features.Properties.Comm
                     NumberOfBathrooms = property.Value.NumberOfBathrooms,
                     Floor = property.Value.Floor,
                     NumberOfFloors = property.Value.NumberOfFloors,
+                    Longitude = property.Value.Longitude,
+                    Latitude = property.Value.Latitude,
                     SquareFeet = property.Value.SquareFeet
                 }
             };
