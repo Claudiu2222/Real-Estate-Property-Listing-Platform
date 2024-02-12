@@ -108,17 +108,19 @@
     <div class="row mb-3 ms-2">
                         <label for="photos" class="col-sm-3 form-label">📸Photos:</label>
         <div class="col-sm-9">
-            <InputFile OnChange="HandleFileSelected" multiple />
-            @if (uploadedImageUrls.Any())
+                                    <InputFile OnChange="HandleFileSelected" multiple key="@inputFileKey" />
+            @if (imagesBase64.Any())
             {
                 <div>
-                    <h3>Uploaded Images</h3>
-                    <ul>
-                        @foreach (var imageUrl in uploadedImageUrls)
-                        {
-                            <li><img src="@imageUrl" style="width:100px; height:100px;" /></li>
-                        }
-                    </ul>
+                    <h3>Selected Images:</h3>
+                                            @for (int i = 0; i < imagesBase64.Count; i++)
+                    {
+                        var index = i;
+                        <div>
+                            <img src="@imagesBase64[index]" style="width:100px; height:100px;" class="@index" />
+                            <button type="button" @onclick="() => DeleteImage(index)">Delete</button>
+                        </div>
+                    }
                 </div>
             }
         </div>
@@ -163,6 +165,7 @@
     </div>
 </div>
 @code {
+
     [Parameter]
     public string PropertyId { get; set; }
 
@@ -173,13 +176,16 @@
     public NavigationManager NavigationManager { get; set; }
 
     public PriceViewModel Price { get; set; } = new();
+
     [Inject]
     public IPropertyDataService PropertyDataService { get; set; }
 
     [Inject]
     public IPredictPriceService PredictPriceService { get; set; }
+
     [Inject]
     public ICurrencyConverterService currencyConverterService { get; set; }
+
     public PropertyViewModelByUser propertyViewModelByUser { get; set; } = new();
 
     public PredictPriceViewModel predictPriceViewModel { get; set; } = new();
@@ -192,6 +198,7 @@
 
     private System.Threading.Timer _timer;
     private bool IsPropertyTypeApartment = false;
+
     private List<string> judete = new List<string>
     {
         "Alba", "Arad", "Bacau", "Bihor", "Bistrita-Nasaud", "Botosani", "Braila", "Brasov", "Buzau", "Bucuresti",
@@ -203,7 +210,8 @@
     private string bucket_url = "https://firebasestorage.googleapis.com/v0/b/dot-net-test-20d14.appspot.com";
 
 
-    List<string> uploadedImageUrls = new List<string>();
+    private List<string> uploadedImageUrls = new List<string>();
+    private List<string> imagesBase64 = new List<string>();
 
     protected override async Task OnInitializedAsync()
     {
@@ -212,7 +220,7 @@
             Guid guid = Guid.Parse(PropertyId);
             propertyViewModelByUser = await PropertyDataService.GetPropertyByIdAsync(guid);
 
-            if(propertyViewModelByUser.PropertyType == PropertyType.Apartment)
+            if (propertyViewModelByUser.PropertyType == PropertyType.Apartment)
             {
                 IsPropertyTypeApartment = true;
             }
@@ -225,33 +233,56 @@
             Message = ex.Message;
         }
     }
+
+    private string inputFileKey = Guid.NewGuid().ToString();
     private async Task HandleFileSelected(InputFileChangeEventArgs e)
     {
-        foreach (var file in e.GetMultipleFiles())
+        var files = e.GetMultipleFiles();
+        foreach (var file in files)
         {
-
-            var filename = $"{Guid.NewGuid()}{Path.GetExtension(file.Name)}";
-            var response = await Http.GetFromJsonAsync<UrlResponse>($"api/Upload/generate-upload-url?filePath={filename}");
-            if (response != null)
-            {
-                var preSignedUrl = response.Url;
-                using var content = new StreamContent(file.OpenReadStream(maxFileSize));
-                var uploadResponse = await Http.PutAsync(preSignedUrl, content);
-                if (uploadResponse.IsSuccessStatusCode)
-                {
-                    var imageUrl = $"{bucket_url}/o/{Uri.EscapeDataString(filename)}?alt=media";
-                    uploadedImageUrls.Add(imageUrl);
-                    System.Diagnostics.Debug.WriteLine(imageUrl);
-                }
-
-            }
+            var fileType = file.ContentType;
+            var buffer = new byte[file.Size];
+            await file.OpenReadStream(maxFileSize).ReadAsync(buffer);
+            var base64Data = Convert.ToBase64String(buffer);
+            imagesBase64.Add($"data:{fileType};base64,{base64Data}");
         }
+        inputFileKey = Guid.NewGuid().ToString();
+        StateHasChanged();
     }
 
 
 
     private async Task HandleValidSubmit()
     {
+        
+        uploadedImageUrls.Clear();
+        for (int i = 0; i < imagesBase64.Count; i++)
+        {
+            try
+            {
+                var filename = $"{Guid.NewGuid()}.jpg";
+                var response = await Http.GetFromJsonAsync<UrlResponse>($"api/Upload/generate-upload-url?filePath={filename}");
+                if (response != null)
+                {
+                    var preSignedUrl = response.Url;
+                    var byteArray = Convert.FromBase64String(imagesBase64[i].Split(',')[1]);
+                    using var content = new ByteArrayContent(byteArray);
+                    var uploadResponse = await Http.PutAsync(preSignedUrl, content);
+                    if (uploadResponse.IsSuccessStatusCode)
+                    {
+                        var imageUrl = $"{bucket_url}/o/{Uri.EscapeDataString(filename)}?alt=media";
+                        uploadedImageUrls.Add(imageUrl);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Message = ex.Message;
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+
         ListingViewModel.PropertyId = PropertyId;
         ListingViewModel.Price = Price;
         ListingViewModel.Photos = uploadedImageUrls;
@@ -261,15 +292,15 @@
         {
             Message = "Property created successfully";
             _timer = new System.Threading.Timer(
-            async (state) =>
-            {
-                NavigationManager.NavigateTo("/viewmylistings");
-                await Task.CompletedTask;
-            },
-            null,
-            1000,
-            System.Threading.Timeout.Infinite
-        );
+                async (state) =>
+                {
+                    NavigationManager.NavigateTo("/viewmylistings");
+                    await Task.CompletedTask;
+                },
+                null,
+                1000,
+                System.Threading.Timeout.Infinite
+                );
         }
         else
         {
@@ -279,6 +310,7 @@
             }
         }
     }
+
     private string GetAlertClass()
     {
         Console.WriteLine(Message);
@@ -299,6 +331,7 @@
     {
         public string Url { get; set; }
     }
+
     private float predictedPrice;
 
     private double predictedPriceUSD;
@@ -336,8 +369,8 @@
 
                 var convertedPriceRON = await currencyConverterService.ConvertToRON(predictedPrice);
 
-                predictedPriceUSD = (int) convertedPriceUSD / 100;
-                predictedPriceRON = (int) convertedPriceRON / 100;
+                predictedPriceUSD = (int)convertedPriceUSD / 100;
+                predictedPriceRON = (int)convertedPriceRON / 100;
 
                 predictedPriceUSD = predictedPriceUSD * 100;
                 predictedPriceRON = predictedPriceRON * 100;
@@ -353,5 +386,19 @@
             isPredicting = false;
         }
     }
-}
 
+    private void DeleteImage(int index)
+    {
+        if (index < 0 || index >= imagesBase64.Count)
+        {
+            Console.WriteLine("Index out of range");
+            return;}
+        imagesBase64.RemoveAt(index);
+        StateHasChanged();
+  
+
+
+
+    }
+
+}

@@ -9,6 +9,6 @@ namespace RealEstatePropertyListingPlatform.Application.Contracts
     public interface IImageStorageService
     {
         Task<string> GenerateUploadUrlAsync(string filePath);
-
+        Task DeleteImageAsync(string filePath);
     }
 }

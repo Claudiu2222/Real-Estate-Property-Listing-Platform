@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System.Net;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RealEstatePropertyListingPlatform.Application.Contracts;
 
@@ -8,6 +9,7 @@ namespace RealEstatePropertyListingPlatform.API.Controllers
     {
         public string Url { get; set; }
     }
+
     [ApiController]
     [Route("api/[controller]")]
     public class UploadController : ControllerBase
@@ -22,13 +24,13 @@ namespace RealEstatePropertyListingPlatform.API.Controllers
         [HttpGet("generate-upload-url")]
         public async Task<IActionResult> GenerateUploadUrl(string filePath)
         {
-            
+
             if (string.IsNullOrEmpty(filePath))
             {
                 return BadRequest("Invalid file path");
             }
 
-            
+
             var preSignedUrl = await _imageStorageService.GenerateUploadUrlAsync(filePath);
 
             var response = new UrlResponse
@@ -42,6 +44,20 @@ namespace RealEstatePropertyListingPlatform.API.Controllers
             else
             {
                 return BadRequest("Could not generate the upload URL.");
+            }
+        }
+
+        [HttpDelete("{fileName}")]
+        public async Task<IActionResult> Delete(string fileName)
+        {
+            try
+            {
+                await _imageStorageService.DeleteImageAsync(fileName);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
             }
         }
     }

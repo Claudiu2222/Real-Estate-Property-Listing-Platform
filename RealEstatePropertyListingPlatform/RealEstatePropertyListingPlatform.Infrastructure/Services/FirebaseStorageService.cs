@@ -33,6 +33,10 @@ namespace RealEstatePropertyListingPlatform.Infrastructure.Services
 
             return url;
         }
+        public async Task DeleteImageAsync(string filePath)
+        {
+            await _storageClient.DeleteObjectAsync(_bucketName, filePath);
+        }
     }
 
 }
