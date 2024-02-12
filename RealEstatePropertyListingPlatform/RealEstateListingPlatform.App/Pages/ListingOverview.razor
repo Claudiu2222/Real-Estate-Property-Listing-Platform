@@ -1,8 +1,11 @@
 ﻿@page "/listingoverview"
 @using RealEstateListingPlatform.App.Contracts
 @using RealEstateListingPlatform.App.Services.Responses
+@using RealEstateListingPlatform.App.ViewModels
+@using RealEstatePropertyListingPlatform.Domain.Enums
 <head>
     <link href="css/app.css"/>
+    <link href="/css/filter.css" rel="stylesheet"/>
     <link href="/css/editproperty.css" rel="stylesheet" />
 </head>
 
@@ -13,6 +16,114 @@
 
 @if (listingsResponse?.Success == true && listingsResponse.Listings.Any())
 {
+    <button class="setting-btn" @onclick="ShowFilterModal">
+        <span class="bar bar1"></span>
+        <span class="bar bar2"></span>
+        <span class="bar bar1"></span>
+    </button>
+
+    <div class="modal" tabindex="-1" style="@modalStyle">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Filter Listings</h5>
+                    <button type="button" class="btn-close" @onclick="HideFilterModal"></button>
+                </div>
+                <div class="modal-body">
+                    <EditForm Model="@FilterModel">
+                        <DataAnnotationsValidator />
+                        <!-- Choose Property Type -->
+                        <div class="mb-3">
+                            <label for="propertyType" class="form-label">Choose Property Type:</label>
+                            <InputSelect id="propertyType" class="form-select" @bind-Value="FilterModel.PropertyType">
+                                    <option value="-1">Any</option>
+                                @foreach (var propertyType in Enum.GetValues(typeof(PropertyType)))
+                                { // in value= is put the number of the enum
+                                    <option value="@((int)propertyType)">@propertyType</option>
+                                }
+                            </InputSelect>
+                        </div>
+
+                        <!-- Choose Currency -->
+                        <div class="mb-3">
+                            <label for="currency" class="form-label">Choose Currency:</label>
+                            <InputSelect id="currency" class="form-select" @bind-Value="FilterModel.PriceCurrency">
+                                @foreach (var currency in Enum.GetValues(typeof(Currency)))
+                                {
+                                    <option value="@currency">@currency</option>
+                                }
+                            </InputSelect>
+                        </div>
+
+                        <!-- Choose Price Range -->
+                        <div class="mb-3">
+                            <label for="priceRange" class="form-label">Choose Price Range:</label>
+                            <div class="input-group">
+                                <InputNumber id="minPrice" class="form-control" placeholder="Min Price" min="0" step="0.01" @bind-Value="FilterModel.PriceLowerBound" />
+                                <span class="input-group-text">to</span>
+                                <InputNumber id="maxPrice" class="form-control" placeholder="Max Price" min="0" step="0.01" @bind-Value="FilterModel.PriceUpperBound" />
+                            </div>
+                        </div>
+
+                        <!-- Insert City -->
+                        <div class="mb-3">
+                            <label for="city">Insert City:</label>
+                            <InputText id="city" class="form-control" placeholder="City (max 100 characters)" style="width: 100%;" @bind-Value="FilterModel.City" />
+                        </div>
+
+                        <!-- Choose Region -->
+                        <div class="mb-3">
+                            <label for="region" class="form-label">Choose Region:</label>
+                            <InputSelect id="region" class="form-select" @bind-Value="FilterModel.Region">
+                                <option value="">Any</option>
+                                @foreach (var judet in judete)
+                                {
+                                    <option value="@judet">@judet</option>
+                                }
+                            </InputSelect>
+                        </div>
+
+                        <!-- Choose Square Feet -->
+                        <div class="mb-3">
+                            <label for="squareFeet" class="form-label">Choose Square Feet:</label>
+                            <div class="input-group">
+                                <InputNumber id="minSquareFeet" class="form-control" placeholder="Min Sq. Feet" min="0" step="1" @bind-Value="FilterModel.SquareFeetLowerBound" />
+                                <span class="input-group-text">to</span>
+                                <InputNumber id="maxSquareFeet" class="form-control" placeholder="Max Sq. Feet" min="0" step="1" @bind-Value="FilterModel.SquareFeetUpperBound" />
+                            </div>
+                        </div>
+
+                        <!-- Listing Type -->
+                        <div class="mb-3">
+                            <label for="listingType" class="form-label">Listing Type:</label>
+                            <InputSelect id="listingType" class="form-select" @bind-Value="forRent">
+                                <option value="-1">Any</option>
+                                <option value="1">Rent</option>
+                                <option value="0">Sale</option>
+                            </InputSelect>
+                        </div>
+
+                        <!-- Title -->
+                        <div class="mb-3">
+                            <label for="listingTitle" class="form-label">Listing Title:</label>
+                            <InputText id="listingTitle" class="form-control" placeholder="Enter listing title" style="width: 100%;" @bind-Value="FilterModel.ContainsInTitle" />
+                        </div>
+                    </EditForm>
+                </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" @onclick="HideFilterModal">Close</button>
+                        <div class="box" @onclick="ApplyFilters">
+                            <div class="arrow right"></div>
+                            <div class="text">Apply Filters</div>
+                        </div>
+                    </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
     <div class="container">
         <div class="row">
             @foreach (var listing in listingsResponse.Listings)
@@ -25,7 +136,7 @@
                         }
                         <div class="card-body d-flex flex-column">
                             <h5 class="card-title">@listing.Title</h5>
-                            <p class="card-text text-secondary">@TruncateDescription(listing.Description,90)</p>
+                            <p class="card-text text-secondary">@TruncateDescription(listing.Description, 50)</p>
                             <p class="card-text mt-auto">
                                 <span class="text-dark">@listing.Price.Value @listing.Price.Currency</span>
                                 <span class="badge @(listing.Negotiable ? "bg-success" : "bg-danger")">@("Negotiable")</span>
@@ -63,14 +174,14 @@ else
 
     [Inject]
     public IListingDataService ListingDataService { get; set; }
-    
+
     [Inject]
     public required NavigationManager NavigationManager { get; set; }
 
     [Parameter]
     public ApiResponseListing listingsResponse { get; set; }
 
-    
+
     private int currentPage = 1;
     private int pageSize = 9; // Set your default page size
 
@@ -79,7 +190,86 @@ else
 
     string error { get; set; }
 
+    private List<string> judete = new List<string>
+    {
+        "Alba", "Arad", "Bacau", "Bihor", "Bistrita-Nasaud", "Botosani", "Braila", "Brasov", "Buzau", "Bucuresti",
+        "Cluj", "Constanta", "Galati", "Giurgiu", "Iasi", "Ilfov", "Maramures", "Mures", "Neamt", "Prahova",
+        "Satu Mare", "Sibiu", "Suceava", "Teleorman", "Timis", "Tulcea", "Vrancea"
+    };
+
+    private FilterViewModel FilterModel = new FilterViewModel();
+
+    int forRent = -1;
+
     private int TotalPages() => (int)Math.Ceiling((double)listingsResponse.TotalCount / pageSize);
+
+    private bool isFilterModalVisible = false;
+
+    private string modalStyle => isFilterModalVisible ? "display: block;" : "display: none;";
+
+    private async void ApplyFilters()
+    {
+        if (forRent == -1)
+        {
+            FilterModel.ForRent = null;
+        }
+        else{
+
+            FilterModel.ForRent = (forRent == 1);
+
+        } 
+        // Console.WriteLine("Applied Filters:");
+        // Console.WriteLine($"PageNumber: {FilterModel.PageNumber}");
+        // Console.WriteLine($"PageSize: {FilterModel.PageSize}");
+        // Console.WriteLine($"PriceLowerBound: {FilterModel.PriceLowerBound}");
+        // Console.WriteLine($"PriceUpperBound: {FilterModel.PriceUpperBound}");
+        // Console.WriteLine($"PriceCurrency: {FilterModel.PriceCurrency}");
+        // Console.WriteLine($"City: {FilterModel.City}");
+        // Console.WriteLine($"Region: {FilterModel.Region}");
+        // Console.WriteLine($"PropertyType: {FilterModel.PropertyType}");
+        // Console.WriteLine($"SquareFeetLowerBound: {FilterModel.SquareFeetLowerBound}");
+        // Console.WriteLine($"SquareFeetUpperBound: {FilterModel.SquareFeetUpperBound}");
+        // Console.WriteLine($"ForRent: {FilterModel.ForRent}");
+        // Console.WriteLine($"ContainsInTitle: {FilterModel.ContainsInTitle}");
+
+        HideFilterModal();
+
+        listingsResponse = await ListingDataService.GetFilteredPagedListingsAsync(FilterModel);
+        
+        StateHasChanged();
+
+
+    }
+
+    private void resetFilterModel(FilterViewModel FilterModel)
+    {
+        FilterModel.PageNumber = currentPage;
+        FilterModel.PageSize = pageSize;
+
+        FilterModel.PriceLowerBound = 0;
+        FilterModel.PriceUpperBound = 0;
+        FilterModel.PriceCurrency = 0;
+
+        FilterModel.City = null;
+        FilterModel.Region = null;
+        FilterModel.PropertyType = -1;
+        FilterModel.SquareFeetLowerBound = 0;
+        FilterModel.SquareFeetUpperBound = 0;
+        forRent = -1;
+        FilterModel.ContainsInTitle = null;
+
+    }
+
+    private void ShowFilterModal()
+    {
+        resetFilterModel(FilterModel);
+        isFilterModalVisible = true;
+    }
+
+    private void HideFilterModal()
+    {
+        isFilterModalVisible = false;
+    }
 
     private void OnListingClick(string listingId)
     {
@@ -90,6 +280,9 @@ else
     private async Task LoadPage(int pageNumber)
     {
         Console.WriteLine("Loading page {pageNumber}");
+        // should check if it was not applied a filtered search
+        // and everytime a filtered search is made -> keep the filter model in another variable and
+        // reset the filter model
         currentPage = pageNumber;
         try
         {

@@ -127,6 +127,18 @@ namespace RealEstateListingPlatform.App.Services
             return response!;
         }
 
+        public async Task<ApiResponseListing> GetFilteredPagedListingsAsync(FilterViewModel filterViewModel)
+        {
+            using (var result = await httpClient.PostAsJsonAsync($"{RequestUri}/filtered/paginated", filterViewModel))
+            {
+                var content = await result.Content.ReadAsStringAsync();
+                var responseObject = JsonSerializer.Deserialize<ApiResponseListing>(content,
+                                        new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+                return responseObject;
+            }
+        }
+
         public async Task<ApiResponseListing> GetPagedListingsAsync(int pageNumber, int pageSize)
         {
             try
@@ -183,7 +195,7 @@ namespace RealEstateListingPlatform.App.Services
                 throw new ApplicationException("Error fetching listings", ex);
             }
         }
-        }
+    }
 
 
 

@@ -11,6 +11,7 @@ namespace RealEstateListingPlatform.App.Contracts
         Task<ApiResponseListingById> UpdateListingAsync(ListingViewModel listingViewModel);
         Task<ApiResponseListingById> DeleteListingAsync(Guid id);
         Task<ApiResponseListing> GetPagedListingsAsync(int pageNumber, int pageSize);
+        Task<ApiResponseListing> GetFilteredPagedListingsAsync(FilterViewModel filterViewModel);
         Task<ApiResponseListing> GetPagedListingsForUserAsync(int pageNumber, int pageSize);
         Task<ListingViewModel> GetListingByIdAsyncNoAuth(Guid id);
     }

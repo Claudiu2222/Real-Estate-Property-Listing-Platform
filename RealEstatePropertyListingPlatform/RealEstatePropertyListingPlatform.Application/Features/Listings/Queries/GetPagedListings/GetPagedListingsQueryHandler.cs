@@ -29,7 +29,8 @@ namespace RealEstatePropertyListingPlatform.Application.Features.Listings.Querie
                     TotalCount = totalCount.Value[0],
                 };
             }
-
+            
+            
             var result = await listingRepository.GetPagedReponseAsync(request.PageNumber, request.PageSize);
 
 

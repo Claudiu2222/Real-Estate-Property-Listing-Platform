@@ -6,6 +6,7 @@ using RealEstatePropertyListingPlatform.Application.Features.Listings.Commands.D
 using RealEstatePropertyListingPlatform.Application.Features.Listings.Commands.UpdateListing;
 using RealEstatePropertyListingPlatform.Application.Features.Listings.Queries.GetAllListings;
 using RealEstatePropertyListingPlatform.Application.Features.Listings.Queries.GetByIdListing;
+using RealEstatePropertyListingPlatform.Application.Features.Listings.Queries.GetFilteredPagedListings;
 using RealEstatePropertyListingPlatform.Application.Features.Listings.Queries.GetPagedListings;
 using RealEstatePropertyListingPlatform.Application.Features.Listings.Queries.GetPagedListingsById;
 
@@ -128,6 +129,24 @@ namespace RealEstateListingListingPlatform.API.Controllers
             }
 
             var result = await Mediator.Send(new GetPagedListingsQuery(page, size));
+            return Ok(result);
+        }
+
+
+        [HttpPost("filtered/paginated")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+
+        public async Task<IActionResult> GetFilteredPaginated(GetFilteredPagedListingsQuery command)
+        {
+
+            if (command.PageNumber < 1 || command.PageSize < 1)
+            {
+                return BadRequest();
+            }
+
+            var result = await Mediator.Send(command);
+
             return Ok(result);
         }
 
