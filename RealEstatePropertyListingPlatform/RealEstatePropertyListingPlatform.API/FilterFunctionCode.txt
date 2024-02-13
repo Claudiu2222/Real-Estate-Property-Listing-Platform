@@ -53,13 +53,13 @@ BEGIN
         FROM public."Listings" AS "listing"
         JOIN public."Properties" AS "property" ON property."PropertyId" = listing."PropertyId"
         WHERE 
-            (price_lower_bound = 0 OR listing."PriceValue" * CASE listing."PriceCurrency"
+            (price_lower_bound = 0 OR listing."PriceValue" / CASE listing."PriceCurrency"
                                                     WHEN 0 THEN currency_to_USD
                                                     WHEN 1 THEN currency_to_EUR
                                                     WHEN 2 THEN currency_to_RON
                                                     ELSE 1 -- Default to no conversion
                                                 END >= price_lower_bound) AND
-            (price_upper_bound = 0 OR listing."PriceValue" * CASE listing."PriceCurrency"
+            (price_upper_bound = 0 OR listing."PriceValue" / CASE listing."PriceCurrency"
                                                     WHEN 0 THEN currency_to_USD
                                                     WHEN 1 THEN currency_to_EUR
                                                     WHEN 2 THEN currency_to_RON
