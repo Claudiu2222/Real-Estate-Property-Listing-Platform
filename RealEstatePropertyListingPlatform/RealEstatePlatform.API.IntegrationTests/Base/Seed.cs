@@ -15,10 +15,10 @@ namespace RealEstatePlatform.API.IntegrationTests.Base
             
         var properties = new List<Property>
             {
-                Property.Create(Guid.NewGuid(), "Maple Street", "New York", "Manhattan", "10001", "USA", PropertyType.Apartment, 2, 1, 1, 3, 1000).Value,
-                Property.Create(Guid.NewGuid(), "Oak Avenue", "Los Angeles", "Downtown", "90012", "USA", PropertyType.Apartment, 3, 2, 1, 1, 1500).Value,
-                Property.Create(Guid.NewGuid(), "Cherry Lane", "London", "Westminster", "SW1A 1AA", "United Kingdom", PropertyType.Apartment, 1, 1, 3, 5, 800).Value,
-                Property.Create(Guid.NewGuid(), "Pine Street", "Sydney", "CBD", "2000", "Australia", PropertyType.Apartment, 2, 2, 5, 10, 1200).Value
+                Property.Create(Guid.NewGuid(), "Maple Street", "New York", "Manhattan", "10001", "USA", PropertyType.Apartment, 2, 1, 1, 3, 1000, "40.7128", "74.0060").Value,
+                Property.Create(Guid.NewGuid(), "Oak Avenue", "Los Angeles", "Downtown", "90012", "USA", PropertyType.Apartment, 3, 2, 1, 1, 1500, "34.0522", "118.2437").Value,
+                Property.Create(Guid.NewGuid(), "Cherry Lane", "London", "Westminster", "SW1A 1AA", "United Kingdom", PropertyType.Apartment, 1, 1, 3, 5, 800, "51.5074", "0.1278").Value,
+                Property.Create(Guid.NewGuid(), "Pine Street", "Sydney", "CBD", "2000", "Australia", PropertyType.Apartment, 2, 2, 5, 10, 1200,"33.8688", "151.2093").Value,
             };
 
             context.Properties.AddRange(properties);
@@ -31,15 +31,15 @@ namespace RealEstatePlatform.API.IntegrationTests.Base
             {
 
             Listing.Create(properties[0].OwnerId, properties[0].PropertyId,
-            "Listing Title Test - 1", price1, "Description Test 1", ["photo-1/1", "photo/2"],
+            "Listing Title Test - 1", price1, "Description Test 1", ["photo-1/1", "photo/2"], false,
             false).Value,
 
             Listing.Create(properties[1].OwnerId, properties[1].PropertyId,
-            "Listing Title Test - 2", price2, "Description Test 2", ["photo-2/1", "photo/2"],
+            "Listing Title Test - 2", price2, "Description Test 2", ["photo-2/1", "photo/2"], false,
             false).Value,
 
             Listing.Create(properties[2].OwnerId, properties[2].PropertyId,
-            "Listing Title Test - 3", price3, "Description Test 3", ["photo-3/1", "photo/2"],
+            "Listing Title Test - 3", price3, "Description Test 3", ["photo-3/1", "photo/2"], false,
             false).Value
 
             };

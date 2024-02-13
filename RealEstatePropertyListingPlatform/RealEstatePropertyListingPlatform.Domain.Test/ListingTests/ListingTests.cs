@@ -15,12 +15,13 @@ namespace RealEstatePropertyListingPlatform.Domain.Test.ListingTests
         protected static readonly PriceInfo validPrice = new() { Value = 1000, Currency = Currency.RON};
         protected static readonly List<string> validPhotos = ["link/to/Photo1", "link/to/Photo2"];
         protected static readonly bool validNegotiable = true;
+        protected static readonly bool IsRent = true;
 
         [Fact]
         public void When_CreateListingIsCalled_And_AllAreValid_Then_SuccessTrue_And_ErrorNull_And_ValueNotNull_IsReturned()
         {
             // Arrange & Act
-            var result = Listing.Create(validListingCreatorId, validPropertyId, validTitle, validPrice, validDescription, validPhotos, validNegotiable);
+            var result = Listing.Create(validListingCreatorId, validPropertyId, validTitle, validPrice, validDescription, validPhotos, IsRent, validNegotiable);
             var price = new PriceInfo { Value = 1000, Currency = Currency.RON };
             // Assert
             result.IsSuccess.Should().BeTrue();

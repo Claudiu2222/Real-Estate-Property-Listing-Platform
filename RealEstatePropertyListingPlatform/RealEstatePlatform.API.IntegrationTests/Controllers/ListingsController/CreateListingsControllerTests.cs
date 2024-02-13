@@ -22,8 +22,9 @@ namespace RealEstatePlatform.API.IntegrationTests.Controllers.ListingsController
         private static bool isNegotiable = true;
         private static Guid listingCreatorId = JwtTokenBuilder.UserId;
         private static Guid propertyId = Seed.ValidPropertyId;
+        private static bool IsRent = true;
 
-        private static Listing ValidListing = Listing.Create(listingCreatorId, propertyId, title, price, description, photos, isNegotiable).Value;
+        private static Listing ValidListing = Listing.Create(listingCreatorId, propertyId, title, price, description, photos, IsRent, isNegotiable).Value;
 
 
         [Fact]
@@ -251,7 +252,7 @@ namespace RealEstatePlatform.API.IntegrationTests.Controllers.ListingsController
                 .Build();
             Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-            var InvalidListing = Listing.Create(listingCreatorId, Guid.NewGuid(), title, price, description, photos, isNegotiable).Value;
+            var InvalidListing = Listing.Create(listingCreatorId, Guid.NewGuid(), title, price, description, photos, IsRent, isNegotiable).Value;
 
             // Act
             var response = await Client.PostAsJsonAsync(RequestUri, InvalidListing);

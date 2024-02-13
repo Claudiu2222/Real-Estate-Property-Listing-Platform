@@ -29,6 +29,7 @@
                             <p class="card-text mt-auto">
                                 <span class="text-dark">@listing.Price.Value @listing.Price.Currency</span>
                                 <span class="badge @(listing.Negotiable ? "bg-success" : "bg-danger")">@("Negotiable")</span>
+                                <span class="badge @(listing.IsRent ? "bg-success" : "bg-info")">@(listing.IsRent ? "Rent" : "Sale")</span>
                             </p>
                         </div>
                         <div class="card-footer">
@@ -94,6 +95,10 @@ else
         try
         {
             listingsResponse = await ListingDataService.GetPagedListingsAsync(pageNumber, pageSize);
+            for(int i = 0; i < listingsResponse.Listings.Count; i++)
+            {
+                Console.WriteLine(listingsResponse.Listings[i].IsRent);
+            }
         }
         catch (Exception ex)
         {

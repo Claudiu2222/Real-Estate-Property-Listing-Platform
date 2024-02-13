@@ -45,7 +45,7 @@ namespace RealEstatePropertyListingPlatform.Application.Features.Listings.Comman
             var creatorId = Guid.Parse(currentUserService.UserId);
 
 
-            var listing = Listing.Create(creatorId, request.PropertyId, request.Title, request.Price, request.Description, request.Photos, request.Negotiable);
+            var listing = Listing.Create(creatorId, request.PropertyId, request.Title, request.Price, request.Description, request.Photos,request.IsRent, request.Negotiable);
 
             if (!listing.IsSuccess)
             {
@@ -75,6 +75,7 @@ namespace RealEstatePropertyListingPlatform.Application.Features.Listings.Comman
                     Photos = listing.Value.Photos,
                     DateCreated = listing.Value.DateCreated,
                     DateUpdated = listing.Value.DateUpdated,
+                    IsRent = listing.Value.IsRent,
                     Negotiable = listing.Value.Negotiable
                 }
             

@@ -28,6 +28,7 @@ namespace RealEstatePropertyListingPlatform.Application.Features.Listings.Querie
                         Price = listing.Value.Price,
                         Description = listing.Value.Description,
                         Photos = listing.Value.Photos,
+                        IsRent = listing.Value.IsRent,
                         Negotiable = listing.Value.Negotiable,
                         DateCreated = listing.Value.DateCreated,
                         DateUpdated = listing.Value.DateUpdated

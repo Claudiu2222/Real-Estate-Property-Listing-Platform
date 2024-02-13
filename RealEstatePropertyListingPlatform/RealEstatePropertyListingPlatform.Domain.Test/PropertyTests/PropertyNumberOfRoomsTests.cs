@@ -21,7 +21,7 @@ namespace RealEstatePropertyListingPlatform.Domain.Test.PropertyTests
             // Arrange & Act
             var result = Property.Create(ValidOwnerId, ValidStreetName,
                 ValidCity, ValidRegion, ValidPostalCode, ValidCountry, ValidPropertyType,
-                negativeNumberOfRooms, ValidNumberOfBathrooms, ValidFloor, ValidNumberOfFloors, ValidSquareFeet);
+                negativeNumberOfRooms, ValidNumberOfBathrooms, ValidFloor, ValidNumberOfFloors, ValidSquareFeet, ValidLongitude, ValidLatitude);
             // Assert
             result.IsSuccess.Should().BeFalse();
             result.Error.Should().NotBeNull();
@@ -37,7 +37,7 @@ namespace RealEstatePropertyListingPlatform.Domain.Test.PropertyTests
                 ValidCity, ValidRegion, ValidPostalCode, ValidCountry, PropertyType.Land,
                 invalidNumberOfRoomsInCombinationWithLand, validNumberOfBathroomsInCombinationWithLand,
                 validFloorInCombinationWithLand, validNumberOfFloorsInCombinationWithLand,
-                ValidSquareFeet);
+                ValidSquareFeet, ValidLongitude, ValidLatitude);
             // Assert
             result.IsSuccess.Should().BeFalse();
             result.Error.Should().NotBeNull();
@@ -53,7 +53,7 @@ namespace RealEstatePropertyListingPlatform.Domain.Test.PropertyTests
                 ValidCity, ValidRegion, ValidPostalCode, ValidCountry, PropertyType.Land,
                 validNumberOfRoomsInCombinationWithLand, validNumberOfBathroomsInCombinationWithLand,
                 validFloorInCombinationWithLand, validNumberOfFloorsInCombinationWithLand,
-                ValidSquareFeet);
+                ValidSquareFeet, ValidLongitude, ValidLatitude);
             // Assert
             result.IsSuccess.Should().BeTrue();
             result.Error.Should().BeNull();

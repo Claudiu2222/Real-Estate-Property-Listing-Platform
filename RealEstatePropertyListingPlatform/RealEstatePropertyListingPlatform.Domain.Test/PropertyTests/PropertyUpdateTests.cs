@@ -17,6 +17,8 @@ namespace RealEstatePropertyListingPlatform.Domain.Test.PropertyTests
         private readonly int validFloorUpdate = 2;
         private readonly int validNumberOfFloorsUpdate = 4;
         private readonly int validSquareFeetUpdate = 200;
+        private readonly string validLongitudeUpdate = "Valid Longitude Update";
+        private readonly string validLatitudeUpdate = "Valid Latitude Update";
 
         [Fact]
         public void When_UpdatePropertyIsCalled_And_AllAreValid_Then_UpdateIsSuccesfullyMade()
@@ -26,12 +28,12 @@ namespace RealEstatePropertyListingPlatform.Domain.Test.PropertyTests
             Property property = Property.Create(
             ValidOwnerId, ValidStreetName, ValidCity, ValidRegion, ValidPostalCode, ValidCountry,
             ValidPropertyType, ValidNumberOfRooms, ValidNumberOfBathrooms, ValidFloor, ValidNumberOfFloors,
-            ValidSquareFeet).Value;
+            ValidSquareFeet, ValidLongitude, ValidLatitude).Value;
 
             //Act
             property.Update(validStreetNameUpdate, validCityUpdate, validRegionUpdate,
                             validPostalCodeUpdate, validCountryUpdate, validPropertyTypeUpdate, validNumberOfRoomsUpdate,
-                            validNumberOfBathroomsUpdate, validFloorUpdate, validNumberOfFloorsUpdate, validSquareFeetUpdate);
+                            validNumberOfBathroomsUpdate, validFloorUpdate, validNumberOfFloorsUpdate, validSquareFeetUpdate, validLongitudeUpdate, validLatitudeUpdate);
 
             //Assert
             property.StreetName.Should().Be(validStreetNameUpdate);

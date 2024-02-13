@@ -47,7 +47,7 @@ namespace RealEstatePropertyListingPlatform.Application.Features.Properties.Comm
 
             property.Value.Update(request.StreetName, request.City, request.Region, request.PostalCode,
                                     request.Country, request.PropertyType, request.NumberOfRooms, request.NumberOfBathrooms,
-                                    request.Floor, request.NumberOfFloors, request.SquareFeet);
+                                    request.Floor, request.NumberOfFloors, request.SquareFeet, request.Longitude, request.Latitude);
 
 
             await propertyRepository.UpdateAsync(property.Value);
@@ -69,7 +69,9 @@ namespace RealEstatePropertyListingPlatform.Application.Features.Properties.Comm
                     NumberOfBathrooms = property.Value.NumberOfBathrooms,
                     Floor = property.Value.Floor,
                     NumberOfFloors = property.Value.NumberOfFloors,
-                    SquareFeet = property.Value.SquareFeet
+                    SquareFeet = property.Value.SquareFeet,
+                    Longitude = property.Value.Longitude,
+                    Latitude = property.Value.Latitude
 
                 }
             };

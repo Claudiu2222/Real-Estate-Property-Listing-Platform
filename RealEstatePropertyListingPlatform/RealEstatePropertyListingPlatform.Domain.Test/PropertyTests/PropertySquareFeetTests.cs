@@ -14,7 +14,7 @@ namespace RealEstatePropertyListingPlatform.Domain.Test.PropertyTests
             // Arrange & Act
             var result = Property.Create(ValidOwnerId, ValidStreetName,
                 ValidCity, ValidRegion, ValidPostalCode, ValidCountry, ValidPropertyType,
-                ValidNumberOfRooms, ValidNumberOfBathrooms, ValidFloor, ValidNumberOfFloors, negativeSquareFeet);
+                ValidNumberOfRooms, ValidNumberOfBathrooms, ValidFloor, ValidNumberOfFloors, negativeSquareFeet, ValidLongitude, ValidLatitude);
             // Assert
             result.IsSuccess.Should().BeFalse();
             result.Error.Should().NotBeNull();

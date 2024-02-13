@@ -18,6 +18,8 @@ namespace RealEstatePropertyListingPlatform.Domain.Test.PropertyTests
         protected static readonly int ValidFloor = 1;
         protected static readonly int ValidNumberOfFloors = 3;
         protected static readonly int ValidSquareFeet = 100;
+        protected static readonly string ValidLongitude = "Longitude";
+        protected static readonly string ValidLatitude = "Latitude";
 
 
         [Fact]
@@ -26,7 +28,7 @@ namespace RealEstatePropertyListingPlatform.Domain.Test.PropertyTests
             // Arrange & Act
             var result = Property.Create(ValidOwnerId, ValidStreetName,
                 ValidCity, ValidRegion, ValidPostalCode, ValidCountry, ValidPropertyType,
-                ValidNumberOfRooms, ValidNumberOfBathrooms, ValidFloor, ValidNumberOfFloors, ValidSquareFeet);
+                ValidNumberOfRooms, ValidNumberOfBathrooms, ValidFloor, ValidNumberOfFloors, ValidSquareFeet, ValidLongitude, ValidLatitude);
             // Assert
             result.IsSuccess.Should().BeTrue();
             result.Error.Should().BeNull();

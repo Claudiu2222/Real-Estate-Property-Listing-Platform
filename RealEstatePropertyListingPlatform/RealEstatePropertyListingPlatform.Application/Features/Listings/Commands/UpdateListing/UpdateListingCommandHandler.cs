@@ -61,6 +61,7 @@ namespace RealEstatePropertyListingPlatform.Application.Features.Listings.Comman
                     Photos = listing.Value.Photos,
                     DateCreated = listing.Value.DateCreated,
                     DateUpdated = listing.Value.DateUpdated,
+                    IsRent = listing.Value.IsRent,
                     Negotiable = listing.Value.Negotiable
                 }
             };

@@ -30,6 +30,8 @@ namespace RealEstatePlatform.API.IntegrationTests.Controllers
         private static int floor = 1;
         private static int numberOfFloors = 3;
         private static int squareFeet = 1000;
+        private static string Longitude = "Test Longitude";
+        private static string Latitude = "Test Latitude";
 
 
         [Fact]
@@ -62,7 +64,7 @@ namespace RealEstatePlatform.API.IntegrationTests.Controllers
             Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
             Guid ownerId = Guid.NewGuid();
-            var ValidProperty = Property.Create(ownerId, streetName, city, region, postalCode, country, propertyType, numberOfRooms, numberOfBathrooms, floor, numberOfFloors, squareFeet).Value;
+            var ValidProperty = Property.Create(ownerId, streetName, city, region, postalCode, country, propertyType, numberOfRooms, numberOfBathrooms, floor, numberOfFloors, squareFeet, Longitude, Latitude).Value;
 
             // Act
             var response = await Client.PostAsJsonAsync(RequestUri, ValidProperty);
@@ -89,6 +91,8 @@ namespace RealEstatePlatform.API.IntegrationTests.Controllers
             resProperty?.NumberOfBathrooms.Should().Be(numberOfBathrooms);
             resProperty?.Floor.Should().Be(floor);
             resProperty?.NumberOfFloors.Should().Be(numberOfFloors);
+            resProperty?.Longitude.Should().Be(Longitude);
+            resProperty?.Latitude.Should().Be(Latitude);
             resProperty?.SquareFeet.Should().Be(squareFeet);
 
         }
@@ -98,7 +102,7 @@ namespace RealEstatePlatform.API.IntegrationTests.Controllers
         {
             // Arrange
             Guid ownerId = Guid.NewGuid();
-            var ValidProperty = Property.Create(ownerId, streetName, city, region, postalCode, country, propertyType, numberOfRooms, numberOfBathrooms, floor, numberOfFloors, squareFeet).Value;
+            var ValidProperty = Property.Create(ownerId, streetName, city, region, postalCode, country, propertyType, numberOfRooms, numberOfBathrooms, floor, numberOfFloors, squareFeet, Longitude, Latitude).Value;
 
             // Act
             var response = await Client.PostAsJsonAsync(RequestUri, ValidProperty);
@@ -125,10 +129,10 @@ namespace RealEstatePlatform.API.IntegrationTests.Controllers
             Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
             Guid ownerId = Guid.NewGuid();
-            var ValidProperty = Property.Create(ownerId, streetName, city, region, postalCode, country, propertyType, numberOfRooms, numberOfBathrooms, floor, numberOfFloors, squareFeet).Value;
+            var ValidProperty = Property.Create(ownerId, streetName, city, region, postalCode, country, propertyType, numberOfRooms, numberOfBathrooms, floor, numberOfFloors, squareFeet, Longitude, Latitude).Value;
 
             var InvalidProperty = ValidProperty;
-            InvalidProperty.Update("", city, region, postalCode, country, propertyType, numberOfRooms, numberOfBathrooms, floor, numberOfFloors, squareFeet);
+            InvalidProperty.Update("", city, region, postalCode, country, propertyType, numberOfRooms, numberOfBathrooms, floor, numberOfFloors, squareFeet, Longitude, Latitude);
 
             // Act
             var response = await Client.PostAsJsonAsync(RequestUri, InvalidProperty);
@@ -159,11 +163,11 @@ namespace RealEstatePlatform.API.IntegrationTests.Controllers
             Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
             Guid ownerId = Guid.NewGuid();
-            var ValidProperty = Property.Create(ownerId, streetName, city, region, postalCode, country, propertyType, numberOfRooms, numberOfBathrooms, floor, numberOfFloors, squareFeet).Value;
+            var ValidProperty = Property.Create(ownerId, streetName, city, region, postalCode, country, propertyType, numberOfRooms, numberOfBathrooms, floor, numberOfFloors, squareFeet, Longitude, Latitude).Value;
 
             var InvalidProperty = ValidProperty;
             int negativeSquareFeet = -1;
-            InvalidProperty.Update(streetName , city, region, postalCode, country, propertyType, numberOfRooms, numberOfBathrooms, floor, numberOfFloors, negativeSquareFeet);
+            InvalidProperty.Update(streetName, city, region, postalCode, country, propertyType, numberOfRooms, numberOfBathrooms, floor, numberOfFloors, negativeSquareFeet, Longitude, Latitude);
 
             // Act
             var response = await Client.PostAsJsonAsync(RequestUri, InvalidProperty);
@@ -192,11 +196,11 @@ namespace RealEstatePlatform.API.IntegrationTests.Controllers
             Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
             Guid ownerId = Guid.NewGuid();
-            var ValidProperty = Property.Create(ownerId, streetName, city, region, postalCode, country, propertyType, numberOfRooms, numberOfBathrooms, floor, numberOfFloors, squareFeet).Value;
+            var ValidProperty = Property.Create(ownerId, streetName, city, region, postalCode, country, propertyType, numberOfRooms, numberOfBathrooms, floor, numberOfFloors, squareFeet, Longitude, Latitude).Value;
 
             var InvalidProperty = ValidProperty;
             int negativeNumberOfRooms = -1;
-            InvalidProperty.Update(streetName, city, region, postalCode, country, propertyType, negativeNumberOfRooms, numberOfBathrooms, floor, numberOfFloors, squareFeet);
+            InvalidProperty.Update(streetName, city, region, postalCode, country, propertyType, negativeNumberOfRooms, numberOfBathrooms, floor, numberOfFloors, squareFeet, Longitude, Latitude);
 
             // Act
             var response = await Client.PostAsJsonAsync(RequestUri, InvalidProperty);
@@ -225,11 +229,11 @@ namespace RealEstatePlatform.API.IntegrationTests.Controllers
             Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
             Guid ownerId = Guid.NewGuid();
-            var ValidProperty = Property.Create(ownerId, streetName, city, region, postalCode, country, propertyType, numberOfRooms, numberOfBathrooms, floor, numberOfFloors, squareFeet).Value;
+            var ValidProperty = Property.Create(ownerId, streetName, city, region, postalCode, country, propertyType, numberOfRooms, numberOfBathrooms, floor, numberOfFloors, squareFeet, Longitude, Latitude).Value;
 
             var InvalidProperty = ValidProperty;
             int negativeNumberOfBathrooms = -1;
-            InvalidProperty.Update(streetName, city, region, postalCode, country, propertyType, numberOfRooms, negativeNumberOfBathrooms, floor, numberOfFloors, squareFeet);
+            InvalidProperty.Update(streetName, city, region, postalCode, country, propertyType, numberOfRooms, negativeNumberOfBathrooms, floor, numberOfFloors, squareFeet, Longitude, Latitude);
 
             // Act
             var response = await Client.PostAsJsonAsync(RequestUri, InvalidProperty);
@@ -258,11 +262,11 @@ namespace RealEstatePlatform.API.IntegrationTests.Controllers
             Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
             Guid ownerId = Guid.NewGuid();
-            var ValidProperty = Property.Create(ownerId, streetName, city, region, postalCode, country, propertyType, numberOfRooms, numberOfBathrooms, floor, numberOfFloors, squareFeet).Value;
+            var ValidProperty = Property.Create(ownerId, streetName, city, region, postalCode, country, propertyType, numberOfRooms, numberOfBathrooms, floor, numberOfFloors, squareFeet, Longitude, Latitude).Value;
 
             var InvalidProperty = ValidProperty;
             int negativeFloor = -1;
-            InvalidProperty.Update(streetName, city, region, postalCode, country, propertyType, numberOfRooms, numberOfBathrooms, negativeFloor, numberOfFloors, squareFeet);
+            InvalidProperty.Update(streetName, city, region, postalCode, country, propertyType, numberOfRooms, numberOfBathrooms, negativeFloor, numberOfFloors, squareFeet, Longitude, Latitude);
 
             // Act
             var response = await Client.PostAsJsonAsync(RequestUri, InvalidProperty);
@@ -291,11 +295,11 @@ namespace RealEstatePlatform.API.IntegrationTests.Controllers
             Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
             Guid ownerId = Guid.NewGuid();
-            var ValidProperty = Property.Create(ownerId, streetName, city, region, postalCode, country, propertyType, numberOfRooms, numberOfBathrooms, floor, numberOfFloors, squareFeet).Value;
+            var ValidProperty = Property.Create(ownerId, streetName, city, region, postalCode, country, propertyType, numberOfRooms, numberOfBathrooms, floor, numberOfFloors, squareFeet, Longitude, Latitude).Value;
 
             var InvalidProperty = ValidProperty;
             int negativeNumberOfFloors = -1;
-            InvalidProperty.Update(streetName, city, region, postalCode, country, propertyType, numberOfRooms, numberOfBathrooms, floor, negativeNumberOfFloors, squareFeet);
+            InvalidProperty.Update(streetName, city, region, postalCode, country, propertyType, numberOfRooms, numberOfBathrooms, floor, negativeNumberOfFloors, squareFeet, Longitude, Latitude); 
 
             // Act
             var response = await Client.PostAsJsonAsync(RequestUri, InvalidProperty);

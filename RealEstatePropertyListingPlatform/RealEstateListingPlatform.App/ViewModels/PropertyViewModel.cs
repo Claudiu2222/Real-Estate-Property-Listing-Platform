@@ -45,5 +45,11 @@ namespace RealEstateListingPlatform.App.ViewModels
         [ValidateInteger(0, 1_000)]
         public int SquareFeet { get; set; }
 
+        [Range(-180, 180)]
+        public string Longitude { get; set; } = default!;
+
+        [Range(-90, 90)]
+        public string Latitude { get; set; } = default!;
+
     }
 }

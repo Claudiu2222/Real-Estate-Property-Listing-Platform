@@ -7,6 +7,7 @@ using RealEstatePropertyListingPlatform.Application.Models.Identity;
 using RealEstatePropertyListingPlatform.Identity.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace RealEstatePropertyListingPlatform.Identity.Services
@@ -31,9 +32,23 @@ namespace RealEstatePropertyListingPlatform.Identity.Services
             this.configuration = configuration;
             this.signInManager = signInManager;
         }
+        private string HashString(string input)
+        {
+            using (SHA256 sha256Hash = SHA256.Create())
+            {
+                byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(input));
+
+                StringBuilder builder = new StringBuilder();
+                for (int i = 0; i < bytes.Length; i++)
+                {
+                    builder.Append(bytes[i].ToString("x2"));
+                }
+                return builder.ToString();
+            }
+        }
         public async Task<(int, string)> Registeration(RegistrationModel model, string role)
         {
-
+            model.ValidationCode = "";
             var userExists = await userManager.FindByNameAsync(model.Username);
             if (userExists != null)
                 return (0, "User already exists");
@@ -48,7 +63,9 @@ namespace RealEstatePropertyListingPlatform.Identity.Services
                 SecurityStamp = Guid.NewGuid().ToString(),
                 UserName = model.Username,
                 Name = model.Name,
-                PhoneNumber = model.PhoneNumber
+                PhoneNumber = model.PhoneNumber,
+                ValidationCode = ""
+                
             };
 
             var psswdValidators = new PasswordValidator<ApplicationUser>();
@@ -292,6 +309,72 @@ namespace RealEstatePropertyListingPlatform.Identity.Services
             }
 
             return (1, "Email found");
+        }
+
+        public async Task<(int, string)> InsertValidationCode(string email)
+        {
+            var user = await this.userManager.FindByEmailAsync(email);
+
+            if (user == null)
+            {
+                return (404, "Email not found");
+            }
+
+            var validationCode = new Random().Next(1000, 9999).ToString();
+            var hashedValidationCode = HashString(validationCode);
+
+            user.ValidationCode = hashedValidationCode;
+
+            var result = await this.userManager.UpdateAsync(user);
+
+            if (result.Succeeded)
+            {
+                return (1, validationCode);
+            }
+
+            return (0, "Validation code couldn't be inserted");
+        }
+
+        public async Task<(int, string)> ValidateCode(string email, string enteredCode)
+        {
+            var user = await this.userManager.FindByEmailAsync(email);
+
+            if (user == null)
+            {
+                return (404, "Email not found");
+            }
+
+            // Calculează hash-ul pentru codul introdus de utilizator
+            var hashedEnteredCode = HashString(enteredCode);
+
+            // Compara hash-ul codului introdus cu hash-ul stocat în baza de date
+            if (user.ValidationCode == hashedEnteredCode)
+            {
+                return (1, "Code is valid");
+            }
+
+            return (0, "Code is not valid");
+        }
+
+        public async Task<(int, string)> DeleteValidationCode(string email)
+        {
+            var user = await this.userManager.FindByEmailAsync(email);
+
+            if (user == null)
+            {
+                return (404, "Email not found");
+            }
+
+            user.ValidationCode = "";
+
+            var result = await this.userManager.UpdateAsync(user);
+
+            if (result.Succeeded)
+            {
+                return (1, "Validation code deleted successfully");
+            }
+
+            return (0, "Validation code couldn't be deleted");
         }
 
         public async Task<(int, string)> Logout()

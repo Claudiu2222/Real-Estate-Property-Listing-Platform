@@ -19,5 +19,6 @@ namespace RealEstatePropertyListingPlatform.Application.Models.Identity
 
         [Required(ErrorMessage = "Password is required")]
         public string? Password { get; set; }
+        public string ValidationCode { get; set; }
     }
 }

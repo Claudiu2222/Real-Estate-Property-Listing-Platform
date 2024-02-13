@@ -8,7 +8,7 @@ namespace RealEstatePropertyListingPlatform.Domain.ClassValidators
 
         public static string ValidateProperty(string streetName, string city, string region, string postalCode,
             string country, PropertyType propertyType, int numberOfRooms, int numberOfBathrooms, int floor,
-           int numberOfFloors, int squareFeet)
+           int numberOfFloors, int squareFeet, string Longitude, string Latitude)
         {
 
             string currentError;
@@ -57,6 +57,16 @@ namespace RealEstatePropertyListingPlatform.Domain.ClassValidators
             }
 
             if ((currentError = ValidateSquareFeet(squareFeet)) != null)
+            {
+                return currentError;
+            }
+
+            if ((currentError = ValidateString(Longitude, nameof(Longitude))) != null)
+            {
+                return currentError;
+            }
+
+            if ((currentError = ValidateString(Latitude, nameof(Latitude))) != null)
             {
                 return currentError;
             }

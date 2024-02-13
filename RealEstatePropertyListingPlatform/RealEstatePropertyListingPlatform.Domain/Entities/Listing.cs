@@ -15,6 +15,7 @@ namespace RealEstatePropertyListingPlatform.Domain.Entities
         public List<string>? Photos { get; private set; }
         public DateTime DateCreated { get; private set; }
         public DateTime DateUpdated { get; private set; }
+        public bool IsRent { get; private set; }
         public bool Negotiable { get; private set; }
 
 
@@ -22,7 +23,7 @@ namespace RealEstatePropertyListingPlatform.Domain.Entities
         private Listing() { }
 
         public static Result<Listing> Create(Guid listingCreatorId, Guid propertyId, string
-            title, PriceInfo price, string description, List<string> photos, bool negotiable)
+            title, PriceInfo price, string description, List<string> photos, bool IsRent, bool negotiable)
         {
             var error = ListingValidator.ValidateListing(title, price, description, photos);
 
@@ -43,6 +44,7 @@ namespace RealEstatePropertyListingPlatform.Domain.Entities
                 Photos = photos,
                 DateCreated = dateNow,
                 DateUpdated = dateNow,
+                IsRent = IsRent,
                 Negotiable = negotiable
             };
 
