@@ -13,7 +13,7 @@ using RealEstatePropertyListingPlatform.Infrastructure;
 namespace RealEstatePropertyListingPlatform.Infrastructure.Migrations
 {
     [DbContext(typeof(RealEstatePropertyListingPlatformContext))]
-    [Migration("20240208181146_Initial-Create")]
+    [Migration("20240211194423_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

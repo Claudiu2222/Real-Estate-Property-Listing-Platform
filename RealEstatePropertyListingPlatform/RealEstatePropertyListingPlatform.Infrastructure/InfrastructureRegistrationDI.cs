@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using RealEstatePropertyListingPlatform.Application.Contracts;
+using RealEstatePropertyListingPlatform.Application.Contracts.Interfaces;
 using RealEstatePropertyListingPlatform.Application.Persistence;
 using RealEstatePropertyListingPlatform.Infrastructure.Repositories;
 using RealEstatePropertyListingPlatform.Infrastructure.Services;
@@ -20,6 +22,18 @@ namespace RealEstatePropertyListingPlatform.Infrastructure
                     builder.MigrationsAssembly(
                         typeof(RealEstatePropertyListingPlatformContext)
                         .Assembly.FullName)));
+
+            var apiKey = configuration.GetSection("ExchangeRateApiKey").Value;
+
+
+            // Register the RealEstatePropertyListingPlatformContext with the API key
+            services.AddScoped(provider =>
+            {
+                var currentUserService = provider.GetRequiredService<ICurrentUserService>();
+                var options = provider.GetRequiredService<DbContextOptions<RealEstatePropertyListingPlatformContext>>();
+                return new RealEstatePropertyListingPlatformContext(options, currentUserService, apiKey!);
+            });
+
             services.AddScoped
                 (typeof(IAsyncRepository<>),
                 typeof(BaseRepository<>));

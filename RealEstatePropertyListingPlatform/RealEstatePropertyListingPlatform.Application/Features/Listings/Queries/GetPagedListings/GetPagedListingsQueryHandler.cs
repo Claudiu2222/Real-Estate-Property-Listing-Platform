@@ -20,6 +20,16 @@ namespace RealEstatePropertyListingPlatform.Application.Features.Listings.Querie
 
             var totalCount = await listingRepository.GetCountAsync();
 
+            if (totalCount.Value[0] == 0)
+            {
+                return new GetPagedListingsResponse
+                {
+                    Success = true,
+                    Message = "No listings found",
+                    TotalCount = 0,
+                };
+            }
+
             if (totalCount.Value[0] <= (request.PageNumber - 1) * request.PageSize)
             {
                 return new GetPagedListingsResponse
@@ -29,7 +39,8 @@ namespace RealEstatePropertyListingPlatform.Application.Features.Listings.Querie
                     TotalCount = totalCount.Value[0],
                 };
             }
-
+            
+            
             var result = await listingRepository.GetPagedReponseAsync(request.PageNumber, request.PageSize);
 
 
