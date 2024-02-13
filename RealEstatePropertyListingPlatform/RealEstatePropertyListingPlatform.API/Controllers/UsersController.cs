@@ -195,6 +195,98 @@ namespace RealEstatePropertyListingPlatform.API.Controllers
 
         }
 
+        [HttpPut]
+        [Route("insertvalidationcode")]
+        public async Task<IActionResult> InsertValidationCode(string email)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest("Invalid payload");
+                }
+
+                var (status, messageResult) = await _authService.InsertValidationCode(email);
+
+                if (status == 0)
+                {
+                    return BadRequest(new { IsSuccess = false, message = "Invalid payload" });
+                }
+                else if (status == 404)
+                {
+                    return BadRequest(new { IsSuccess = false, message = "User not found" });
+                }
+                //also return the code
+                return Ok(new { IsSuccess = true, message = messageResult });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+        [HttpDelete]
+        [Route("deletevalidationcode")]
+        public async Task<IActionResult> DeleteValidationCode(string email)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest("Invalid payload");
+                }
+
+                var (status, message) = await _authService.DeleteValidationCode(email);
+
+                if (status == 0)
+                {
+                    return BadRequest(new { IsSuccess = false, message = "Invalid payload" });
+                }
+                else if (status == 404)
+                {
+                    return BadRequest(new { IsSuccess = false, message = "User not found" });
+                }
+
+                return Ok(new { IsSuccess = true, message = message });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("validatecode")]
+        public async Task<IActionResult> ValidateCode(string email, string code)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest("Invalid payload");
+                }
+
+                var (status, message) = await _authService.ValidateCode(email, code);
+
+                if (status == 0)
+                {
+                    return BadRequest(new { IsSuccess = false, message = "Invalid payload" });
+                }
+                else if (status == 404)
+                {
+                    return BadRequest(new { IsSuccess = false, message = "User not found" });
+                }
+
+                return Ok(new { IsSuccess = true, message = "Code is valid" });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
         [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> GetAll()

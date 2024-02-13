@@ -13,6 +13,7 @@ namespace RealEstatePropertyListingPlatform.Application.Features.Listings
         public List<string> Photos { get; set; } = default!;
         public DateTime DateCreated { get; set; }
         public DateTime DateUpdated { get; set; }
+        public bool IsRent { get; set; }
         public bool Negotiable { get; set; }
     }
 }

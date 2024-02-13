@@ -5,6 +5,27 @@
 @using RealEstateListingPlatform.App.ViewModels.UserModels
 <head>
     <link href="css/app.css"/>
+    <script>
+        // Initialize and add the map and pin location from longitude and latitude
+        function initialize() {
+            //timer to wait for the map to load
+            setTimeout(function () {
+                var latitude = document.getElementById('latitude').value;
+                var longitude = document.getElementById('longitude').value;
+                var myLatLng = { lat: parseFloat(latitude), lng: parseFloat(longitude) };
+                var map = new google.maps.Map(document.getElementById('map'), {
+                    zoom: 15,
+                    center: myLatLng
+                });
+                var marker = new google.maps.Marker({
+                    position: myLatLng,
+                    map: map,
+                    title: 'Property location'
+                });
+            }, 1000);
+        }
+    </script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyCJGNELETRarTh8XctiWzsHND25SawIV1g&callback=initialize"></script>
     <title>ViewListing</title>
 </head>
 
@@ -80,13 +101,27 @@
                                 <button class="button-contact" @onclick="ShowContactDialog">Contact</button>
                             }
                         </div>
+                    <div id="map" style="height: 200px; border-radius: 5px;"></div>
+                    </div>
+
+                    <div class="row mb-3 ms-2" style="display: none;">
+                        <label for="latitude" class="col-sm-3 form-label">Latitude:</label>
+                        <div class="col-sm-5">
+                            <InputText id="latitude" class="form-control" @bind-Value="@Property.Latitude" placeholder="@Property.Latitude"></InputText>
+                        </div>
+                    </div>
+                    <div class="row mb-3 ms-2" style="display: none;">
+                        <label for="longitude" class="col-sm-3 form-label">Longitude:</label>
+                        <div class="col-sm-5">
+                            <InputText id="longitude" class="form-control" @bind-Value="@Property.Longitude" placeholder="@Property.Longitude"></InputText>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="card my-4">
                 <div class="card-header">
                     <h4 class="card-title d-flex justify-content-between">
-                        <span>@Listing.Title</span>
+                        <span>@Listing.Title <span class="badge @(Listing.IsRent ? "bg-success" : "bg-info")">@(Listing.IsRent ? "Rent" : "Sale")</span></span>
                         <span>
                             <div>
                                 @Listing.Price!.Value <span style="color: green">@Listing.Price.Currency</span>
