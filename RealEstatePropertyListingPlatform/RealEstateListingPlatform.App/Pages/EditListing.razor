@@ -3,6 +3,10 @@
 @using RealEstateListingPlatform.App.ViewModels
 @using RealEstatePropertyListingPlatform.Domain.Enums
 @inject HttpClient Http
+<head>
+    <link href="css/app.css" rel="stylesheet" />
+    <link href="css/addlisting.css" rel="stylesheet" />
+</head>
 <h3>Edit your listing</h3>
 
 <div class="@GetAlertClass() mb-3 ms-2" style="display: @(string.IsNullOrWhiteSpace(Message) ? "none" : "block");">
@@ -58,7 +62,7 @@
     <div class="row mb-3 ms-2">
         <label for="photos" class="col-sm-3 form-label">📸Photos:</label>
         <div class="col-sm-9">
-            <InputFile OnChange="HandleFileSelected" multiple />
+            <InputFile class="choosefile" OnChange="HandleFileSelected" multiple />
             <h3>Uploaded photos</h3>
             @if (initialPhotos.Any())
             {

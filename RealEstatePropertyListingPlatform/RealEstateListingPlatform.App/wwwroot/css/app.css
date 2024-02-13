@@ -147,12 +147,6 @@ code {
 }
 
 
-
-    .button-delete:focus span {
-        opacity: 1;
-        transition: .3s;
-    }
-
 .button-edit {
     position: relative;
     width: 40px;
