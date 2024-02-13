@@ -130,7 +130,7 @@
     }
     else if (listingsResponse.Listings.Any())
     {
-        <div class="container">
+        <div class="container @((isFilterModalVisible ? "blur-background" : ""))">
             <div class="row">
             @foreach (var listing in listingsResponse.Listings)
             {
@@ -193,7 +193,9 @@ else
 
 
     private int currentPage = 1;
-    private int pageSize = 9; // Set your default page size
+    private int pageSize = 2; // Set your default page size
+
+    private bool filterWasApplied = false;
 
     [Parameter]
     public EventCallback<string> OnListingSelected { get; set; }
@@ -218,16 +220,48 @@ else
     private string modalStyle => isFilterModalVisible ? "display: block;" : "display: none;";
 
     private async void ApplyFilters()
+    {   
+
+        FilterModel.PageNumber = 1;
+        FilterModel.PageSize = pageSize;
+        currentPage = 1;
+
+        if (!filterWasApplied)
+        {
+            filterWasApplied = true;
+        }
+
+        Tuple<decimal?, decimal?, int?, int?> beforeAdjustFilterValues = adjustFilterModel();
+
+        HideFilterModal();
+
+        listingsResponse = await ListingDataService.GetFilteredPagedListingsAsync(FilterModel);
+
+        StateHasChanged();
+
+        FilterModel.PriceLowerBound = beforeAdjustFilterValues.Item1;
+        FilterModel.PriceUpperBound = beforeAdjustFilterValues.Item2;
+        FilterModel.SquareFeetLowerBound = beforeAdjustFilterValues.Item3;
+        FilterModel.SquareFeetUpperBound = beforeAdjustFilterValues.Item4;
+
+    }
+    private Tuple<decimal?, decimal?, int?, int?> adjustFilterModel()
     {
+        decimal? oldPriceLoweBound = FilterModel.PriceLowerBound;
+        decimal? oldPriceUpperBound = FilterModel.PriceUpperBound;
+        int? squareFeetLowerBound = FilterModel.SquareFeetLowerBound;
+        int? squareFeetUpperBound = FilterModel.SquareFeetUpperBound;
+
         if (forRent == -1)
         {
             FilterModel.ForRent = null;
         }
-        else{
+        else
+        {
 
             FilterModel.ForRent = (forRent == 1);
 
-        } 
+        }
         if (FilterModel.PriceLowerBound == null)
         {
             FilterModel.PriceLowerBound = 0;
@@ -241,32 +275,30 @@ else
             FilterModel.SquareFeetLowerBound = 0;
         }
         if (FilterModel.SquareFeetUpperBound == null)
-		{
-			FilterModel.SquareFeetUpperBound = 0;
-		}
+        {
+            FilterModel.SquareFeetUpperBound = 0;
+        }
 
+        return new Tuple<decimal?, decimal?, int?, int?>(oldPriceLoweBound, oldPriceUpperBound, squareFeetLowerBound, squareFeetUpperBound);
+        
+    }
 
-        // Console.WriteLine("Applied Filters:");
-        // Console.WriteLine($"PageNumber: {FilterModel.PageNumber}");
-        // Console.WriteLine($"PageSize: {FilterModel.PageSize}");
-        // Console.WriteLine($"PriceLowerBound: {FilterModel.PriceLowerBound}");
-        // Console.WriteLine($"PriceUpperBound: {FilterModel.PriceUpperBound}");
-        // Console.WriteLine($"PriceCurrency: {FilterModel.PriceCurrency}");
-        // Console.WriteLine($"City: {FilterModel.City}");
-        // Console.WriteLine($"Region: {FilterModel.Region}");
-        // Console.WriteLine($"PropertyType: {FilterModel.PropertyType}");
-        // Console.WriteLine($"SquareFeetLowerBound: {FilterModel.SquareFeetLowerBound}");
-        // Console.WriteLine($"SquareFeetUpperBound: {FilterModel.SquareFeetUpperBound}");
-        // Console.WriteLine($"ForRent: {FilterModel.ForRent}");
-        // Console.WriteLine($"ContainsInTitle: {FilterModel.ContainsInTitle}");
+    private async void getFilteredPage(int pageNumber)
+    {
+        FilterModel.PageNumber = pageNumber;
+        FilterModel.PageSize = pageSize;
 
-        HideFilterModal();
+        Tuple<decimal?, decimal?, int?, int?> beforeAdjustFilterValues = adjustFilterModel();
+
 
         listingsResponse = await ListingDataService.GetFilteredPagedListingsAsync(FilterModel);
-        
+
         StateHasChanged();
 
-
+        FilterModel.PriceLowerBound = beforeAdjustFilterValues.Item1;
+        FilterModel.PriceUpperBound = beforeAdjustFilterValues.Item2;
+        FilterModel.SquareFeetLowerBound = beforeAdjustFilterValues.Item3;
+        FilterModel.SquareFeetUpperBound = beforeAdjustFilterValues.Item4;
     }
 
     private void resetFilterModel(FilterViewModel FilterModel)
@@ -290,7 +322,11 @@ else
 
     private void ShowFilterModal()
     {
-        resetFilterModel(FilterModel);
+        if (!filterWasApplied)
+        {
+            resetFilterModel(FilterModel);
+        }
+        
         isFilterModalVisible = true;
     }
 
@@ -314,11 +350,14 @@ else
         currentPage = pageNumber;
         try
         {
-            listingsResponse = await ListingDataService.GetPagedListingsAsync(pageNumber, pageSize);
-            for(int i = 0; i < listingsResponse.Listings.Count; i++)
-            {
-                Console.WriteLine(listingsResponse.Listings[i].IsRent);
-            }
+            if (filterWasApplied)
+			{
+				getFilteredPage(pageNumber);
+			}
+			else
+			{
+				listingsResponse = await ListingDataService.GetPagedListingsAsync(pageNumber, pageSize);
+			}
         }
         catch (Exception ex)
         {

@@ -70,6 +70,7 @@ namespace RealEstatePropertyListingPlatform.Application.Features.Listings.Querie
                     Photos = x.Photos,
                     DateCreated = x.DateCreated,
                     DateUpdated = x.DateUpdated,
+                    IsRent = x.IsRent,
                     Negotiable = x.Negotiable
                 }).ToList(),
                 TotalCount = totalCount,

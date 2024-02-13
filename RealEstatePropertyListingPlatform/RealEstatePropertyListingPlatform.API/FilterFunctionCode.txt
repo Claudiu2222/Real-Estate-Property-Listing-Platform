@@ -1,0 +1,76 @@
+
+CREATE OR REPLACE FUNCTION filter_listings(
+    IN currency_to_USD NUMERIC,
+    IN currency_to_EUR NUMERIC,
+    IN currency_to_RON NUMERIC,
+    IN price_lower_bound NUMERIC,
+    IN price_upper_bound NUMERIC,
+    IN city VARCHAR,
+    IN region VARCHAR,
+    IN property_type INT,
+    IN square_feet_lower_bound INT,
+    IN square_feet_upper_bound INT,
+    IN for_rent BOOLEAN,
+    IN contains_in_title VARCHAR
+)
+RETURNS TABLE (
+    "ListingId" UUID,
+    "ListingCreatorId" UUID,
+    "PropertyId" UUID,
+    "Title" TEXT,
+    "PriceValue" NUMERIC,
+    "PriceCurrency" INTEGER,
+    "Description" TEXT,
+    "Photos" TEXT[],
+    "DateCreated" TIMESTAMP WITH TIME ZONE,
+    "DateUpdated" TIMESTAMP WITH TIME ZONE,
+    "IsRent" BOOLEAN,
+    "Negotiable" BOOLEAN,
+	"CreatedBy" TEXT,
+	"CreatedDate" TIMESTAMP WITH TIME ZONE,
+	"LastModifiedBy" TEXT,
+	"LastModifiedDate" TIMESTAMP WITH TIME ZONE
+) AS $$
+BEGIN
+    -- Build the query to filter listings and join with the property table
+    RETURN QUERY
+        SELECT listing."ListingId",
+               listing."ListingCreatorId",
+               listing."PropertyId",
+               listing."Title",
+               listing."PriceValue",
+               listing."PriceCurrency",
+               listing."Description",
+               listing."Photos",
+               listing."DateCreated",
+               listing."DateUpdated",
+               listing."IsRent",
+               listing."Negotiable",
+			   listing."CreatedBy",
+			   listing."CreatedDate",
+			   listing."LastModifiedBy",
+			   listing."LastModifiedDate"
+        FROM public."Listings" AS "listing"
+        JOIN public."Properties" AS "property" ON property."PropertyId" = listing."PropertyId"
+        WHERE 
+            (price_lower_bound = 0 OR listing."PriceValue" * CASE listing."PriceCurrency"
+                                                    WHEN 0 THEN currency_to_USD
+                                                    WHEN 1 THEN currency_to_EUR
+                                                    WHEN 2 THEN currency_to_RON
+                                                    ELSE 1 -- Default to no conversion
+                                                END >= price_lower_bound) AND
+            (price_upper_bound = 0 OR listing."PriceValue" * CASE listing."PriceCurrency"
+                                                    WHEN 0 THEN currency_to_USD
+                                                    WHEN 1 THEN currency_to_EUR
+                                                    WHEN 2 THEN currency_to_RON
+                                                    ELSE 1 -- Default to no conversion
+                                                END <= price_upper_bound) AND
+            (city IS NULL OR lower(replace(property."City", ' ', '')) LIKE '%' || lower(replace(city, ' ', '')) || '%') AND
+            (region IS NULL OR lower(replace(property."Region", ' ', '')) LIKE '%' || lower(replace(region, ' ', '')) || '%') AND
+            (property_type = -1 OR property."PropertyType" = property_type) AND
+            (square_feet_lower_bound = 0 OR property."SquareFeet" >= square_feet_lower_bound) AND
+            (square_feet_upper_bound = 0 OR property."SquareFeet" <= square_feet_upper_bound) AND
+            (for_rent IS NULL OR listing."IsRent" = for_rent) AND
+            (contains_in_title IS NULL OR lower(replace(listing."Title", ' ', '')) LIKE '%' || lower(replace(contains_in_title, ' ', '')) || '%');
+END;
+$$ LANGUAGE plpgsql;

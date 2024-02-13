@@ -78,7 +78,7 @@
 
 .box:hover {
     width: 160px;
-    background: linear-gradient(to right, #26d526, yellow);
+    background: linear-gradient(to right, #BFACE2, #645CBB);
 }
 
     .box:hover .arrow {
@@ -110,4 +110,14 @@
 
 .box:active {
     background: linear-gradient(to right, rgb(38, 213, 38, 0.8), rgba(255, 255, 0, 0.8));
+}
+
+.modal-header {
+    background-color: rgb(129, 110, 216);
+
+}
+
+.blur-background {
+    filter: blur(4px); /* Adjust the blur intensity as needed */
+    pointer-events: none; /* Prevents interaction with blurred elements */
 }
