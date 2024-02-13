@@ -20,7 +20,7 @@ namespace RealEstatePropertyListingPlatform.API.Services
         public void TrainModel()
         {
             // Încarcă datele din CSV
-            var data = _mlContext.Data.LoadFromTextFile<ModelInput>("C:\\_project.Net\\Real-Estate-Property-Listing-Platform\\RealEstatePropertyListingPlatform\\RealEstatePropertyListingPlatform.API\\dataset_out.csv", separatorChar: ',');
+            var data = _mlContext.Data.LoadFromTextFile<ModelInput>("D:\\.NET\\Real-Estate-Property-Listing-Platform\\RealEstatePropertyListingPlatform\\RealEstatePropertyListingPlatform.API\\dataset_out.csv", separatorChar: ',');
 
             // Defineste caracteristicile de intrare si ieșire
             var pipeline = _mlContext.Transforms.CopyColumns(outputColumnName: "Label", inputColumnName: "Pret")

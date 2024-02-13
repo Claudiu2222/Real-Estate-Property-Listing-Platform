@@ -30,6 +30,7 @@
                             <p class="card-text mt-auto">
                                 <span class="text-dark">@listing.Price.Value @listing.Price.Currency</span>
                                 <span class="badge @(listing.Negotiable ? "bg-success" : "bg-danger")">@("Negotiable")</span>
+                                <span class="badge @(listing.IsRent ? "bg-success" : "bg-info")">@(listing.IsRent ? "Rent" : "Sale")</span>
                             </p>
                         </div>
                         <div class="card-footer d-flex justify-content-between align-items-center">

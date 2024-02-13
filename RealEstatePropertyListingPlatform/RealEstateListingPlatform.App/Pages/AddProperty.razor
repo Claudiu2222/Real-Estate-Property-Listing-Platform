@@ -323,6 +323,12 @@
             return "alert alert-info"; // sau o altă clasă pentru alerte informative
         }
 
+        if(Message.StartsWith("Longitude") || Message.StartsWith("Latitude"))
+        {
+            Message = "Please select a location on the map";
+        }
+
+
         return Message.StartsWith("Property created successfully") ? "alert alert-success" : "alert alert-danger";
     }
 
