@@ -1,4 +1,5 @@
 ﻿using NSubstitute;
+using RealEstatePropertyListingPlatform.Application.Contracts;
 using RealEstatePropertyListingPlatform.Application.Contracts.Interfaces;
 using RealEstatePropertyListingPlatform.Application.Persistence;
 using RealEstatePropertyListingPlatform.Domain.Entities;
@@ -11,6 +12,7 @@ namespace RealEstatePropertyListingPlatform.Application.Test.Features
         protected IPropertyRepository PropertyRepository { get; }
 
         protected ICurrentUserService CurrentUserService { get; }
+        protected IImageStorageService ImageStorageService { get; }
 
         protected Property ValidProperty { get; }
 
@@ -23,6 +25,7 @@ namespace RealEstatePropertyListingPlatform.Application.Test.Features
             ListingRepository = Substitute.For<IListingRepository>();
             PropertyRepository = Substitute.For<IPropertyRepository>();
             CurrentUserService = Substitute.For<ICurrentUserService>();
+            ImageStorageService = Substitute.For<IImageStorageService>();
 
             ValidProperty = Property.Create(Guid.NewGuid(), "Test Address", "Test Zip Code", "Test State",
                                "Test Country", "Romania", Domain.Enums.PropertyType.Apartment, 2, 2, 2, 2, 2).Value;
@@ -39,6 +42,7 @@ namespace RealEstatePropertyListingPlatform.Application.Test.Features
             ListingRepository.ClearReceivedCalls();
             PropertyRepository.ClearReceivedCalls();
             CurrentUserService.ClearReceivedCalls();
+            ImageStorageService.ClearReceivedCalls();
         }
     }
     

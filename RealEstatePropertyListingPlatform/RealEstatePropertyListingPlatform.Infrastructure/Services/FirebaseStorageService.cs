@@ -26,16 +26,17 @@ namespace RealEstatePropertyListingPlatform.Infrastructure.Services
              }.Build();
         }
 
-        public async Task<string> GenerateUploadUrlAsync(string filePath)
+        public async Task<string> GenerateUploadUrlAsync(string fileName)
         {
             var signer = UrlSigner.FromServiceAccountPath(_jsonPath);
-            var url = await signer.SignAsync(_bucketName, filePath, TimeSpan.FromMinutes(15), HttpMethod.Put);
+            var url = await signer.SignAsync(_bucketName, fileName, TimeSpan.FromMinutes(15), HttpMethod.Put);
 
             return url;
         }
-        public async Task DeleteImageAsync(string filePath)
+        public async Task DeleteImageAsync(string fileName)
         {
-            await _storageClient.DeleteObjectAsync(_bucketName, filePath);
+            await _storageClient.DeleteObjectAsync(_bucketName, fileName);
+      
         }
     }
 
