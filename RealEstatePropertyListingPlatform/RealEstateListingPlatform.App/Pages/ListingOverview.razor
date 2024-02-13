@@ -14,7 +14,7 @@
     <h3 class="mb-4 text-center">🏷️Listing Overview</h3>
 </div>
 
-@if (listingsResponse?.Success == true && listingsResponse.Listings.Any())
+@if (listingsResponse?.Success == true)
 {
     <button class="setting-btn" @onclick="ShowFilterModal">
         <span class="bar bar1"></span>
@@ -36,7 +36,7 @@
                         <div class="mb-3">
                             <label for="propertyType" class="form-label">Choose Property Type:</label>
                             <InputSelect id="propertyType" class="form-select" @bind-Value="FilterModel.PropertyType">
-                                    <option value="-1">Any</option>
+                                <option value="-1">Any</option>
                                 @foreach (var propertyType in Enum.GetValues(typeof(PropertyType)))
                                 { // in value= is put the number of the enum
                                     <option value="@((int)propertyType)">@propertyType</option>
@@ -59,9 +59,9 @@
                         <div class="mb-3">
                             <label for="priceRange" class="form-label">Choose Price Range:</label>
                             <div class="input-group">
-                                <InputNumber id="minPrice" class="form-control" placeholder="Min Price" min="0" step="0.01" @bind-Value="FilterModel.PriceLowerBound" />
+                                <InputNumber id="minPrice" class="form-control" placeholder="Min Price" min="0" step="50.50" @bind-Value="FilterModel.PriceLowerBound" />
                                 <span class="input-group-text">to</span>
-                                <InputNumber id="maxPrice" class="form-control" placeholder="Max Price" min="0" step="0.01" @bind-Value="FilterModel.PriceUpperBound" />
+                                <InputNumber id="maxPrice" class="form-control" placeholder="Max Price" min="0" step="50.50" @bind-Value="FilterModel.PriceUpperBound" />
                             </div>
                         </div>
 
@@ -87,9 +87,9 @@
                         <div class="mb-3">
                             <label for="squareFeet" class="form-label">Choose Square Feet:</label>
                             <div class="input-group">
-                                <InputNumber id="minSquareFeet" class="form-control" placeholder="Min Sq. Feet" min="0" step="1" @bind-Value="FilterModel.SquareFeetLowerBound" />
+                                <InputNumber id="minSquareFeet" class="form-control" placeholder="Min Sq. Feet" min="0" step="10" @bind-Value="FilterModel.SquareFeetLowerBound" />
                                 <span class="input-group-text">to</span>
-                                <InputNumber id="maxSquareFeet" class="form-control" placeholder="Max Sq. Feet" min="0" step="1" @bind-Value="FilterModel.SquareFeetUpperBound" />
+                                <InputNumber id="maxSquareFeet" class="form-control" placeholder="Max Sq. Feet" min="0" step="10" @bind-Value="FilterModel.SquareFeetUpperBound" />
                             </div>
                         </div>
 
@@ -110,22 +110,28 @@
                         </div>
                     </EditForm>
                 </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" @onclick="HideFilterModal">Close</button>
-                        <div class="box" @onclick="ApplyFilters">
-                            <div class="arrow right"></div>
-                            <div class="text">Apply Filters</div>
-                        </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" @onclick="HideFilterModal">Close</button>
+                    <div class="box" @onclick="ApplyFilters">
+                        <div class="arrow right"></div>
+                        <div class="text">Apply Filters</div>
                     </div>
+                </div>
 
             </div>
         </div>
     </div>
 
-
-
-    <div class="container">
-        <div class="row">
+    @if (listingsResponse.TotalCount == 0)
+    {
+        <div class="alert alert-warning" role="alert">
+            No listings available for your search.
+        </div>
+    }
+    else if (listingsResponse.Listings.Any())
+    {
+        <div class="container">
+            <div class="row">
             @foreach (var listing in listingsResponse.Listings)
             {
                 <div class="col-md-6 col-lg-4 mb-4">
@@ -142,26 +148,29 @@
                                 <span class="badge @(listing.Negotiable ? "bg-success" : "bg-danger")">@("Negotiable")</span>
                             </p>
                         </div>
+
                         <div class="card-footer">
-                            <small class="text-muted">Updated @listing.DateUpdated.ToString("yyyy-MM-dd HH:mm")</small>
+                        <small class="text-muted">Updated @listing.DateUpdated.ToString("yyyy-MM-dd HH:mm")</small>
                         </div>
                     </div>
                 </div>
             }
+            </div>
+            <Pager TotalCount="@listingsResponse.TotalCount" PageSize="pageSize" OnPage="LoadPage" />
         </div>
-        <Pager TotalCount="@listingsResponse.TotalCount" PageSize="pageSize" OnPage="LoadPage" />
-    </div>
-    <nav aria-label="Page navigation">
-        <ul class="pagination justify-content-center">
-            @for (int i = 1; i <= TotalPages(); i++)
-            {
-                var pageNr = i;
-                <li class="page-item @(pageNr == currentPage ? "active" : "")">
-                    <button class="page-link" @onclick="() => LoadPage(pageNr)">@pageNr</button>
-                </li>
-            }
-        </ul>
-    </nav>
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center">
+                @for (int i = 1; i <= TotalPages(); i++)
+                {
+                    var pageNr = i;
+                    <li class="page-item @(pageNr == currentPage ? "active" : "")">
+                        <button class="page-link" @onclick="() => LoadPage(pageNr)">@pageNr</button>
+                    </li>
+                }
+            </ul>
+        </nav>
+    }
+    
 }
 else
 {
@@ -218,6 +227,24 @@ else
             FilterModel.ForRent = (forRent == 1);
 
         } 
+        if (FilterModel.PriceLowerBound == null)
+        {
+            FilterModel.PriceLowerBound = 0;
+        }
+        if (FilterModel.PriceUpperBound == null)
+        {
+            FilterModel.PriceUpperBound = 0;
+        }
+        if (FilterModel.SquareFeetLowerBound == null)
+        {
+            FilterModel.SquareFeetLowerBound = 0;
+        }
+        if (FilterModel.SquareFeetUpperBound == null)
+		{
+			FilterModel.SquareFeetUpperBound = 0;
+		}
+
+
         // Console.WriteLine("Applied Filters:");
         // Console.WriteLine($"PageNumber: {FilterModel.PageNumber}");
         // Console.WriteLine($"PageSize: {FilterModel.PageSize}");
@@ -246,15 +273,15 @@ else
         FilterModel.PageNumber = currentPage;
         FilterModel.PageSize = pageSize;
 
-        FilterModel.PriceLowerBound = 0;
-        FilterModel.PriceUpperBound = 0;
+        FilterModel.PriceLowerBound = null;
+        FilterModel.PriceUpperBound = null;
         FilterModel.PriceCurrency = 0;
 
         FilterModel.City = null;
         FilterModel.Region = null;
         FilterModel.PropertyType = -1;
-        FilterModel.SquareFeetLowerBound = 0;
-        FilterModel.SquareFeetUpperBound = 0;
+        FilterModel.SquareFeetLowerBound = null;
+        FilterModel.SquareFeetUpperBound = null;
         forRent = -1;
         FilterModel.ContainsInTitle = null;
 

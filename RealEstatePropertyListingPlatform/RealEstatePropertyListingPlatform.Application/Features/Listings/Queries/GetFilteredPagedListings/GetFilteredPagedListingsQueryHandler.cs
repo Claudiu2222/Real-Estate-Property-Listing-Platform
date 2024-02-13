@@ -31,6 +31,16 @@ namespace RealEstatePropertyListingPlatform.Application.Features.Listings.Querie
                 .Take(request.PageSize)
                 .ToList();
 
+            if (totalCount == 0)
+            {
+                return new GetFilteredPagedListingsResponse
+                {
+                    Success = true,
+                    Message = "No listings found",
+                    TotalCount = 0
+                };
+            }
+
             if (totalCount <= (request.PageNumber - 1) * request.PageSize)
             {
                 return new GetFilteredPagedListingsResponse
