@@ -80,40 +80,43 @@
                                 </InputSelect>
                                 <ValidationMessage For="@(() => Price.Value)" />
                                 <ValidationMessage For="@(() => Price.Currency)" />
-                                <p class="form-text">Consider the market trends and the unique features of your property. Accurate pricing is key to attracting potential buyers and maximizing the value of your listing. We recomment you to use our price prediction tool.</p>
+                                    @if (IsPropertyTypeApartment)
+                                    {
+                                        <p class="form-text">Consider the market trends and the unique features of your property. Accurate pricing is key to attracting potential buyers and maximizing the value of your listing. We recomment you to use our price prediction tool.</p>
                                 <!-- Buton pentru a face predicția -->
-                                <button type="button" class="btn btn-primary mt-2" @onclick="PredictPrice" disabled="@isPredicting">
-                                    <span style="display: @(isPredicting ? "inline-block" : "none")" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                                    <span style="display: @(isPredicting ? "none" : "inline-block")">Predict Price</span>
-                                </button>
+                                        <button type="button" class="btn btn-primary mt-2" @onclick="PredictPrice" disabled="@isPredicting">
+                                            <span style="display: @(isPredicting ? "inline-block" : "none")" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                            <span style="display: @(isPredicting ? "none" : "inline-block")">Predict Price</span>
+                                        </button>
 
-                                @if(predictedPrice != 0)
-                                {
-                                    @if(predictedPrice == -1)
-                                    {
-                                        <div class="mt-2">
-                                            <strong>Predicted Price:</strong> Could not predict price
-                                        </div>
+                                        @if (predictedPrice != 0)
+                                        {
+                                            @if (predictedPrice == -1)
+                                            {
+                                                <div class="mt-2">
+                                                    <strong>Predicted Price:</strong> Could not predict price
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="mt-2">
+                                                    @if (Price.Currency == Currency.USD)
+                                                    {
+                                                        <p><strong>Predicted Price:</strong> @predictedPriceUSD @Price.Currency</p>
+                                                    }
+                                                    else if (Price.Currency == Currency.RON)
+                                                    {
+                                                        <p><strong>Predicted Price:</strong> @predictedPriceRON  @Price.Currency</p>
+                                                    }
+                                                    else
+                                                    {
+                                                        <p><strong>Predicted Price:</strong> @predictedPrice  @Price.Currency</p>
+                                                    }
+                                                </div>
+                                            }
+                                        }
                                     }
-                                    else
-                                    {
-                                        <div class="mt-2">
-                                           @if(Price.Currency == Currency.USD)
-                                           {
-                                                <p><strong>Predicted Price:</strong> @predictedPriceUSD @Price.Currency</p>
-                                           }
-                                           else if(Price.Currency == Currency.RON)
-                                           {
-                                                <p><strong>Predicted Price:</strong> @predictedPriceRON  @Price.Currency</p>
-                                           }
-                                           else
-                                           {
-                                                <p><strong>Predicted Price:</strong> @predictedPrice  @Price.Currency</p>
-                                           }
-                                        </div>
-                                    }
-                                }
-                            </div>
+                                </div>
                         </div>
 
   
