@@ -58,8 +58,9 @@ box-shadow: 0 0 5px rgba(0,0,0,1);
 
 .cancel{
     width:15%;
-background-color: #d42121;
+    background-color: #d42121;
 }
+
 
 .choosefile {
     color: white;
@@ -72,6 +73,7 @@ background-color: #d42121;
     overflow: hidden;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+
 @media screen and (max-width: 1300px) {
 
     .col-md-6 {

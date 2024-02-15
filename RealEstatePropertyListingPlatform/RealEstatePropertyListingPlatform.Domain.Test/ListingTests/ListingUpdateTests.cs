@@ -14,12 +14,13 @@ namespace RealEstatePropertyListingPlatform.Domain.Test.ListingTests
         private readonly List<string> validUpdatedPhotos = ["updated/link/to/photo/1", "updated/link/to/photo/2"];
         private readonly bool validUpdatedNegotiable = true;
 
+
         [Fact]
         public void When_UpdateListingIsCalled_And_AllAreValid_Then_UpdateIsSuccessfullyMade()
         {
             //Arrange
             Listing listing = Listing.Create(validListingCreatorId, validPropertyId,
-            validTitle, validPrice, validDescription, validPhotos, validNegotiable).Value;
+            validTitle, validPrice, validDescription, validPhotos,IsRent, validNegotiable).Value;
 
             //Act
             listing.Update(validUpdatedTitle, validUpdatedPrice, validUpdatedDescription, validUpdatedPhotos, validUpdatedNegotiable);

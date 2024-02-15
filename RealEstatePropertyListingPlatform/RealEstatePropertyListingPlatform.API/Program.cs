@@ -29,7 +29,6 @@ builder.Services.AddInfrastructureToDI(
 builder.Services.AddInfrastrutureIdentityToDI(builder.Configuration);
 builder.Services.AddApplicationServices();
 builder.Services.AddControllers();
-builder.Services.AddScoped<AzureBlobService>();
 builder.Services.Configure<ImageStorageSettings>(builder.Configuration.GetSection("ImageStorageSettings"));
 builder.Services.AddScoped<PredictPriceService>();
 

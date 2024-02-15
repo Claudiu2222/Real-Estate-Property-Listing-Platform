@@ -133,7 +133,6 @@ code {
 }
 
 .button-delete:focus svg {
-    opacity: 0;
     transition: .3s;
 }
 
@@ -147,16 +146,6 @@ code {
     transition: .3s;
 }
 
-.button-delete:focus {
-    width: 150px;
-    height: 50px;
-    transition: .3s;
-}
-
-    .button-delete:focus span {
-        opacity: 1;
-        transition: .3s;
-    }
 
 .button-edit {
     position: relative;

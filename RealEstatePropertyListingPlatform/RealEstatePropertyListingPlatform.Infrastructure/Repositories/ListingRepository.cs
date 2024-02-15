@@ -28,5 +28,18 @@ namespace RealEstatePropertyListingPlatform.Infrastructure.Repositories
                 .AsNoTracking()
                 .ToListAsync();
         }
+
+        public async Task<IReadOnlyList<Listing>> GetFilteredListingsAsync(decimal priceLowerBound, decimal priceUpperBound, int currency,
+                                        string city, string region, int propertyType,
+                                        int squareFeetLowerBound, int squareFeetUpperBound,
+                                        bool? forRent,
+                                        string containsInTitle)
+        {
+            return await context.FilterListings(priceLowerBound, priceUpperBound, currency,
+                                                city, region, propertyType,
+                                                squareFeetLowerBound, squareFeetUpperBound,
+                                                forRent,
+                                                containsInTitle);
+        }
     }
 }

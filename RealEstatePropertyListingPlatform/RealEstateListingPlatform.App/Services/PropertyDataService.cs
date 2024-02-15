@@ -81,7 +81,7 @@ namespace RealEstateListingPlatform.App.Services
             var response = JsonSerializer.Deserialize<ApiResponsePropertyById>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
             //it is only one property
-            Console.WriteLine($"PropertyId: {response!.Property.PropertyId}, StreetName: {response!.Property.StreetName}, City: {response!.Property.City}");
+            Console.WriteLine($"PropertyId: {response!.Property.PropertyId}, StreetName: {response!.Property.StreetName}, City: {response!.Property.Longitude}");
             return response!.Property;
         }
         

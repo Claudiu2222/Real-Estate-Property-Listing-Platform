@@ -23,6 +23,7 @@ namespace RealEstateListingPlatform.App.ViewModels
         [Required(ErrorMessage = "Password is required")]
         [PasswordPropertyText]
         public string Password { get; set; } = string.Empty;
+        public string ValidationCode { get; set; } = string.Empty;
 
     }
 }

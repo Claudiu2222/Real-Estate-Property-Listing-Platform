@@ -69,10 +69,6 @@ builder.Services.AddHttpClient<ISendMailService, SendEmailService>(client =>
     client.BaseAddress = new Uri("https://localhost:7187/");
 });
 
-builder.Services.AddHttpClient<IAzureBlobService, AzureBlobService>(client =>
-{
-    client.BaseAddress = new Uri("https://localhost:7187/");
-});
 
 builder.Services.AddHttpClient<IChangePasswordService, ChangePasswordService>(client =>
 {
@@ -89,5 +85,17 @@ builder.Services.AddHttpClient<ICurrencyConverterService, CurrencyConverterServi
 {
     client.BaseAddress = new Uri("https://localhost:7187/");
 });
+
+
+builder.Services.AddHttpClient<IImageUploadService, ImageUploadService>(client =>
+{
+    client.BaseAddress = new Uri("https://localhost:7187/");
+});
+
+builder.Services.AddHttpClient<IValidationCodeService, ValidationCodeService>(client =>
+{
+    client.BaseAddress = new Uri("https://localhost:7187/");
+});
+
 
 await builder.Build().RunAsync();

@@ -37,6 +37,7 @@ namespace RealEstatePropertyListingPlatform.Application.Features.Listings.Querie
                     Photos = x.Photos,
                     Negotiable = x.Negotiable,
                     DateCreated = x.DateCreated,
+                    IsRent = x.IsRent,
                     DateUpdated = x.DateUpdated
                 }).ToList();
 

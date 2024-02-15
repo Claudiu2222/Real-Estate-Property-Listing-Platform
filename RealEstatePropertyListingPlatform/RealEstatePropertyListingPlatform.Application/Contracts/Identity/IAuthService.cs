@@ -12,6 +12,9 @@ namespace RealEstatePropertyListingPlatform.Application.Contracts.Identity
         Task<(int, string)> ChangePassword(ChangePasswordModel model);
         Task<(int, string)> ChangePasswordNotConnected(ChangePasswordNotConnectedModel model);
         Task<(int, string)> IsValidMail(string email);
+        Task<(int, string)> InsertValidationCode(string email);
+        Task<(int, string)> ValidateCode(string email, string code);
+        Task<(int,string)> DeleteValidationCode(string email);
         Task<(int, string)> Delete(string id);
         Task<(int, UserModel)> GetBasicInfo(string id);
         Task<(int, string)> Logout();

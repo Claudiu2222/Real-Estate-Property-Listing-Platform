@@ -19,14 +19,16 @@ namespace RealEstatePropertyListingPlatform.Domain.Entities
         public int Floor { get; private set; }
         public int NumberOfFloors { get; private set; }
         public int SquareFeet { get; private set; }
+        public string Longitude { get; private set; }
+        public string Latitude { get; private set; }
         private Property() { }
 
         public static Result<Property> Create(Guid ownerId, string streetName, string city, string region, string postalCode,
-            string country, PropertyType propertyType, int numberOfRooms, int numberOfBathrooms, int floor, int numberOfFloors, int squareFeet)
+            string country, PropertyType propertyType, int numberOfRooms, int numberOfBathrooms, int floor, int numberOfFloors, int squareFeet, string Longitude, string Latitude)
         {
 
             string error = PropertyValidator.ValidateProperty(streetName, city, region, postalCode, country,
-                               propertyType, numberOfRooms, numberOfBathrooms, floor, numberOfFloors, squareFeet);
+                               propertyType, numberOfRooms, numberOfBathrooms, floor, numberOfFloors, squareFeet, Longitude, Latitude);
 
             if (!string.IsNullOrWhiteSpace(error))
             {
@@ -47,7 +49,9 @@ namespace RealEstatePropertyListingPlatform.Domain.Entities
                 NumberOfBathrooms = numberOfBathrooms,
                 Floor = floor,
                 NumberOfFloors = numberOfFloors,
-                SquareFeet = squareFeet
+                SquareFeet = squareFeet,
+                Longitude = Longitude,
+                Latitude = Latitude
             };
 
             return Result<Property>.Success(property);
@@ -55,7 +59,7 @@ namespace RealEstatePropertyListingPlatform.Domain.Entities
 
         /*[ExcludeFromCodeCoverage]*/
         public void Update(string streetName, string city, string region, string postalCode,
-                       string country, PropertyType propertyType, int numberOfRooms, int numberOfBathrooms, int floor, int numberOfFloors, int squareFeet)
+                       string country, PropertyType propertyType, int numberOfRooms, int numberOfBathrooms, int floor, int numberOfFloors, int squareFeet, string longitude, string latitude)
         {   
             StreetName = streetName;
             City = city;
@@ -68,6 +72,8 @@ namespace RealEstatePropertyListingPlatform.Domain.Entities
             Floor = floor;
             NumberOfFloors = numberOfFloors;
             SquareFeet = squareFeet;
+            Longitude = longitude;
+            Latitude = latitude;
         }
 
         //public Result<Property> UpdateStreetName(string streetName)

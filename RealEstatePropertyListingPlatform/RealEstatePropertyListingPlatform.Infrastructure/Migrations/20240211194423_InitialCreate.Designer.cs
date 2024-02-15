@@ -13,8 +13,8 @@ using RealEstatePropertyListingPlatform.Infrastructure;
 namespace RealEstatePropertyListingPlatform.Infrastructure.Migrations
 {
     [DbContext(typeof(RealEstatePropertyListingPlatformContext))]
-    [Migration("20231219171001_InitialCreate1")]
-    partial class InitialCreate1
+    [Migration("20240211194423_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -46,6 +46,9 @@ namespace RealEstatePropertyListingPlatform.Infrastructure.Migrations
 
                     b.Property<string>("Description")
                         .HasColumnType("text");
+
+                    b.Property<bool>("IsRent")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("text");
@@ -101,6 +104,14 @@ namespace RealEstatePropertyListingPlatform.Infrastructure.Migrations
 
                     b.Property<DateTime>("LastModifiedDate")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Latitude")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Longitude")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<int>("NumberOfBathrooms")
                         .HasColumnType("integer");

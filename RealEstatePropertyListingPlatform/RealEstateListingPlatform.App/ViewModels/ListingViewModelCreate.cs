@@ -12,6 +12,7 @@ namespace RealEstateListingPlatform.App.ViewModels
         [Required (ErrorMessage = "Description is required")]
         public string? Description { get; set; }
         public List<string>? Photos { get; set; }
+        public bool IsRent { get; set; }
         [Required (ErrorMessage = "Negotiable is required")]
         public bool Negotiable { get; set; }
     }

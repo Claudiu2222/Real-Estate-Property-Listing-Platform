@@ -78,7 +78,7 @@ namespace RealEstatePropertyListingPlatform.Application.Features.Properties.Comm
         {
             var possError = PropertyValidator.ValidateProperty(command.StreetName, command.City,
                 command.Region, command.PostalCode, command.Country, command.PropertyType, command.NumberOfRooms,
-                command.NumberOfBathrooms, command.Floor, command.NumberOfFloors, command.SquareFeet);
+                command.NumberOfBathrooms, command.Floor, command.NumberOfFloors, command.SquareFeet, command.Longitude, command.Latitude);
 
             return possError;
         

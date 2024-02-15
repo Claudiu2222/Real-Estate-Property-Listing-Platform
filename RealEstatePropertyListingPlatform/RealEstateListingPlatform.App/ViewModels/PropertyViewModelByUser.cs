@@ -56,10 +56,18 @@ namespace RealEstateListingPlatform.App.ViewModels
         [Required(ErrorMessage = "Number of floors is required")]
         [ValidateInteger(0, 100)]
         public int NumberOfFloors { get; set; }
+        [JsonPropertyName("longitude")]
+        [Range(-180, 180)]
+        public string Longitude { get; set; }
+
+        [JsonPropertyName("latitude")]
+        [Range(-90, 90)]
+        public string Latitude { get; set; }
 
         [JsonPropertyName("squareFeet")]
         [Required(ErrorMessage = "Square feet is required")]
         [ValidateInteger(0, 1_000)]
         public int SquareFeet { get; set; }
+
     }
 }

@@ -16,7 +16,8 @@ namespace RealEstatePropertyListingPlatform.Application.Features.Properties.Comm
 
         public async Task<DeletePropertyCommandResponse> Handle(DeletePropertyCommand request, CancellationToken cancellationToken)
         {
-            var result = await this.propertyRepository.DeleteAsync(request.PropertyId);
+
+            var result = await propertyRepository.DeleteAsync(request.PropertyId);
 
             if (!result.IsSuccess)
             {

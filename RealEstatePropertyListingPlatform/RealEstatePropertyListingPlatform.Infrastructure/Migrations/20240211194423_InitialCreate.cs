@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace RealEstatePropertyListingPlatform.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate1 : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -26,6 +26,7 @@ namespace RealEstatePropertyListingPlatform.Infrastructure.Migrations
                     Photos = table.Column<List<string>>(type: "text[]", nullable: true),
                     DateCreated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     DateUpdated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    IsRent = table.Column<bool>(type: "boolean", nullable: false),
                     Negotiable = table.Column<bool>(type: "boolean", nullable: false),
                     CreatedBy = table.Column<string>(type: "text", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
@@ -54,6 +55,8 @@ namespace RealEstatePropertyListingPlatform.Infrastructure.Migrations
                     Floor = table.Column<int>(type: "integer", nullable: false),
                     NumberOfFloors = table.Column<int>(type: "integer", nullable: false),
                     SquareFeet = table.Column<int>(type: "integer", nullable: false),
+                    Longitude = table.Column<string>(type: "text", nullable: false),
+                    Latitude = table.Column<string>(type: "text", nullable: false),
                     CreatedBy = table.Column<string>(type: "text", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     LastModifiedBy = table.Column<string>(type: "text", nullable: true),

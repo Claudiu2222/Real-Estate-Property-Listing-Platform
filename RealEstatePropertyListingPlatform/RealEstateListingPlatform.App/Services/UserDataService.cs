@@ -25,6 +25,7 @@ namespace RealEstateListingPlatform.App.Services
             result.EnsureSuccessStatusCode();
         }
 
+       
         public async Task<ApiResponseSingleData<UserInfoViewModel>> GetInfoCurrentUser()
         {
             httpClient.DefaultRequestHeaders.Authorization
