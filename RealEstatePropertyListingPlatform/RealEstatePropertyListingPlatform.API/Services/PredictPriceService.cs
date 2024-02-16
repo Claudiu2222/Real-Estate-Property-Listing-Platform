@@ -1,7 +1,4 @@
-using System;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.ML;
-using Microsoft.ML.Data;
 using RealEstatePropertyListingPlatform.API.Utility;
 
 namespace RealEstatePropertyListingPlatform.API.Services

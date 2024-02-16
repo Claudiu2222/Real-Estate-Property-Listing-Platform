@@ -11,15 +11,6 @@ namespace RealEstatePropertyListingPlatform.Infrastructure
 {
     public class RealEstatePropertyListingPlatformContext : DbContext
     {
-        // public RealEstatePropertyListingPlatformContext(
-        //     DbContextOptions<RealEstatePropertyListingPlatformContext> options, DbSet<User> users, DbSet<Property> properties, DbSet<Listing> listings):
-        //     base(options)
-        // {
-        //     Users = users;
-        //     Properties = properties;
-        //     Listings = listings;
-        // }
-
         private readonly ICurrentUserService currentUserService;
         private readonly string apiKey;
 
@@ -30,8 +21,6 @@ namespace RealEstatePropertyListingPlatform.Infrastructure
             this.currentUserService = currentUserService;
             this.apiKey = apiKey;
         }
-
-        //public DbSet<User> Users { get; set; } excluded from project - Old-Users
 
 
         public DbSet<Property> Properties { get; set; }
@@ -46,14 +35,8 @@ namespace RealEstatePropertyListingPlatform.Infrastructure
                     price.Property(p => p.Value).HasColumnName("PriceValue");
                     price.Property(p => p.Currency).HasColumnName("PriceCurrency");
                 });
-/*            modelBuilder.Entity<User>().HasIndex(u => u.Email).IsUnique();
-            modelBuilder.Entity<User>().HasIndex(u => u.PhoneNumber).IsUnique(); excludeed from project - OldUsers*/
         }
 
-        /*        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-                {
-                    optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Database=RealEstatePropertyListingPlatform;UserId=postgres;Password=1234;");
-                }*/
 
         public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
         {

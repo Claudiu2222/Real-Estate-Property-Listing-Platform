@@ -8,6 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Pages\Admin\**" />
+    <Content Remove="Pages\Admin\**" />
+    <EmbeddedResource Remove="Pages\Admin\**" />
+    <None Remove="Pages\Admin\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Azure.Storage.Blobs" Version="12.19.1" />
     <PackageReference Include="Blazored.LocalStorage" Version="4.4.0" />
     <PackageReference Include="Havit.Blazor.Components.Web.Bootstrap" Version="4.4.0-pre1" />

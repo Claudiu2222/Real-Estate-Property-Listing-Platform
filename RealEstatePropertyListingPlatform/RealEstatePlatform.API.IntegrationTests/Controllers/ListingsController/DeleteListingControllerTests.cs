@@ -1,17 +1,8 @@
 ﻿using FluentAssertions;
-using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using RealEstatePlatform.API.IntegrationTests.Base;
 using RealEstatePropertyListingPlatform.Application.Features.Listings;
-using RealEstatePropertyListingPlatform.Application.Features.Listings.Commands.CreateListing;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http.Headers;
-using System.Net.Http.Json;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RealEstatePlatform.API.IntegrationTests.Controllers.ListingsController
 {

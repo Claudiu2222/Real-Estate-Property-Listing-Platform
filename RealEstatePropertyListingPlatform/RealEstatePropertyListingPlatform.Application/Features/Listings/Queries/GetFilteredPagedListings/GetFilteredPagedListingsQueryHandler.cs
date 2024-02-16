@@ -1,12 +1,6 @@
 ﻿using MediatR;
-using RealEstatePropertyListingPlatform.Application.Features.Listings.Queries.GetPagedListingsById;
 using RealEstatePropertyListingPlatform.Application.Persistence;
 using RealEstatePropertyListingPlatform.Domain.Records;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RealEstatePropertyListingPlatform.Application.Features.Listings.Queries.GetFilteredPagedListings
 {

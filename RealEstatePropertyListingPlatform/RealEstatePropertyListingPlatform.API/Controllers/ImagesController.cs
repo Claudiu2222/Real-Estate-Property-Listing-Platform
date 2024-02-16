@@ -1,18 +1,12 @@
-﻿using System.Net;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Web;
+using RealEstatePropertyListingPlatform.API.Utility;
 using RealEstatePropertyListingPlatform.Application.Contracts;
 using RealEstatePropertyListingPlatform.Application.Contracts.Interfaces;
-using WebAPI.Services;
 
 namespace RealEstatePropertyListingPlatform.API.Controllers
 {
-    public class UrlResponse
-    {
-        public string Url { get; set; }
-    }
+
 
     [ApiController]
     [Route("api/[controller]")]
