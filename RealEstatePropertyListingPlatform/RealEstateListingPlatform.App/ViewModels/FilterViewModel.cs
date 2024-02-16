@@ -1,5 +1,4 @@
 ﻿using RealEstatePropertyListingPlatform.Domain.Enums;
-using System.ComponentModel.DataAnnotations;
 
 namespace RealEstateListingPlatform.App.ViewModels
 {

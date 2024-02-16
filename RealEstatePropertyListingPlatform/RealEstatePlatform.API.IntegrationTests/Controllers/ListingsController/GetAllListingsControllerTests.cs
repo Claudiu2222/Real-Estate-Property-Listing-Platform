@@ -2,12 +2,6 @@
 using Newtonsoft.Json.Linq;
 using RealEstatePlatform.API.IntegrationTests.Base;
 using RealEstatePropertyListingPlatform.Application.Features.Listings;
-using RealEstatePropertyListingPlatform.Application.Features.Properties;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RealEstatePlatform.API.IntegrationTests.Controllers.ListingsController
 {

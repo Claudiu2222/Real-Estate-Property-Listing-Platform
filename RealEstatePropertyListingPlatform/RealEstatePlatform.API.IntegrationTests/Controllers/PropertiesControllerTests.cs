@@ -8,10 +8,8 @@ using RealEstatePropertyListingPlatform.Application.Features.Properties;
 using RealEstatePropertyListingPlatform.Application.Features.Properties.Commands.CreateProperty;
 using RealEstatePropertyListingPlatform.Domain.Entities;
 using RealEstatePropertyListingPlatform.Domain.Enums;
-using System.IdentityModel.Tokens.Jwt;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
-using System.Security.Claims;
 
 namespace RealEstatePlatform.API.IntegrationTests.Controllers
 {

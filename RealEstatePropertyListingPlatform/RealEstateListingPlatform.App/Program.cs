@@ -14,15 +14,6 @@ using Havit.Blazor.Components.Web;
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
-/*builder.Services.AddCors(options =>
-{
-    options.AddPolicy("MyCorsPolicy", builder =>
-    {
-        builder.AllowAnyOrigin() // Specify the origin you want to allow
-            .AllowAnyHeader()
-            .AllowAnyMethod();
-    });
-});*/
 builder.Services.AddAuthorizationCore();
 builder.Services.AddBlazoredLocalStorage(config =>
 {

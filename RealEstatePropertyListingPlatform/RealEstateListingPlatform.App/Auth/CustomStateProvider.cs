@@ -56,25 +56,6 @@ namespace RealEstateListingPlatform.App.Auth
 
             return new AuthenticationState(new ClaimsPrincipal(identity));
         }
-/*        public override async Task<AuthenticationState> GetAuthenticationStateAsync()
-        {
-            var identity = new ClaimsIdentity();
-            try
-            {
-                var userInfo = await tokenService.GetTokenAsync();
-                if (userInfo != null)
-                {
-                    var claims = new[] { new Claim(ClaimTypes.Name, "user logged") };
-                    identity = new ClaimsIdentity(claims, "Server authentication");
-                }
-            }
-            catch (HttpRequestException ex)
-            {
-                Console.WriteLine("Request failed:" + ex.ToString());
-            }
-
-            return new AuthenticationState(new ClaimsPrincipal(identity));
-        }*/
 
         public async Task Logout()
         {

@@ -1,5 +1,4 @@
-﻿using System.Net;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Google;
 using NSubstitute;
 using RealEstatePropertyListingPlatform.Application.Features.Listings.Commands.DeleteListing;
