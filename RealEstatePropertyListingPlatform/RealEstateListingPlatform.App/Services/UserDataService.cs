@@ -8,10 +8,18 @@ using System.Net.Http.Json;
 namespace RealEstateListingPlatform.App.Services
 {
     //primary constructor
-    public class UserDataService(HttpClient httpClient, ITokenService tokenService) : IUserService
+    public class UserDataService : IUserService
     {
         private const string requestUriAuth = "api/v1/authentication";
         private const string requestUriUser = "api/v1/users";
+        private readonly HttpClient httpClient;
+        private readonly ITokenService tokenService;
+
+        public UserDataService(HttpClient httpClient, ITokenService tokenService)
+        {
+            this.httpClient = httpClient;
+            this.tokenService = tokenService;
+        }
         public async Task CreateAdmin (RegisterViewModel createAdminRequest)
         {
             httpClient.DefaultRequestHeaders.Authorization

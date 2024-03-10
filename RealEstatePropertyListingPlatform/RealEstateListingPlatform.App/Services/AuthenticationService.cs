@@ -5,10 +5,17 @@ using System.Net.Http.Json;
 
 namespace RealEstateListingPlatform.App.Services
 {
-    //primary constructor
-    public class AuthenticationService(HttpClient httpClient, ITokenService tokenService) : IAuthenticationService
+    public class AuthenticationService: IAuthenticationService
     {
 
+        private readonly HttpClient httpClient;
+        private readonly ITokenService tokenService;
+
+        public AuthenticationService(HttpClient httpClient, ITokenService tokenService)
+        {
+            this.httpClient = httpClient;
+            this.tokenService = tokenService;
+        }
         public async Task Login(LoginViewModel loginRequest)
         {
 
